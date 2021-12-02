@@ -12,8 +12,7 @@
     theme: {
       extend: {
         colors: {
-          sky: colors.sky,
-          teal: colors.teal,
+          orange: colors.orange,
         },
       },
     },
@@ -25,8 +24,8 @@
   ```
 */
 import { Fragment, useState } from 'react'
-import { Disclosure, Menu, Switch, Transition } from '@headlessui/react'
-import { SearchIcon } from '@heroicons/react/solid'
+import { Disclosure, Menu, RadioGroup, Switch, Transition } from '@headlessui/react'
+import { QuestionMarkCircleIcon, SearchIcon } from '@heroicons/react/solid'
 import {
     BellIcon,
     CogIcon,
@@ -38,31 +37,49 @@ import {
     XIcon,
 } from '@heroicons/react/outline'
 
+import Navbar from './shared/components/Navbar';
+import Footer from './shared/components/Footer';
+
 const user = {
-    name: 'Debbie Lewis',
-    handle: 'deblewis',
-    email: 'debbielewis@example.com',
+    name: 'Lisa Marie',
+    email: 'lisamarie@example.com',
     imageUrl:
-        'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80',
+        'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80',
 }
 const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Jobs', href: '#', current: false },
-    { name: 'Applicants', href: '#', current: false },
-    { name: 'Company', href: '#', current: false },
-]
-const subNavigation = [
-    { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
-    { name: 'Account', href: '#', icon: CogIcon, current: false },
-    { name: 'Password', href: '#', icon: KeyIcon, current: false },
-    { name: 'Notifications', href: '#', icon: BellIcon, current: false },
-    { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
-    { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
+    { name: 'Dashboard', href: '#' },
+    { name: 'Jobs', href: '#' },
+    { name: 'Applicants', href: '#' },
+    { name: 'Company', href: '#' },
 ]
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '#' },
+]
+const subNavigation = [
+    { name: 'My Profile', href: '#', icon: UserCircleIcon, current: true },
+    { name: 'Account', href: '#', icon: CogIcon, current: false },
+    // { name: 'Password', href: '#', icon: KeyIcon, current: false },
+    // { name: 'Notifications', href: '#', icon: BellIcon, current: false },
+    // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
+    // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
+]
+const plans = [
+    { name: 'Startup', priceMonthly: 29, priceYearly: 290, limit: 'Up to 5 active job postings' },
+    { name: 'Business', priceMonthly: 99, priceYearly: 990, limit: 'Up to 25 active job postings' },
+    { name: 'Enterprise', priceMonthly: 249, priceYearly: 2490, limit: 'Unlimited active job postings' },
+]
+const payments = [
+    {
+        id: 1,
+        date: '1/1/2020',
+        datetime: '2020-01-01',
+        description: 'Business Plan - Annual Billing',
+        amount: 'CA$109.00',
+        href: '#',
+    },
+    // More payments...
 ]
 
 function classNames(...classes) {
@@ -70,537 +87,411 @@ function classNames(...classes) {
 }
 
 export default function Example() {
-    const [availableToHire, setAvailableToHire] = useState(true)
-    const [privateAccount, setPrivateAccount] = useState(false)
-    const [allowCommenting, setAllowCommenting] = useState(true)
-    const [allowMentions, setAllowMentions] = useState(true)
+    const [selectedPlan, setSelectedPlan] = useState(plans[1])
+    const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true)
 
     return (
-        <div>
-            <Disclosure as="div" className="relative bg-sky-700 pb-32 overflow-hidden">
-                {({ open }) => (
-                    <>
-                        <nav
-                            className={classNames(
-                                open ? 'bg-sky-900' : 'bg-transparent',
-                                'relative z-10 border-b border-teal-500 border-opacity-25 lg:bg-transparent lg:border-none'
-                            )}
-                        >
-                            <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-                                <div className="relative h-16 flex items-center justify-between lg:border-b lg:border-sky-800">
-                                    <div className="px-2 flex items-center lg:px-0">
-                                        <div className="flex-shrink-0">
-                                            <img
-                                                className="block h-8 w-auto"
-                                                src="https://tailwindui.com/img/logos/workflow-mark-teal-400.svg"
-                                                alt="Workflow"
-                                            />
-                                        </div>
-                                        <div className="hidden lg:block lg:ml-6 lg:space-x-4">
-                                            <div className="flex">
-                                                {navigation.map((item) => (
-                                                    <a
-                                                        key={item.name}
-                                                        href={item.href}
-                                                        className={classNames(
-                                                            item.current ? 'bg-black bg-opacity-25' : 'hover:bg-sky-800',
-                                                            'rounded-md py-2 px-3 text-sm font-medium text-white'
-                                                        )}
-                                                    >
-                                                        {item.name}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 px-2 flex justify-center lg:ml-6 lg:justify-end">
-                                        <div className="max-w-lg w-full lg:max-w-xs">
-                                            <label htmlFor="search" className="sr-only">
-                                                Search
-                                            </label>
-                                            <div className="relative text-sky-100 focus-within:text-gray-400">
-                                                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                                    <SearchIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                                                </div>
-                                                <input
-                                                    id="search"
-                                                    name="search"
-                                                    className="block w-full bg-sky-700 bg-opacity-50 py-2 pl-10 pr-3 border border-transparent rounded-md leading-5 placeholder-sky-100 focus:outline-none focus:bg-white focus:ring-white focus:border-white focus:placeholder-gray-500 focus:text-gray-900 sm:text-sm"
-                                                    placeholder="Search"
-                                                    type="search"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex lg:hidden">
-                                        {/* Mobile menu button */}
-                                        <Disclosure.Button className="p-2 rounded-md inline-flex items-center justify-center text-sky-200 hover:text-white hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                                            <span className="sr-only">Open main menu</span>
-                                            {open ? (
-                                                <XIcon className="block flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                                            ) : (
-                                                <MenuIcon className="block flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                                            )}
-                                        </Disclosure.Button>
-                                    </div>
-                                    <div className="hidden lg:block lg:ml-4">
-                                        <div className="flex items-center">
-                                            <button
-                                                type="button"
-                                                className="flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:outline-none focus:bg-sky-900 focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-900 focus:ring-white"
-                                            >
-                                                <span className="sr-only">View notifications</span>
-                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                            </button>
-
-                                            {/* Profile dropdown */}
-                                            <Menu as="div" className="relative flex-shrink-0 ml-4">
-                                                <div>
-                                                    <Menu.Button className="rounded-full flex text-sm text-white focus:outline-none focus:bg-sky-900 focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-900 focus:ring-white">
-                                                        <span className="sr-only">Open user menu</span>
-                                                        <img className="rounded-full h-8 w-8" src={user.imageUrl} alt="" />
-                                                    </Menu.Button>
-                                                </div>
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-100"
-                                                    enterFrom="transform opacity-0 scale-95"
-                                                    enterTo="transform opacity-100 scale-100"
-                                                    leave="transition ease-in duration-75"
-                                                    leaveFrom="transform opacity-100 scale-100"
-                                                    leaveTo="transform opacity-0 scale-95"
-                                                >
-                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        {userNavigation.map((item) => (
-                                                            <Menu.Item key={item.name}>
-                                                                {({ active }) => (
-                                                                    <a
-                                                                        href={item.href}
-                                                                        className={classNames(
-                                                                            active ? 'bg-gray-100' : '',
-                                                                            'block py-2 px-4 text-sm text-gray-700'
-                                                                        )}
-                                                                    >
-                                                                        {item.name}
-                                                                    </a>
-                                                                )}
-                                                            </Menu.Item>
-                                                        ))}
-                                                    </Menu.Items>
-                                                </Transition>
-                                            </Menu>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <Disclosure.Panel className="bg-sky-900 lg:hidden">
-                                <div className="pt-2 pb-3 px-2 space-y-1">
-                                    {navigation.map((item) => (
-                                        <Disclosure.Button
-                                            key={item.name}
-                                            as="a"
-                                            href={item.href}
+        <>
+            <Navbar />
+            <div className="h-full">
+                <main className="max-w-7xl mx-auto pb-10 lg:py-12 lg:px-8">
+                    <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
+                        <aside className="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
+                            <nav className="space-y-1">
+                                {subNavigation.map((item) => (
+                                    <a
+                                        key={item.name}
+                                        href={item.href}
+                                        className={classNames(
+                                            item.current
+                                                ? 'bg-gray-50 text-orange-600 hover:bg-white'
+                                                : 'text-gray-900 hover:text-gray-900 hover:bg-gray-50',
+                                            'group rounded-md px-3 py-2 flex items-center text-sm font-medium'
+                                        )}
+                                        aria-current={item.current ? 'page' : undefined}
+                                    >
+                                        <item.icon
                                             className={classNames(
-                                                item.current ? 'bg-black bg-opacity-25' : 'hover:bg-sky-800',
-                                                'block rounded-md py-2 px-3 text-base font-medium text-white'
+                                                item.current ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                             )}
-                                        >
-                                            {item.name}
-                                        </Disclosure.Button>
-                                    ))}
-                                </div>
-                                <div className="pt-4 pb-3 border-t border-sky-800">
-                                    <div className="flex items-center px-4">
-                                        <div className="flex-shrink-0">
-                                            <img className="rounded-full h-10 w-10" src={user.imageUrl} alt="" />
-                                        </div>
-                                        <div className="ml-3">
-                                            <div className="text-base font-medium text-white">{user.name}</div>
-                                            <div className="text-sm font-medium text-sky-200">{user.email}</div>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            className="ml-auto flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:outline-none focus:bg-sky-900 focus:ring-2 focus:ring-offset-2 focus:ring-offset-sky-900 focus:ring-white"
-                                        >
-                                            <span className="sr-only">View notifications</span>
-                                            <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                        </button>
-                                    </div>
-                                    <div className="mt-3 px-2">
-                                        {userNavigation.map((item) => (
-                                            <Disclosure.Button
-                                                key={item.name}
-                                                as="a"
-                                                href={item.href}
-                                                className="block rounded-md py-2 px-3 text-base font-medium text-sky-200 hover:text-white hover:bg-sky-800"
-                                            >
-                                                {item.name}
-                                            </Disclosure.Button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </Disclosure.Panel>
-                        </nav>
-                        <div
-                            aria-hidden="true"
-                            className={classNames(
-                                open ? 'bottom-0' : 'inset-y-0',
-                                'absolute inset-x-0 left-1/2 transform -translate-x-1/2 w-full overflow-hidden lg:inset-y-0'
-                            )}
-                        >
-                            <div className="absolute inset-0 flex">
-                                <div className="h-full w-1/2" style={{ backgroundColor: '#0a527b' }} />
-                                <div className="h-full w-1/2" style={{ backgroundColor: '#065d8c' }} />
-                            </div>
-                            <div className="relative flex justify-center">
-                                <svg
-                                    className="flex-shrink-0"
-                                    width={1750}
-                                    height={308}
-                                    viewBox="0 0 1750 308"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path d="M284.161 308H1465.84L875.001 182.413 284.161 308z" fill="#0369a1" />
-                                    <path d="M1465.84 308L16.816 0H1750v308h-284.16z" fill="#065d8c" />
-                                    <path d="M1733.19 0L284.161 308H0V0h1733.19z" fill="#0a527b" />
-                                    <path d="M875.001 182.413L1733.19 0H16.816l858.185 182.413z" fill="#0a4f76" />
-                                </svg>
-                            </div>
-                        </div>
-                        <header className="relative py-10">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                <h1 className="text-3xl font-bold text-white">Settings</h1>
-                            </div>
-                        </header>
-                    </>
-                )}
-            </Disclosure>
+                                            aria-hidden="true"
+                                        />
+                                        <span className="truncate">{item.name}</span>
+                                    </a>
+                                ))}
+                            </nav>
+                        </aside>
 
-            <main className="relative -mt-32">
-                <div className="max-w-screen-xl mx-auto pb-6 px-4 sm:px-6 lg:pb-16 lg:px-8">
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
-                        <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
-                            <aside className="py-6 lg:col-span-3">
-                                <nav className="space-y-1">
-                                    {subNavigation.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current
-                                                    ? 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700'
-                                                    : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900',
-                                                'group border-l-4 px-3 py-2 flex items-center text-sm font-medium'
-                                            )}
-                                            aria-current={item.current ? 'page' : undefined}
-                                        >
-                                            <item.icon
-                                                className={classNames(
-                                                    item.current
-                                                        ? 'text-teal-500 group-hover:text-teal-500'
-                                                        : 'text-gray-400 group-hover:text-gray-500',
-                                                    'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
-                                                )}
-                                                aria-hidden="true"
-                                            />
-                                            <span className="truncate">{item.name}</span>
-                                        </a>
-                                    ))}
-                                </nav>
-                            </aside>
-
-                            <form className="divide-y divide-gray-200 lg:col-span-9" action="#" method="POST">
-                                {/* Profile section */}
-                                <div className="py-6 px-4 sm:p-6 lg:pb-8">
-                                    <div>
-                                        <h2 className="text-lg leading-6 font-medium text-gray-900">Profile</h2>
-                                        <p className="mt-1 text-sm text-gray-500">
-                                            This information will be displayed publicly so be careful what you share.
-                                        </p>
-                                    </div>
-
-                                    <div className="mt-6 flex flex-col lg:flex-row">
-                                        <div className="flex-grow space-y-6">
+                        {/* Payment details */}
+                        <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+                            <section aria-labelledby="payment-details-heading">
+                                <form action="#" method="POST">
+                                    <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                        <div className="bg-white py-6 px-4 sm:p-6">
                                             <div>
-                                                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                                                    Username
-                                                </label>
-                                                <div className="mt-1 rounded-md shadow-sm flex">
-                                                    <span className="bg-gray-50 border border-r-0 border-gray-300 rounded-l-md px-3 inline-flex items-center text-gray-500 sm:text-sm">
-                                                        workcation.com/
-                                                    </span>
-                                                    <input
-                                                        type="text"
-                                                        name="username"
-                                                        id="username"
-                                                        autoComplete="username"
-                                                        className="focus:ring-sky-500 focus:border-sky-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
-                                                        defaultValue={user.handle}
-                                                    />
-                                                </div>
+                                                <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900 mb-8">
+                                                    User Details
+                                                </h2>
                                             </div>
-
-                                            <div>
-                                                <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                                                    About
-                                                </label>
-                                                <div className="mt-1">
-                                                    <textarea
-                                                        id="about"
-                                                        name="about"
-                                                        rows={3}
-                                                        className="shadow-sm focus:ring-sky-500 focus:border-sky-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                                                        defaultValue={''}
-                                                    />
-                                                </div>
-                                                <p className="mt-2 text-sm text-gray-500">
-                                                    Brief description for your profile. URLs are hyperlinked.
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
-                                            <p className="text-sm font-medium text-gray-700" aria-hidden="true">
-                                                Photo
-                                            </p>
-                                            <div className="mt-1 lg:hidden">
-                                                <div className="flex items-center">
-                                                    <div
-                                                        className="flex-shrink-0 inline-block rounded-full overflow-hidden h-12 w-12"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <img className="rounded-full h-full w-full" src={user.imageUrl} alt="" />
-                                                    </div>
-                                                    <div className="ml-5 rounded-md shadow-sm">
-                                                        <div className="group relative border border-gray-300 rounded-md py-2 px-3 flex items-center justify-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500">
-                                                            <label
-                                                                htmlFor="mobile-user-photo"
-                                                                className="relative text-sm leading-4 font-medium text-gray-700 pointer-events-none"
+                                            <div className="flex flex-col items-center mb-16">
+                                                <div className="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
+                                                    <p className="text-sm font-medium text-gray-700 text-center mb-4" aria-hidden="true">
+                                                        Profile Picture
+                                                    </p>
+                                                    <div className="mt-1 lg:hidden">
+                                                        <div className="flex items-center">
+                                                            <div
+                                                                className="flex-shrink-0 inline-block rounded-full overflow-hidden h-12 w-12"
+                                                                aria-hidden="true"
                                                             >
-                                                                <span>Change</span>
-                                                                <span className="sr-only"> user photo</span>
-                                                            </label>
-                                                            <input
-                                                                id="mobile-user-photo"
-                                                                name="user-photo"
-                                                                type="file"
-                                                                className="absolute w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
-                                                            />
+                                                                <img className="rounded-full h-full w-full" src={user.imageUrl} alt="" />
+                                                            </div>
+                                                            <div className="ml-5 rounded-md shadow-sm">
+                                                                <div className="group relative border border-gray-300 rounded-md py-2 px-3 flex items-center justify-center hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500">
+                                                                    <label
+                                                                        htmlFor="mobile-user-photo"
+                                                                        className="relative text-sm leading-4 font-medium text-gray-700 pointer-events-none"
+                                                                    >
+                                                                        <span>Change</span>
+                                                                        <span className="sr-only"> user photo</span>
+                                                                    </label>
+                                                                    <input
+                                                                        id="mobile-user-photo"
+                                                                        name="user-photo"
+                                                                        type="file"
+                                                                        className="absolute w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+                                                    <div className="hidden relative rounded-full overflow-hidden lg:block">
+                                                        <img className="relative rounded-full w-40 h-40" src={user.imageUrl} alt="" />
+                                                        <label
+                                                            htmlFor="desktop-user-photo"
+                                                            className="absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100"
+                                                        >
+                                                            <span>Change</span>
+                                                            <span className="sr-only"> user photo</span>
+                                                            <input
+                                                                type="file"
+                                                                id="desktop-user-photo"
+                                                                name="user-photo"
+                                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
+                                                            />
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div className="hidden relative rounded-full overflow-hidden lg:block">
-                                                <img className="relative rounded-full w-40 h-40" src={user.imageUrl} alt="" />
-                                                <label
-                                                    htmlFor="desktop-user-photo"
-                                                    className="absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100"
-                                                >
-                                                    <span>Change</span>
-                                                    <span className="sr-only"> user photo</span>
+                                            <div className="mt-6 grid grid-cols-4 gap-6">
+                                                <div className="col-span-4 sm:col-span-2">
+                                                    <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
+                                                        First name
+                                                    </label>
                                                     <input
-                                                        type="file"
-                                                        id="desktop-user-photo"
-                                                        name="user-photo"
-                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md"
+                                                        type="text"
+                                                        name="first-name"
+                                                        id="first-name"
+                                                        autoComplete="cc-given-name"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                        placeholder="Ignaz"
+                                                        disabled
                                                     />
-                                                </label>
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-2">
+                                                    <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
+                                                        Last name
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="last-name"
+                                                        id="last-name"
+                                                        autoComplete="cc-family-name"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                        placeholder="Maula"
+                                                        disabled
+                                                    />
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-2">
+                                                    <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+                                                        Email address
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="email-address"
+                                                        id="email-address"
+                                                        autoComplete="email"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                        placeholder="ignazmaula@gmail.com"
+                                                        disabled
+                                                    />
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-1">
+                                                    <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
+                                                        Username
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="expiration-date"
+                                                        id="expiration-date"
+                                                        autoComplete="cc-exp"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                        placeholder="ignazmaula169"
+                                                        disabled
+                                                    />
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-1">
+                                                    <label
+                                                        htmlFor="security-code"
+                                                        className="flex items-center text-sm font-medium text-gray-700"
+                                                    >
+                                                        <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                                                            Role
+                                                        </label>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="security-code"
+                                                        id="security-code"
+                                                        autoComplete="cc-csc"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                        placeholder="Service Client"
+                                                        disabled
+                                                    />
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-2">
+                                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                                                        Location
+                                                    </label>
+                                                    <select
+                                                        id="country"
+                                                        name="country"
+                                                        autoComplete="country-name"
+                                                        className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                    >
+                                                        <option>Jakarta</option>
+                                                        <option>Surabaya</option>
+                                                        <option>Bali</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className="col-span-4 sm:col-span-2">
+                                                    <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">
+                                                        ZIP / Postal code
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="postal-code"
+                                                        id="postal-code"
+                                                        autoComplete="postal-code"
+                                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                            <button
+                                                type="submit"
+                                                className="bg-blue-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900"
+                                            >
+                                                Edit Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+
+                            {/* Plan */}
+                            <section aria-labelledby="plan-heading">
+                                <form action="#" method="POST">
+                                    <div className="shadow sm:rounded-md sm:overflow-hidden">
+                                        <div className="bg-white py-6 px-4 space-y-6 sm:p-6">
+                                            <div>
+                                                <h2 id="plan-heading" className="text-lg leading-6 font-medium text-gray-900">
+                                                    Plan
+                                                </h2>
+                                            </div>
+
+                                            <RadioGroup value={selectedPlan} onChange={setSelectedPlan}>
+                                                <RadioGroup.Label className="sr-only">Pricing plans</RadioGroup.Label>
+                                                <div className="relative bg-white rounded-md -space-y-px">
+                                                    {plans.map((plan, planIdx) => (
+                                                        <RadioGroup.Option
+                                                            key={plan.name}
+                                                            value={plan}
+                                                            className={({ checked }) =>
+                                                                classNames(
+                                                                    planIdx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
+                                                                    planIdx === plans.length - 1 ? 'rounded-bl-md rounded-br-md' : '',
+                                                                    checked ? 'bg-orange-50 border-orange-200 z-10' : 'border-gray-200',
+                                                                    'relative border p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {({ active, checked }) => (
+                                                                <>
+                                                                    <div className="flex items-center text-sm">
+                                                                        <span
+                                                                            className={classNames(
+                                                                                checked ? 'bg-orange-500 border-transparent' : 'bg-white border-gray-300',
+                                                                                active ? 'ring-2 ring-offset-2 ring-gray-900' : '',
+                                                                                'h-4 w-4 rounded-full border flex items-center justify-center'
+                                                                            )}
+                                                                            aria-hidden="true"
+                                                                        >
+                                                                            <span className="rounded-full bg-white w-1.5 h-1.5" />
+                                                                        </span>
+                                                                        <RadioGroup.Label as="span" className="ml-3 font-medium text-gray-900">
+                                                                            {plan.name}
+                                                                        </RadioGroup.Label>
+                                                                    </div>
+                                                                    <RadioGroup.Description className="ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-center">
+                                                                        <span
+                                                                            className={classNames(
+                                                                                checked ? 'text-orange-900' : 'text-gray-900',
+                                                                                'font-medium'
+                                                                            )}
+                                                                        >
+                                                                            ${plan.priceMonthly} / mo
+                                                                        </span>{' '}
+                                                                        <span className={checked ? 'text-orange-700' : 'text-gray-500'}>
+                                                                            (${plan.priceYearly} / yr)
+                                                                        </span>
+                                                                    </RadioGroup.Description>
+                                                                    <RadioGroup.Description
+                                                                        className={classNames(
+                                                                            checked ? 'text-orange-700' : 'text-gray-500',
+                                                                            'ml-6 pl-1 text-sm md:ml-0 md:pl-0 md:text-right'
+                                                                        )}
+                                                                    >
+                                                                        {plan.limit}
+                                                                    </RadioGroup.Description>
+                                                                </>
+                                                            )}
+                                                        </RadioGroup.Option>
+                                                    ))}
+                                                </div>
+                                            </RadioGroup>
+
+                                            <Switch.Group as="div" className="flex items-center">
+                                                <Switch
+                                                    checked={annualBillingEnabled}
+                                                    onChange={setAnnualBillingEnabled}
+                                                    className={classNames(
+                                                        annualBillingEnabled ? 'bg-orange-500' : 'bg-gray-200',
+                                                        'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors ease-in-out duration-200'
+                                                    )}
+                                                >
+                                                    <span
+                                                        aria-hidden="true"
+                                                        className={classNames(
+                                                            annualBillingEnabled ? 'translate-x-5' : 'translate-x-0',
+                                                            'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
+                                                        )}
+                                                    />
+                                                </Switch>
+                                                <Switch.Label as="span" className="ml-3">
+                                                    <span className="text-sm font-medium text-gray-900">Annual billing </span>
+                                                    <span className="text-sm text-gray-500">(Save 10%)</span>
+                                                </Switch.Label>
+                                            </Switch.Group>
+                                        </div>
+                                        <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                            <button
+                                                type="submit"
+                                                className="bg-gray-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </section>
+
+                            {/* Billing history */}
+                            <section aria-labelledby="billing-history-heading">
+                                <div className="bg-white pt-6 shadow sm:rounded-md sm:overflow-hidden">
+                                    <div className="px-4 sm:px-6">
+                                        <h2 id="billing-history-heading" className="text-lg leading-6 font-medium text-gray-900">
+                                            Billing history
+                                        </h2>
+                                    </div>
+                                    <div className="mt-6 flex flex-col">
+                                        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                                <div className="overflow-hidden border-t border-gray-200">
+                                                    <table className="min-w-full divide-y divide-gray-200">
+                                                        <thead className="bg-gray-50">
+                                                            <tr>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                                >
+                                                                    Date
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                                >
+                                                                    Description
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                                >
+                                                                    Amount
+                                                                </th>
+                                                                {/*
+                                  `relative` is added here due to a weird bug in Safari that causes `sr-only` headings to introduce overflow on the body on mobile.
+                                */}
+                                                                <th
+                                                                    scope="col"
+                                                                    className="relative px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                                >
+                                                                    <span className="sr-only">View receipt</span>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="bg-white divide-y divide-gray-200">
+                                                            {payments.map((payment) => (
+                                                                <tr key={payment.id}>
+                                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                                        <time dateTime={payment.datetime}>{payment.date}</time>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                                        {payment.description}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                                        {payment.amount}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                                        <a href={payment.href} className="text-orange-600 hover:text-orange-900">
+                                                                            View receipt
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="mt-6 grid grid-cols-12 gap-6">
-                                        <div className="col-span-12 sm:col-span-6">
-                                            <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                                                First name
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="first-name"
-                                                id="first-name"
-                                                autoComplete="given-name"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                            />
-                                        </div>
-
-                                        <div className="col-span-12 sm:col-span-6">
-                                            <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                                                Last name
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="last-name"
-                                                id="last-name"
-                                                autoComplete="family-name"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                            />
-                                        </div>
-
-                                        <div className="col-span-12">
-                                            <label htmlFor="url" className="block text-sm font-medium text-gray-700">
-                                                URL
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="url"
-                                                id="url"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                            />
-                                        </div>
-
-                                        <div className="col-span-12 sm:col-span-6">
-                                            <label htmlFor="company" className="block text-sm font-medium text-gray-700">
-                                                Company
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="company"
-                                                id="company"
-                                                autoComplete="organization"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
-
-                                {/* Privacy section */}
-                                <div className="pt-6 divide-y divide-gray-200">
-                                    <div className="px-4 sm:px-6">
-                                        <div>
-                                            <h2 className="text-lg leading-6 font-medium text-gray-900">Privacy</h2>
-                                            <p className="mt-1 text-sm text-gray-500">
-                                                Ornare eu a volutpat eget vulputate. Fringilla commodo amet.
-                                            </p>
-                                        </div>
-                                        <ul role="list" className="mt-2 divide-y divide-gray-200">
-                                            <Switch.Group as="li" className="py-4 flex items-center justify-between">
-                                                <div className="flex flex-col">
-                                                    <Switch.Label as="p" className="text-sm font-medium text-gray-900" passive>
-                                                        Available to hire
-                                                    </Switch.Label>
-                                                    <Switch.Description className="text-sm text-gray-500">
-                                                        Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.
-                                                    </Switch.Description>
-                                                </div>
-                                                <Switch
-                                                    checked={availableToHire}
-                                                    onChange={setAvailableToHire}
-                                                    className={classNames(
-                                                        availableToHire ? 'bg-teal-500' : 'bg-gray-200',
-                                                        'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
-                                                    )}
-                                                >
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className={classNames(
-                                                            availableToHire ? 'translate-x-5' : 'translate-x-0',
-                                                            'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                                                        )}
-                                                    />
-                                                </Switch>
-                                            </Switch.Group>
-                                            <Switch.Group as="li" className="py-4 flex items-center justify-between">
-                                                <div className="flex flex-col">
-                                                    <Switch.Label as="p" className="text-sm font-medium text-gray-900" passive>
-                                                        Make account private
-                                                    </Switch.Label>
-                                                    <Switch.Description className="text-sm text-gray-500">
-                                                        Pharetra morbi dui mi mattis tellus sollicitudin cursus pharetra.
-                                                    </Switch.Description>
-                                                </div>
-                                                <Switch
-                                                    checked={privateAccount}
-                                                    onChange={setPrivateAccount}
-                                                    className={classNames(
-                                                        privateAccount ? 'bg-teal-500' : 'bg-gray-200',
-                                                        'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
-                                                    )}
-                                                >
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className={classNames(
-                                                            privateAccount ? 'translate-x-5' : 'translate-x-0',
-                                                            'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                                                        )}
-                                                    />
-                                                </Switch>
-                                            </Switch.Group>
-                                            <Switch.Group as="li" className="py-4 flex items-center justify-between">
-                                                <div className="flex flex-col">
-                                                    <Switch.Label as="p" className="text-sm font-medium text-gray-900" passive>
-                                                        Allow commenting
-                                                    </Switch.Label>
-                                                    <Switch.Description className="text-sm text-gray-500">
-                                                        Integer amet, nunc hendrerit adipiscing nam. Elementum ame
-                                                    </Switch.Description>
-                                                </div>
-                                                <Switch
-                                                    checked={allowCommenting}
-                                                    onChange={setAllowCommenting}
-                                                    className={classNames(
-                                                        allowCommenting ? 'bg-teal-500' : 'bg-gray-200',
-                                                        'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
-                                                    )}
-                                                >
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className={classNames(
-                                                            allowCommenting ? 'translate-x-5' : 'translate-x-0',
-                                                            'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                                                        )}
-                                                    />
-                                                </Switch>
-                                            </Switch.Group>
-                                            <Switch.Group as="li" className="py-4 flex items-center justify-between">
-                                                <div className="flex flex-col">
-                                                    <Switch.Label as="p" className="text-sm font-medium text-gray-900" passive>
-                                                        Allow mentions
-                                                    </Switch.Label>
-                                                    <Switch.Description className="text-sm text-gray-500">
-                                                        Adipiscing est venenatis enim molestie commodo eu gravid
-                                                    </Switch.Description>
-                                                </div>
-                                                <Switch
-                                                    checked={allowMentions}
-                                                    onChange={setAllowMentions}
-                                                    className={classNames(
-                                                        allowMentions ? 'bg-teal-500' : 'bg-gray-200',
-                                                        'ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
-                                                    )}
-                                                >
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className={classNames(
-                                                            allowMentions ? 'translate-x-5' : 'translate-x-0',
-                                                            'inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
-                                                        )}
-                                                    />
-                                                </Switch>
-                                            </Switch.Group>
-                                        </ul>
-                                    </div>
-                                    <div className="mt-4 py-4 px-4 flex justify-end sm:px-6">
-                                        <button
-                                            type="button"
-                                            className="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="ml-5 bg-sky-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-                                        >
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                            </section>
                         </div>
                     </div>
-                </div>
-            </main>
-        </div>
+                </main>
+            </div>
+            <Footer />
+        </>
     )
 }

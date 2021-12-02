@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { MenuIcon, UserCircleIcon, StarIcon, XIcon } from '@heroicons/react/outline'
+import { MenuIcon, UserCircleIcon, ChatAlt2Icon, XIcon } from '@heroicons/react/outline'
 import { NavLink } from 'react-router-dom'
 
 import DropdownMenu from './DropdownMenu';
@@ -138,7 +138,7 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'About Us', href: '/aboutus' },
+    { name: 'About KitaBantu', href: '/aboutus' },
     { name: 'Become Service Provider', href: '/becomeprovider' },
   ],
 }
@@ -247,9 +247,9 @@ export default function Example() {
 
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 <div className="flow-root">
-                  <a href="#" className="-m-2 p-2 block font-medium text-gray-900">
-                    Sign in
-                  </a>
+                  <NavLink to="/login" className="-m-2 p-2 block font-medium text-gray-900">
+                    Log in
+                  </NavLink>
                 </div>
                 <div className="flow-root">
                   <a href="#" className="-m-2 p-2 block font-medium text-gray-900">
@@ -405,8 +405,8 @@ export default function Example() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <NavLink to="/dashboard" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign in
+                  <NavLink to="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                    Log in
                   </NavLink>
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   <NavLink to="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
@@ -434,7 +434,7 @@ export default function Example() {
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 p-2 flex items-center">
-                    <StarIcon
+                    <ChatAlt2Icon
                       className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
