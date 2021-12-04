@@ -1,6 +1,6 @@
 import ServiceHistory from "./ServiceHistory"
 
-const DashboardContent = props => {
+const ClientProfile = props => {
     if (props.activeMenu === 'My Profile') {
         return (
             <div>
@@ -205,4 +205,4 @@ const DashboardContent = props => {
     }
 }
 
-export default DashboardContent
+export default ClientProfile

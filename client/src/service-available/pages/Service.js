@@ -20,11 +20,11 @@ import { StarIcon } from '@heroicons/react/solid'
 import { Tab } from '@headlessui/react'
 import { useParams } from 'react-router'
 
-import ProviderProfile from './service-available/components/ProviderProfile'
-import Navbar from './shared/components/Navbar'
-import Footer from './shared/components/Footer'
-import Breadcrumbs from './service-available/components/Breadcrumbs'
-import { services } from './services';
+import ProviderProfile from '../components/ProviderProfile'
+import Navbar from '../../shared/components/Navbar'
+import Footer from '../../shared/components/Footer'
+import Breadcrumbs from '../components/Breadcrumbs'
+import { services } from '../../services';
 
 const product = {
     name: 'Application UI Icon Pack',

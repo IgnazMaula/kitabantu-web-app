@@ -39,8 +39,7 @@ import {
 
 import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
-import ClientProfile from '../components/DashboardContent';
-import DashboardContent from '../components/DashboardContent';
+import ClientProfile from '../components/ClientProfile';
 import { Link } from 'react-router-dom';
 
 const user = {
@@ -131,7 +130,7 @@ export default function ClientDashboard(props) {
                             </nav>
                         </aside>
                         <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
-                            <DashboardContent user={user} activeMenu={props.active} />
+                            <ClientProfile user={user} activeMenu={props.active} />
                         </div>
                     </div>
                 </main>
