@@ -4,6 +4,7 @@ import Main from './Main';
 import Service from './service-available/pages/Service';
 import Setting from './Setting';
 import Register from './authentication-page/pages/Register';
+import RegisterProvider from './authentication-page/pages/RegisterProvider';
 import Login from './authentication-page/pages/Login';
 import AboutUs from './shared/pages/AboutUs';
 import Navbar from './shared/components/Navbar';
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/" element={<Main />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/register-as-provider" element={<RegisterProvider />}></Route>
         <Route path="/aboutus" element={<AboutUs />}></Route>
         <Route path="/profile" element={<ClientDashboard active="My Profile" />}></Route>
         <Route path="/order-history" element={<ClientDashboard active="Order History" />}></Route>

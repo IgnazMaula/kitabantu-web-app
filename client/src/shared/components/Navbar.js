@@ -139,7 +139,7 @@ const navigation = {
   ],
   pages: [
     { name: 'About KitaBantu', href: '/aboutus' },
-    { name: 'Become Service Provider', href: '/becomeprovider' },
+    { name: 'Become Service Provider', href: '/register-as-provider' },
   ],
 }
 
