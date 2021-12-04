@@ -15,6 +15,7 @@
   ```
 */
 import { LockClosedIcon } from '@heroicons/react/solid'
+import { Link } from 'react-router-dom'
 
 export default function Registration() {
     return (
@@ -30,17 +31,19 @@ export default function Registration() {
             <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>
-                        <img
-                            className="mx-auto h-12 w-auto"
-                            src="../images/icon.png"
-                            alt="Workflow"
-                        />
+                        <Link to="/">
+                            <img
+                                className="mx-auto h-12 w-auto"
+                                src="../images/icon.png"
+                                alt="Workflow"
+                            />
+                        </Link>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 pt-12">Register New Account</h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
                             Or{' '}
-                            <a href="#" className="font-medium text-red-600 hover:text-red-500">
+                            <Link to="/login" className="font-medium text-red-600 hover:text-red-500">
                                 Login to Your Account
-                            </a>
+                            </Link>
                         </p>
                     </div>
                     <form className="space-y-6" action="#" method="POST">

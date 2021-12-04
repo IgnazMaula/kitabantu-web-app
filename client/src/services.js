@@ -8,6 +8,7 @@ export const services = [
         location: "Jakarta",
         category: "House Chores",
         type: "Group",
+        providerId: 1
     },
     {
         id: 2,
@@ -18,6 +19,7 @@ export const services = [
         location: "Surabaya",
         category: "Vehicle Service",
         type: "Individual",
+        providerId: 2
     },
     {
         id: 3,
@@ -28,6 +30,7 @@ export const services = [
         location: "Denpasar",
         category: "Wellbeing",
         type: "Individual",
+        providerId: 1
     },
     {
         id: 4,
@@ -38,6 +41,7 @@ export const services = [
         location: "Surabaya",
         category: "House Chores",
         type: "Corporation",
+        providerId: 2
     },
     {
         id: 5,
@@ -48,6 +52,7 @@ export const services = [
         location: "Jakarta",
         category: "House Chores",
         type: "Corporation",
+        providerId: 1
     },
     {
         id: 6,
@@ -58,6 +63,7 @@ export const services = [
         location: "Jakarta",
         category: "House Maintenance",
         type: "Group",
+        providerId: 1
     },
     {
         id: 7,
@@ -68,6 +74,7 @@ export const services = [
         location: "Denpasar",
         category: "Fashion & Styles",
         type: "Individual",
+        providerId: 1
     },
     {
         id: 8,
@@ -78,6 +85,7 @@ export const services = [
         location: "Jakarta",
         category: "Transport & Shuttle",
         type: "Corporation",
+        providerId: 1
     },
     {
         id: 9,
@@ -88,6 +96,7 @@ export const services = [
         location: "Denpasar",
         category: "Household Items",
         type: "Individual",
+        providerId: 1
     },
     {
         id: 10,
@@ -98,6 +107,7 @@ export const services = [
         location: "Surabaya",
         category: "Education & Work",
         type: "Individual",
+        providerId: 1
     },
     {
         id: 11,
@@ -108,6 +118,7 @@ export const services = [
         location: "Surabaya",
         category: "House Chores",
         type: "Individual",
+        providerId: 1
     },
     {
         id: 12,
@@ -118,5 +129,6 @@ export const services = [
         location: "Denpasar",
         category: "Pets & Animals",
         type: "Group",
+        providerId: 1
     },
 ]

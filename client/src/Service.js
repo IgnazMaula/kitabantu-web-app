@@ -18,10 +18,13 @@
 import { Fragment } from 'react'
 import { StarIcon } from '@heroicons/react/solid'
 import { Tab } from '@headlessui/react'
+import { useParams } from 'react-router'
 
 import ProviderProfile from './service-available/components/ProviderProfile'
 import Navbar from './shared/components/Navbar'
 import Footer from './shared/components/Footer'
+import Breadcrumbs from './service-available/components/Breadcrumbs'
+import { services } from './services';
 
 const product = {
     name: 'Application UI Icon Pack',
@@ -115,17 +118,23 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+    const serviceId = useParams().serviceId;
+    const selectedService = services.find(service => service.id == serviceId);
+    console.log(selectedService);
     return (
         <>
             <Navbar />
             <div className="bg-white">
-                <div className="mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div className="mx-auto py-12 px-4 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <div className="pb-8">
+                        <Breadcrumbs name={selectedService.name} category={selectedService.category} />
+                    </div>
                     {/* Product */}
                     <div className="lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
                         {/* Product image */}
                         <div className="lg:row-end-1 lg:col-span-4">
                             <div className="aspect-w-4 aspect-h-3 rounded-lg bg-gray-100 overflow-hidden">
-                                <img src={product.imageSrc} alt={product.imageAlt} className="object-center object-cover" />
+                                <img src={selectedService.image} alt={selectedService.name} className="object-center object-cover" />
                             </div>
                         </div>
 
@@ -133,7 +142,7 @@ export default function Example() {
                         <div className="max-w-2xl mx-auto mt-14 sm:mt-16 lg:max-w-none lg:mt-0 lg:row-end-2 lg:row-span-2 lg:col-span-3">
                             <div className="flex flex-col-reverse">
                                 <div className="mt-4">
-                                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+                                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">{selectedService.name}</h1>
 
                                     <h2 id="information-heading" className="sr-only">
                                         Product information
@@ -167,20 +176,20 @@ export default function Example() {
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
                                 <button
                                     type="button"
-                                    className="w-full bg-red-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500"
+                                    className="w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500"
                                 >
                                     Pay {product.price}
                                 </button>
                                 <button
                                     type="button"
-                                    className="w-full bg-red-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500"
+                                    className="w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500"
                                 >
                                     Chat Provider
                                 </button>
                             </div>
 
                             <div className="mt-10 pt-10">
-                                <ProviderProfile />
+                                <ProviderProfile providerId={selectedService.providerId} />
                             </div>
 
                             <div className="border-t border-gray-200 mt-10 pt-10">

@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { MailIcon, PhoneIcon } from '@heroicons/react/solid'
+import { users } from '../../users'
 
 const people = [
     {
@@ -14,7 +15,8 @@ const people = [
     // More people...
 ]
 
-export default function ProviderProfile() {
+export default function ProviderProfile(props) {
+    const provider = users.find(u => u.id === props.providerId);
     return (
         <ul role="list" className="grid">
             {people.map((person) => (
@@ -23,8 +25,8 @@ export default function ProviderProfile() {
                     className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
                 >
                     <div className="flex-1 flex flex-col p-8">
-                        <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={person.imageUrl} alt="" />
-                        <h3 className="mt-6 text-gray-900 text-sm font-medium">{person.name}</h3>
+                        <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={provider.image} alt="" />
+                        <h3 className="mt-6 text-gray-900 text-sm font-medium">{provider.firstName + ' ' + provider.lastName}</h3>
                         <dl className="mt-1 flex-grow flex flex-col justify-between">
                             <dt className="sr-only">Title</dt>
                             <dd className="text-gray-500 text-sm">{person.title}</dd>
