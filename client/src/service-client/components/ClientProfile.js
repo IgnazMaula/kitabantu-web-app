@@ -1,3 +1,5 @@
+import ClientBookmarks from "./ClientBookmarks"
+import ClientReviews from "./ClientReviews"
 import ServiceHistory from "./ServiceHistory"
 
 const ClientProfile = props => {
@@ -179,7 +181,7 @@ const ClientProfile = props => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <div className="px-4 py-3 text-right sm:px-6">
                                 <button
                                     type="submit"
                                     className="bg-blue-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900"
@@ -196,6 +198,16 @@ const ClientProfile = props => {
     else if (props.activeMenu === 'Order History') {
         return (
             <ServiceHistory />
+        )
+    }
+    else if (props.activeMenu === 'My Reviews') {
+        return (
+            <ClientReviews />
+        )
+    }
+    else if (props.activeMenu === 'My Bookmarks') {
+        return (
+            <ClientBookmarks />
         )
     }
     else {

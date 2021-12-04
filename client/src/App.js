@@ -21,6 +21,8 @@ const App = () => {
         <Route path="/aboutus" element={<AboutUs />}></Route>
         <Route path="/profile" element={<ClientDashboard active="My Profile" />}></Route>
         <Route path="/order-history" element={<ClientDashboard active="Order History" />}></Route>
+        <Route path="/my-bookmarks" element={<ClientDashboard active="My Bookmarks" />}></Route>
+        <Route path="/my-reviews" element={<ClientDashboard active="My Reviews" />}></Route>
         <Route path="/browse" element={<Browse />}></Route>
         <Route path="/service/:serviceId" element={<Service />}></Route>
       </Routes>

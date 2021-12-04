@@ -7,9 +7,9 @@ import {
     ChevronDownIcon,
     DuplicateIcon,
     HeartIcon,
-    PencilAltIcon,
+    UserIcon,
     TrashIcon,
-    UserAddIcon,
+    StarIcon
 } from '@heroicons/react/solid'
 import { UserCircleIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
@@ -48,8 +48,8 @@ export default function Example() {
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <PencilAltIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                    View and Edit Profile
+                                    <UserIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    My Profile
                                 </Link>
                             )}
                         </Menu.Item>
@@ -71,22 +71,8 @@ export default function Example() {
                     <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'group flex items-center px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    <UserAddIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                    Share
-                                </a>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/my-bookmarks"
                                     className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'group flex items-center px-4 py-2 text-sm'
@@ -94,7 +80,21 @@ export default function Example() {
                                 >
                                     <HeartIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
                                     My Bookmarks
-                                </a>
+                                </Link>
+                            )}
+                        </Menu.Item>
+                        <Menu.Item>
+                            {({ active }) => (
+                                <Link
+                                    to="/my-reviews"
+                                    className={classNames(
+                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        'group flex items-center px-4 py-2 text-sm'
+                                    )}
+                                >
+                                    <StarIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    My Reviews
+                                </Link>
                             )}
                         </Menu.Item>
                     </div>
