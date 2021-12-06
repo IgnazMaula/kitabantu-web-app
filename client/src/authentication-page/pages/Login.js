@@ -111,6 +111,11 @@ export default function Login() {
                             </button>
                         </div>
                     </form>
+                    <div className="text-sm text-center">
+                        <Link to="/" className="font-medium text-red-600 hover:text-red-500">
+                            Back to home
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>

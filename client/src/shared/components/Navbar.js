@@ -4,6 +4,7 @@ import { MenuIcon, UserCircleIcon, ChatAlt2Icon, XIcon } from '@heroicons/react/
 import { NavLink } from 'react-router-dom'
 
 import DropdownMenu from './DropdownMenu';
+import LoggedInAccount from './LoggedInAccount';
 
 const navigation = {
   categories: [
@@ -147,8 +148,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Navbar(props) {
   const [open, setOpen] = useState(false)
+  const currentRole = 'Not Logged In';
 
   return (
     <div className="bg-white">
@@ -275,10 +277,7 @@ export default function Example() {
       </Transition.Root>
 
       <header className="relative bg-white">
-        <p className="bg-red-800 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-          Service Provider Account
-        </p>
-
+        <LoggedInAccount currentRole={currentRole} />
         <nav aria-label="Top" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-b border-gray-200">
             <div className="h-16 flex items-center">
