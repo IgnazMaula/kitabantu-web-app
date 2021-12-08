@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import Main from './Main';
 import Service from './service-available/pages/Service';
@@ -38,6 +38,7 @@ const App = () => {
           <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
           <Route path='/browse' element={<Browse />}></Route>
           <Route path='/service/:serviceId' element={<Service />}></Route>
+          <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </AuthContext.Provider>
     </>
