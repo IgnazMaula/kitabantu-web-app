@@ -23,19 +23,10 @@
   }
   ```
 */
-import { Fragment, useState } from 'react'
-import { Disclosure, Menu, RadioGroup, Switch, Transition } from '@headlessui/react'
-import { QuestionMarkCircleIcon, SearchIcon } from '@heroicons/react/solid'
-import {
-    StarIcon,
-    CogIcon,
-    CreditCardIcon,
-    HeartIcon,
-    MenuIcon,
-    UserCircleIcon,
-    ViewGridAddIcon,
-    XIcon,
-} from '@heroicons/react/outline'
+import { Fragment, useState } from 'react';
+import { Disclosure, Menu, RadioGroup, Switch, Transition } from '@headlessui/react';
+import { QuestionMarkCircleIcon, SearchIcon } from '@heroicons/react/solid';
+import { StarIcon, CogIcon, CreditCardIcon, HeartIcon, MenuIcon, UserCircleIcon, ViewGridAddIcon, XIcon } from '@heroicons/react/outline';
 
 import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
@@ -43,22 +34,21 @@ import ClientProfile from '../components/ClientProfile';
 import { Link } from 'react-router-dom';
 
 const user = {
-    name: 'Lisa Marie',
-    email: 'lisamarie@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80',
-}
+    name: 'Ignaz Maula',
+    email: 'ignaz@maula.com',
+    imageUrl: 'https://pm1.narvii.com/6878/701bf7222e8056959e330192a0396edfff213752r1-1080-1030v2_hq.jpg',
+};
 const navigation = [
     { name: 'Dashboard', href: '#' },
     { name: 'Jobs', href: '#' },
     { name: 'Applicants', href: '#' },
     { name: 'Company', href: '#' },
-]
+];
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '#' },
-]
+];
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: false },
     { name: 'Order History', href: '/order-history', icon: CogIcon, current: false },
@@ -66,12 +56,12 @@ const subNavigation = [
     { name: 'My Reviews', href: '/my-reviews', icon: StarIcon, current: false },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
-]
+];
 const plans = [
     { name: 'Startup', priceMonthly: 29, priceYearly: 290, limit: 'Up to 5 active job postings' },
     { name: 'Business', priceMonthly: 99, priceYearly: 990, limit: 'Up to 25 active job postings' },
     { name: 'Enterprise', priceMonthly: 249, priceYearly: 2490, limit: 'Unlimited active job postings' },
-]
+];
 const payments = [
     {
         id: 1,
@@ -82,27 +72,27 @@ const payments = [
         href: '#',
     },
     // More payments...
-]
+];
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
 export default function ClientDashboard(props) {
-    const [selectedPlan, setSelectedPlan] = useState(plans[1])
-    const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true)
-    const [activeMenu, setActiveMenu] = useState(props.active)
+    const [selectedPlan, setSelectedPlan] = useState(plans[1]);
+    const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true);
+    const [activeMenu, setActiveMenu] = useState(props.active);
     const setActiveMenuHandler = (name, current) => {
         setActiveMenu(name);
-    }
+    };
     return (
         <>
             <Navbar />
-            <div className="h-full">
-                <main className="max-w-7xl mx-auto pb-10 lg:py-12 lg:px-8">
-                    <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
-                        <aside className="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
-                            <nav className="space-y-1">
+            <div className='h-full'>
+                <main className='max-w-7xl mx-auto pb-10 lg:py-12 lg:px-8'>
+                    <div className='lg:grid lg:grid-cols-12 lg:gap-x-5'>
+                        <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3'>
+                            <nav className='space-y-1'>
                                 {subNavigation.map((item) => (
                                     <div onClick={() => setActiveMenuHandler(item.name, item.current)}>
                                         <Link
@@ -121,15 +111,15 @@ export default function ClientDashboard(props) {
                                                     item.current ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-500',
                                                     'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                                 )}
-                                                aria-hidden="true"
+                                                aria-hidden='true'
                                             />
-                                            <span className="truncate">{item.name}</span>
+                                            <span className='truncate'>{item.name}</span>
                                         </Link>
                                     </div>
                                 ))}
                             </nav>
                         </aside>
-                        <div className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+                        <div className='space-y-6 sm:px-6 lg:px-0 lg:col-span-9'>
                             <ClientProfile user={user} activeMenu={props.active} />
                         </div>
                     </div>
@@ -137,5 +127,5 @@ export default function ClientDashboard(props) {
             </div>
             <Footer />
         </>
-    )
+    );
 }
