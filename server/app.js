@@ -2,10 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user-routes');
+const serviceRoutes = require('./routes/service-router');
 
 const app = express();
 
 app.use('/api/users/', userRoutes);
+app.use('/api/services/', serviceRoutes);
 
 app.use((error, req, res, next) => {
     if (res.headerSent) {
