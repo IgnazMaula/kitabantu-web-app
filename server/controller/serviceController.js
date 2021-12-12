@@ -151,5 +151,7 @@ const getServiceById = (req, res, next) => {
     }
 };
 
-exports.getAllService = getAllService;
-exports.getServiceById = getServiceById;
+module.exports = {
+    getAllService,
+    getServiceById,
+};
