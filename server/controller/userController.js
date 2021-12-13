@@ -2,7 +2,7 @@ const { v4: uuid } = require('uuid');
 
 const HttpError = require('../models/http-error');
 
-const users = [
+let users = [
     {
         id: '1',
         image: 'https://pm1.narvii.com/6878/701bf7222e8056959e330192a0396edfff213752r1-1080-1030v2_hq.jpg',
@@ -41,7 +41,7 @@ const users = [
 ];
 
 const getAllUser = (req, res, next) => {
-    res.json({ users: users });
+    res.status(200).json({ users });
 };
 
 const getUserById = (req, res, next) => {
@@ -58,19 +58,40 @@ const getUserById = (req, res, next) => {
 
 const createUser = (req, res, next) => {
     const { username, firstName, lastName, role } = req.body;
-    const newUser = {
+    const user = {
         id: uuid(),
         username,
         firstName,
         lastName,
         role,
     };
-    users.push(newUser);
-    res.status(201).json({ user: newUser });
+    users.push(user);
+    res.status(201).json({ user });
+};
+
+const updateUser = (req, res, next) => {
+    const { firstName, lastName } = req.body;
+    const userId = req.params.uid;
+    const user = { ...users.find((u) => u.id === userId) };
+    const userIndex = users.findIndex((u) => u.id === userId);
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+
+    users[userIndex] = user;
+    res.status(200).json({ user });
+};
+
+const deleteUser = (req, res, next) => {
+    const userId = req.params.uid;
+    users = users.filter((u) => u.id !== userId);
+    res.status(200).json({ message: 'Place Deleted' });
 };
 
 module.exports = {
     getAllUser,
     getUserById,
     createUser,
+    updateUser,
+    deleteUser,
 };

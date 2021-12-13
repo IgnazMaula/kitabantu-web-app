@@ -1,6 +1,8 @@
+const { v4: uuid } = require('uuid');
+
 const HttpError = require('../models/http-error');
 
-const services = [
+let services = [
     {
         id: '1',
         image: 'https://www.portdevco.com/wp-content/uploads/2020/06/1-PPI-Group-Bagikan-Support-Package-min.jpg',
@@ -136,7 +138,7 @@ const services = [
 ];
 
 const getAllService = (req, res, next) => {
-    res.json({ services: services });
+    res.json({ services });
 };
 
 const getServiceById = (req, res, next) => {
@@ -151,7 +153,40 @@ const getServiceById = (req, res, next) => {
     }
 };
 
+const createService = (req, res, next) => {
+    const { name, serviceProvider } = req.body;
+    const service = {
+        id: uuid(),
+        name,
+        serviceProvider,
+    };
+    services.push(service);
+    res.status(201).json({ service });
+};
+
+const updateService = (req, res, next) => {
+    const { name, serviceProvider } = req.body;
+    const serviceId = req.params.sid;
+    const service = { ...services.find((s) => s.id === serviceId) };
+    const serviceIndex = services.findIndex((s) => s.id === serviceId);
+
+    service.name = name;
+    service.serviceProvider = serviceProvider;
+
+    services[serviceIndex] = service;
+    res.status(200).json({ service });
+};
+
+const deleteService = (req, res, next) => {
+    const serviceId = req.params.uid;
+    services = services.filter((s) => s.id !== serviceId);
+    res.status(200).json({ message: 'Service Deleted' });
+};
+
 module.exports = {
     getAllService,
     getServiceById,
+    createService,
+    updateService,
+    deleteService,
 };
