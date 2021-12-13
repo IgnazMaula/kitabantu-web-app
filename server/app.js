@@ -6,6 +6,8 @@ const serviceRoutes = require('./routes/service-router');
 
 const app = express();
 
+app.use(bodyParser.json());
+
 app.use('/api/users/', userRoutes);
 app.use('/api/services/', serviceRoutes);
 
