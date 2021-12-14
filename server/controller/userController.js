@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid');
 
 const HttpError = require('../models/http-error');
+const User = require('../models/User');
 
 let users = [
     {
