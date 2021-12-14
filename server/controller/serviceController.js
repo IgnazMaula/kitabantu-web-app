@@ -178,7 +178,10 @@ const updateService = (req, res, next) => {
 };
 
 const deleteService = (req, res, next) => {
-    const serviceId = req.params.uid;
+    const serviceId = req.params.sid;
+    if (!services.find((s) => s.id === serviceId)) {
+        throw new HttpError('Could not find a service for that id.', 404);
+    }
     services = services.filter((s) => s.id !== serviceId);
     res.status(200).json({ message: 'Service Deleted' });
 };
