@@ -86,7 +86,7 @@ const signup = async (req, res, next) => {
         email,
         password,
         name,
-        role: 'client',
+        role: 'Client',
         location,
         gender,
         occupation,
