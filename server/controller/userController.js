@@ -43,8 +43,14 @@ let users = [
     },
 ];
 
-const getAllUser = (req, res, next) => {
-    res.status(200).json({ users });
+const getAllUser = async (req, res, next) => {
+    let users;
+    try {
+        users = await User.find({}, '-password');
+    } catch (error) {
+        return next(new HttpError('Fetching users failed', 500));
+    }
+    res.json({ users: users.map((u) => u.toObject({ getters: true })) });
 };
 
 const getUserById = (req, res, next) => {
@@ -84,6 +90,9 @@ const signup = async (req, res, next) => {
         location,
         gender,
         occupation,
+        orders: [],
+        ratings: [],
+        bookmarks: [],
     });
 
     try {

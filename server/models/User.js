@@ -21,12 +21,12 @@ const userSchema = new Schema({
     description: { type: String, required: false, default: undefined },
     userType: { type: String, required: false, default: undefined },
     vaccinated: { type: Boolean, required: false, default: undefined },
-
-    services: [{ type: String }],
-
-    orders: [{ type: String }],
-    ratings: [{ type: String }],
-    bookmarks: [{ type: String }],
+    // Collections of Service Client
+    orders: [{ type: String, required: false }],
+    ratings: [{ type: String, required: false }],
+    bookmarks: [{ type: String, required: false }],
+    // Collections of Service Provider
+    services: [{ type: String, required: false }],
 });
 
 userSchema.plugin(uniqueValidator);
