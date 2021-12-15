@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-expressions */
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-    var __webpack_exports__ = {};
+/******/ (() => {
+    // webpackBootstrap
+    /******/ 'use strict';
+    var __webpack_exports__ = {}; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/utils.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/utils.js
     function hasProperty(obj, prop) {
         return Object.prototype.hasOwnProperty.call(obj, prop);
     }
@@ -55,18 +55,15 @@
         html += `<${openTagSrc}></${tagName}>`;
 
         const next = index + 1;
-        return next < repeat
-            ? createTagRepeat(tagName, repeat, attributes, next, html)
-            : html;
+        return next < repeat ? createTagRepeat(tagName, repeat, attributes, next, html) : html;
     }
 
     // Remove the spacing surrounding tags for HTML parser not to create text nodes
     // before/after elements
     function optimizeTemplateHTML(html) {
         return html.replace(/>\s+/g, '>').replace(/\s+</, '<');
-    }
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/date.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/date.js
     function stripTime(timeValue) {
         return new Date(timeValue).setHours(0, 0, 0, 0);
     }
@@ -148,11 +145,7 @@
         /* @see https://en.wikipedia.org/wiki/Year_zero#ISO_8601 */
         const year = new Date(date).getFullYear();
         return Math.floor(year / years) * years;
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/date-format.js
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/date-format.js
 
     // pattern for format parts
     const reFormatTokens = /dd?|DD?|mm?|MM?|yy?(?:yy)?/;
@@ -175,7 +168,7 @@
                 }
 
                 const monthName = month.toLowerCase();
-                const compareNames = name => name.toLowerCase().startsWith(monthName);
+                const compareNames = (name) => name.toLowerCase().startsWith(monthName);
                 // compare with both short and full names because some locales have periods
                 // in the short names (not equal to the first X letters of the full names)
                 monthIndex = locale.monthsShort.findIndex(compareNames);
@@ -188,9 +181,7 @@
             }
 
             newDate.setMonth(monthIndex);
-            return newDate.getMonth() !== normalizeMonth(monthIndex)
-                ? newDate.setDate(0)
-                : newDate.getTime();
+            return newDate.getMonth() !== normalizeMonth(monthIndex) ? newDate.setDate(0) : newDate.getTime();
         },
         d(date, day) {
             return new Date(date).setDate(parseInt(day, 10));
@@ -244,7 +235,7 @@
 
     function parseFormatString(format) {
         if (typeof format !== 'string') {
-            throw new Error("Invalid date format.");
+            throw new Error('Invalid date format.');
         }
         if (format in knownFormats) {
             return knownFormats[format];
@@ -254,23 +245,23 @@
         const separators = format.split(reFormatTokens);
         const parts = format.match(new RegExp(reFormatTokens, 'g'));
         if (separators.length === 0 || !parts) {
-            throw new Error("Invalid date format.");
+            throw new Error('Invalid date format.');
         }
 
         // collect format functions used in the format
-        const partFormatters = parts.map(token => formatFns[token]);
+        const partFormatters = parts.map((token) => formatFns[token]);
 
         // collect parse function keys used in the format
         // iterate over parseFns' keys in order to keep the order of the keys.
         const partParserKeys = Object.keys(parseFns).reduce((keys, key) => {
-            const token = parts.find(part => part[0] !== 'D' && part[0].toLowerCase() === key);
+            const token = parts.find((part) => part[0] !== 'D' && part[0].toLowerCase() === key);
             if (token) {
                 keys.push(key);
             }
             return keys;
         }, []);
 
-        return knownFormats[format] = {
+        return (knownFormats[format] = {
             parser(dateStr, locale) {
                 const dateParts = dateStr.split(reNonDateParts).reduce((dtParts, part, index) => {
                     if (part.length > 0 && parts[index]) {
@@ -295,12 +286,12 @@
             },
             formatter(date, locale) {
                 let dateStr = partFormatters.reduce((str, fn, index) => {
-                    return str += `${separators[index]}${fn(date, locale)}`;
+                    return (str += `${separators[index]}${fn(date, locale)}`);
                 }, '');
                 // separators' length is always parts' length + 1,
-                return dateStr += lastItemOf(separators);
+                return (dateStr += lastItemOf(separators));
             },
-        };
+        });
     }
 
     function parseDate(dateStr, format, locale) {
@@ -335,9 +326,8 @@
         }
 
         return parseFormatString(format).formatter(dateObj, locale);
-    }
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/event.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/event.js
     const listenerRegistry = new WeakMap();
     const { addEventListener, removeEventListener } = EventTarget.prototype;
 
@@ -377,9 +367,11 @@
             let parent;
             if (node.parentNode) {
                 parent = node.parentNode;
-            } else if (node.host) { // ShadowRoot
+            } else if (node.host) {
+                // ShadowRoot
                 parent = node.host;
-            } else if (node.defaultView) {  // Document
+            } else if (node.defaultView) {
+                // Document
                 parent = node.defaultView;
             }
             return parent ? getComposedPath(parent, path) : path;
@@ -403,26 +395,24 @@
 
     // Search for the actual target of a delegated event
     function findElementInEventPath(ev, selector) {
-        const criteria = typeof selector === 'function' ? selector : el => el.matches(selector);
+        const criteria = typeof selector === 'function' ? selector : (el) => el.matches(selector);
         return findFromPath(ev.composedPath(), criteria, ev.currentTarget);
-    }
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/i18n/base-locales.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/i18n/base-locales.js
     // default locales
     const locales = {
         en: {
-            days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-            daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-            months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            today: "Today",
-            clear: "Clear",
-            titleFormat: "MM y"
-        }
-    };
+            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            today: 'Today',
+            clear: 'Clear',
+            titleFormat: 'MM y',
+        },
+    }; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/options/defaultOptions.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/options/defaultOptions.js
     // config options updatable by setOptions() and their default values
     const defaultOptions = {
         autohide: false,
@@ -444,10 +434,12 @@
         maxNumberOfDates: 1,
         maxView: 3,
         minDate: null,
-        nextArrow: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>',
+        nextArrow:
+            '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>',
         orientation: 'auto',
         pickLevel: 0,
-        prevArrow: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>',
+        prevArrow:
+            '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>',
         showDaysOfWeek: true,
         showOnClick: true,
         showOnFocus: true,
@@ -460,9 +452,8 @@
         weekStart: 0,
     };
 
-/* harmony default export */ const options_defaultOptions = (defaultOptions);
+    /* harmony default export */ const options_defaultOptions = defaultOptions; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/dom.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/lib/dom.js
     const range = document.createRange();
 
     function parseHTML(html) {
@@ -516,26 +507,13 @@
                 el.appendChild(node);
             });
         }
-    }
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/options/processOptions.js
 
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/options/processOptions.js
-
-
-
-
-
-
-    const {
-        language: defaultLang,
-        format: defaultFormat,
-        weekStart: defaultWeekStart,
-    } = options_defaultOptions;
+    const { language: defaultLang, format: defaultFormat, weekStart: defaultWeekStart } = options_defaultOptions;
 
     // Reducer function to filter out invalid day-of-week from the input
     function sanitizeDOW(dow, day) {
-        return dow.length < 6 && day >= 0 && day < 7
-            ? pushUnique(dow, day)
-            : dow;
+        return dow.length < 6 && day >= 0 && day < 7 ? pushUnique(dow, day) : dow;
     }
 
     function calcEndOfWeek(startOfWeek) {
@@ -559,17 +537,7 @@
         const inOpts = Object.assign({}, options);
         const config = {};
         const locales = datepicker.constructor.locales;
-        let {
-            format,
-            language,
-            locale,
-            maxDate,
-            maxView,
-            minDate,
-            pickLevel,
-            startView,
-            weekStart,
-        } = datepicker.config || {};
+        let { format, language, locale, maxDate, maxView, minDate, pickLevel, startView, weekStart } = datepicker.config || {};
 
         if (inOpts.language) {
             let lang;
@@ -592,10 +560,13 @@
                 // update locale as well when updating language
                 const origLocale = locale || locales[defaultLang];
                 // use default language's properties for the fallback
-                locale = Object.assign({
-                    format: defaultFormat,
-                    weekStart: defaultWeekStart
-                }, locales[defaultLang]);
+                locale = Object.assign(
+                    {
+                        format: defaultFormat,
+                        weekStart: defaultWeekStart,
+                    },
+                    locales[defaultLang]
+                );
                 if (language !== defaultLang) {
                     Object.assign(locale, locales[language]);
                 }
@@ -629,15 +600,14 @@
         let minDt = minDate;
         let maxDt = maxDate;
         if (inOpts.minDate !== undefined) {
-            minDt = inOpts.minDate === null
-                ? dateValue(0, 0, 1)  // set 0000-01-01 to prevent negative values for year
-                : validateDate(inOpts.minDate, format, locale, minDt);
+            minDt =
+                inOpts.minDate === null
+                    ? dateValue(0, 0, 1) // set 0000-01-01 to prevent negative values for year
+                    : validateDate(inOpts.minDate, format, locale, minDt);
             delete inOpts.minDate;
         }
         if (inOpts.maxDate !== undefined) {
-            maxDt = inOpts.maxDate === null
-                ? undefined
-                : validateDate(inOpts.maxDate, format, locale, maxDt);
+            maxDt = inOpts.maxDate === null ? undefined : validateDate(inOpts.maxDate, format, locale, maxDt);
             delete inOpts.maxDate;
         }
         if (maxDt < minDt) {
@@ -759,8 +729,8 @@
         if (inOpts.orientation) {
             const orientation = inOpts.orientation.toLowerCase().split(/\s+/g);
             config.orientation = {
-                x: orientation.find(x => (x === 'left' || x === 'right')) || 'auto',
-                y: orientation.find(y => (y === 'top' || y === 'bottom')) || 'auto',
+                x: orientation.find((x) => x === 'left' || x === 'right') || 'auto',
+                y: orientation.find((y) => y === 'top' || y === 'bottom') || 'auto',
             };
             delete inOpts.orientation;
         }
@@ -781,10 +751,7 @@
         });
 
         return config;
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/pickerTemplate.js
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/pickerTemplate.js
 
     const pickerTemplate = optimizeTemplateHTML(`<div class="datepicker hidden">
 <div class="datepicker-picker inline-block rounded-lg bg-white dark:bg-gray-700 shadow-lg p-4">
@@ -806,31 +773,27 @@
 </div>
 </div>`);
 
-/* harmony default export */ const templates_pickerTemplate = (pickerTemplate);
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/daysTemplate.js
-
+    /* harmony default export */ const templates_pickerTemplate = pickerTemplate; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/daysTemplate.js
 
     const daysTemplate = optimizeTemplateHTML(`<div class="days">
-<div class="days-of-week grid grid-cols-7 mb-1">${createTagRepeat('span', 7, { class: 'dow block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm' })}</div>
-<div class="datepicker-grid w-64 grid grid-cols-7">${createTagRepeat('span', 42, { class: 'block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400' })}</div>
+<div class="days-of-week grid grid-cols-7 mb-1">${createTagRepeat('span', 7, {
+        class: 'dow block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm',
+    })}</div>
+<div class="datepicker-grid w-64 grid grid-cols-7">${createTagRepeat('span', 42, {
+        class: 'block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400',
+    })}</div>
 </div>`);
 
-/* harmony default export */ const templates_daysTemplate = (daysTemplate);
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/calendarWeeksTemplate.js
-
+    /* harmony default export */ const templates_daysTemplate = daysTemplate; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/templates/calendarWeeksTemplate.js
 
     const calendarWeeksTemplate = optimizeTemplateHTML(`<div class="calendar-weeks">
 <div class="days-of-week flex"><span class="dow h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400"></span></div>
-<div class="weeks">${createTagRepeat('span', 6, { class: 'week block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm' })}</div>
+<div class="weeks">${createTagRepeat('span', 6, {
+        class: 'week block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm',
+    })}</div>
 </div>`);
 
-/* harmony default export */ const templates_calendarWeeksTemplate = (calendarWeeksTemplate);
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/View.js
-
-
+    /* harmony default export */ const templates_calendarWeeksTemplate = calendarWeeksTemplate; // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/View.js
 
     // Base class of the view classes
     class View {
@@ -883,16 +846,7 @@
                 }
             }
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/DaysView.js
-
-
-
-
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/DaysView.js
 
     class DaysView extends View {
         constructor(picker) {
@@ -941,15 +895,13 @@
                 updateDOW = true;
             }
             if (options.locale) {
-                const locale = this.locale = options.locale;
+                const locale = (this.locale = options.locale);
                 this.dayNames = locale.daysMin;
                 this.switchLabelFormat = locale.titleFormat;
                 updateDOW = true;
             }
             if (options.beforeShowDay !== undefined) {
-                this.beforeShow = typeof options.beforeShowDay === 'function'
-                    ? options.beforeShowDay
-                    : undefined;
+                this.beforeShow = typeof options.beforeShowDay === 'function' ? options.beforeShowDay : undefined;
             }
 
             if (options.calendarWeeks !== undefined) {
@@ -985,7 +937,9 @@
                 Array.from(this.dow.children).forEach((el, index) => {
                     const dow = (this.weekStart + index) % 7;
                     el.textContent = this.dayNames[dow];
-                    el.className = this.daysOfWeekDisabled.includes(dow) ? 'dow disabled text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400';
+                    el.className = this.daysOfWeekDisabled.includes(dow)
+                        ? 'dow disabled text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                        : 'dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400';
                 });
             }
         }
@@ -1065,7 +1019,7 @@
                     const [rangeStart, rangeEnd] = this.range;
                     if (current > rangeStart && current < rangeEnd) {
                         classList.add('range', 'bg-gray-200', 'dark:bg-gray-600');
-                        classList.remove('rounded-lg', 'rounded-l-lg', 'rounded-r-lg')
+                        classList.remove('rounded-lg', 'rounded-l-lg', 'rounded-r-lg');
                     }
                     if (current === rangeStart) {
                         classList.add('range-start', 'bg-gray-100', 'dark:bg-gray-600', 'rounded-l-lg');
@@ -1093,12 +1047,22 @@
         // Update the view UI by applying the changes of selected and focused items
         refresh() {
             const [rangeStart, rangeEnd] = this.range || [];
-            this.grid
-                .querySelectorAll('.range, .range-start, .range-end, .selected, .focused')
-                .forEach((el) => {
-                    el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', 'text-white', 'dark:bg-blue-600', 'dark:text-white', 'focused', 'bg-gray-100', 'dark:bg-gray-600');
-                    el.classList.add('text-gray-900', 'rounded-lg', 'dark:text-white');
-                });
+            this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach((el) => {
+                el.classList.remove(
+                    'range',
+                    'range-start',
+                    'range-end',
+                    'selected',
+                    'bg-blue-700',
+                    'text-white',
+                    'dark:bg-blue-600',
+                    'dark:text-white',
+                    'focused',
+                    'bg-gray-100',
+                    'dark:bg-gray-600'
+                );
+                el.classList.add('text-gray-900', 'rounded-lg', 'dark:text-white');
+            });
             Array.from(this.grid.children).forEach((el) => {
                 const current = Number(el.dataset.date);
                 const classList = el.classList;
@@ -1132,13 +1096,7 @@
             });
             this.grid.children[index].classList.add('focused', 'bg-gray-100', 'dark:bg-gray-600');
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/MonthsView.js
-
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/MonthsView.js
 
     function computeMonthRange(range, thisYear) {
         if (!range || !range[0] || !range[1]) {
@@ -1149,10 +1107,7 @@
         if (startY > thisYear || endY < thisYear) {
             return;
         }
-        return [
-            startY === thisYear ? startM : -1,
-            endY === thisYear ? endM : 12,
-        ];
+        return [startY === thisYear ? startM : -1, endY === thisYear ? endM : 12];
     }
 
     class MonthsView extends View {
@@ -1168,7 +1123,7 @@
             if (onConstruction) {
                 this.grid = this.element;
                 this.element.classList.add('months', 'datepicker-grid', 'w-64', 'grid', 'grid-cols-4');
-                this.grid.appendChild(parseHTML(createTagRepeat('span', 12, { 'data-month': ix => ix })));
+                this.grid.appendChild(parseHTML(createTagRepeat('span', 12, { 'data-month': (ix) => ix })));
             }
             super.init(options);
         }
@@ -1198,9 +1153,7 @@
                 }
             }
             if (options.beforeShowMonth !== undefined) {
-                this.beforeShow = typeof options.beforeShowMonth === 'function'
-                    ? options.beforeShowMonth
-                    : undefined;
+                this.beforeShow = typeof options.beforeShowMonth === 'function' ? options.beforeShowMonth : undefined;
             }
         }
 
@@ -1226,7 +1179,7 @@
                 return selected;
             }, {});
             if (rangepicker && rangepicker.dates) {
-                this.range = rangepicker.dates.map(timeValue => {
+                this.range = rangepicker.dates.map((timeValue) => {
                     const date = new Date(timeValue);
                     return isNaN(date) ? undefined : [date.getFullYear(), date.getMonth()];
                 });
@@ -1261,11 +1214,7 @@
                 // by beforeShow hook at previous render
                 el.textContent = this.monthNames[index];
 
-                if (
-                    yrOutOfRange
-                    || isMinYear && index < this.minMonth
-                    || isMaxYear && index > this.maxMonth
-                ) {
+                if (yrOutOfRange || (isMinYear && index < this.minMonth) || (isMaxYear && index > this.maxMonth)) {
                     classList.add('disabled');
                 }
                 if (range) {
@@ -1298,12 +1247,22 @@
         refresh() {
             const selected = this.selected[this.year] || [];
             const [rangeStart, rangeEnd] = computeMonthRange(this.range, this.year) || [];
-            this.grid
-                .querySelectorAll('.range, .range-start, .range-end, .selected, .focused')
-                .forEach((el) => {
-                    el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', 'dark:bg-blue-600', 'dark:text-white', 'text-white', 'focused', 'bg-gray-100', 'dark:bg-gray-600');
-                    el.classList.add('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-                });
+            this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach((el) => {
+                el.classList.remove(
+                    'range',
+                    'range-start',
+                    'range-end',
+                    'selected',
+                    'bg-blue-700',
+                    'dark:bg-blue-600',
+                    'dark:text-white',
+                    'text-white',
+                    'focused',
+                    'bg-gray-100',
+                    'dark:bg-gray-600'
+                );
+                el.classList.add('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
+            });
             Array.from(this.grid.children).forEach((el, index) => {
                 const classList = el.classList;
                 if (index > rangeStart && index < rangeEnd) {
@@ -1333,15 +1292,9 @@
             });
             this.grid.children[this.focused].classList.add('focused', 'bg-gray-100', 'dark:bg-gray-600');
         }
-    }
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/YearsView.js
-
-
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/views/YearsView.js
     function toTitleCase(word) {
-        return [...word].reduce((str, ch, ix) => str += ix ? ch : ch.toUpperCase(), '');
+        return [...word].reduce((str, ch, ix) => (str += ix ? ch : ch.toUpperCase()), '');
     }
 
     // Class representing the years and decades view elements
@@ -1403,7 +1356,7 @@
                 return pushUnique(years, startOfYearPeriod(timeValue, this.step));
             }, []);
             if (rangepicker && rangepicker.dates) {
-                this.range = rangepicker.dates.map(timeValue => {
+                this.range = rangepicker.dates.map((timeValue) => {
                     if (timeValue !== undefined) {
                         return startOfYearPeriod(timeValue, this.step);
                     }
@@ -1423,7 +1376,7 @@
 
             Array.from(this.grid.children).forEach((el, index) => {
                 const classList = el.classList;
-                const current = this.start + (index * this.step);
+                const current = this.start + index * this.step;
                 const date = dateValue(current, 0, 1);
 
                 el.className = `datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm ${this.cellClass}`;
@@ -1469,11 +1422,21 @@
         // Update the view UI by applying the changes of selected and focused items
         refresh() {
             const [rangeStart, rangeEnd] = this.range || [];
-            this.grid
-                .querySelectorAll('.range, .range-start, .range-end, .selected, .focused')
-                .forEach((el) => {
-                    el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', 'text-white', 'dark:bg-blue-600', 'dark:text-white', 'focused', 'bg-gray-100', 'dark:bg-gray-600');
-                });
+            this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach((el) => {
+                el.classList.remove(
+                    'range',
+                    'range-start',
+                    'range-end',
+                    'selected',
+                    'bg-blue-700',
+                    'text-white',
+                    'dark:bg-blue-600',
+                    'dark:text-white',
+                    'focused',
+                    'bg-gray-100',
+                    'dark:bg-gray-600'
+                );
+            });
             Array.from(this.grid.children).forEach((el) => {
                 const current = Number(el.textContent);
                 const classList = el.classList;
@@ -1504,11 +1467,7 @@
             });
             this.grid.children[index].classList.add('focused', 'bg-gray-100', 'dark:bg-gray-600');
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/functions.js
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/functions.js
 
     function triggerDatepickerEvent(datepicker, type) {
         const detail = {
@@ -1554,22 +1513,18 @@
             datepicker.refresh('input');
             datepicker.hide();
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/pickerListeners.js
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/pickerListeners.js
 
     function goToSelectedMonthOrYear(datepicker, selection) {
         const picker = datepicker.picker;
         const viewDate = new Date(picker.viewDate);
         const viewId = picker.currentView.id;
-        const newDate = viewId === 1
-            ? addMonths(viewDate, selection - viewDate.getMonth())
-            : addYears(viewDate, selection - viewDate.getFullYear());
+        const newDate = viewId === 1 ? addMonths(viewDate, selection - viewDate.getMonth()) : addYears(viewDate, selection - viewDate.getFullYear());
 
-        picker.changeFocus(newDate).changeView(viewId - 1).render();
+        picker
+            .changeFocus(newDate)
+            .changeView(viewId - 1)
+            .render();
     }
 
     function onClickTodayBtn(datepicker) {
@@ -1626,19 +1581,7 @@
         if (!datepicker.inline && !datepicker.config.disableTouchKeyboard) {
             datepicker.inputField.focus();
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/Picker.js
-
-
-
-
-
-
-
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/picker/Picker.js
 
     function processPickerOptions(picker, options) {
         if (options.title !== undefined) {
@@ -1735,7 +1678,7 @@
             this.datepicker = datepicker;
 
             const template = templates_pickerTemplate.replace(/%buttonClass%/g, datepicker.config.buttonClass);
-            const element = this.element = parseHTML(template).firstChild;
+            const element = (this.element = parseHTML(template).firstChild);
             const [header, main, footer] = element.firstChild.children;
             const title = header.firstElementChild;
             const [prevBtn, viewSwitch, nextBtn] = header.lastElementChild.children;
@@ -1836,21 +1779,9 @@
             const { classList, style } = this.element;
             const { config, inputField } = this.datepicker;
             const container = config.container;
-            const {
-                width: calendarWidth,
-                height: calendarHeight,
-            } = this.element.getBoundingClientRect();
-            const {
-                left: containerLeft,
-                top: containerTop,
-                width: containerWidth,
-            } = container.getBoundingClientRect();
-            const {
-                left: inputLeft,
-                top: inputTop,
-                width: inputWidth,
-                height: inputHeight
-            } = inputField.getBoundingClientRect();
+            const { width: calendarWidth, height: calendarHeight } = this.element.getBoundingClientRect();
+            const { left: containerLeft, top: containerTop, width: containerWidth } = container.getBoundingClientRect();
+            const { left: inputLeft, top: inputTop, width: inputWidth, height: inputHeight } = inputField.getBoundingClientRect();
             let { x: orientX, y: orientY } = config.orientation;
             let scrollTop;
             let left;
@@ -1891,12 +1822,7 @@
                 top += inputHeight;
             }
 
-            classList.remove(
-                'datepicker-orient-top',
-                'datepicker-orient-bottom',
-                'datepicker-orient-right',
-                'datepicker-orient-left'
-            );
+            classList.remove('datepicker-orient-top', 'datepicker-orient-bottom', 'datepicker-orient-right', 'datepicker-orient-left');
             classList.add(`datepicker-orient-${orientY}`, `datepicker-orient-${orientX}`);
 
             style.top = top ? `${top}px` : top;
@@ -1954,12 +1880,7 @@
 
             this.currentView[renderMethod]();
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/inputFieldListeners.js
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/inputFieldListeners.js
 
     // Find the closest date that doesn't meet the condition for unavailable date
     // Returns undefined if no available date is found
@@ -2012,16 +1933,9 @@
             default:
                 viewDate = addYears(viewDate, direction * (vertical ? 4 : 1) * step);
                 addFn = addYears;
-                testFn = date => currentView.disabled.includes(startOfYearPeriod(date, step));
+                testFn = (date) => currentView.disabled.includes(startOfYearPeriod(date, step));
         }
-        viewDate = findNextAvailableOne(
-            viewDate,
-            addFn,
-            direction < 0 ? -step : step,
-            testFn,
-            currentView.minDate,
-            currentView.maxDate
-        );
+        viewDate = findNextAvailableOne(viewDate, addFn, direction < 0 ? -step : step, testFn, currentView.minDate, currentView.maxDate);
         if (viewDate !== undefined) {
             picker.changeFocus(viewDate).render();
         }
@@ -2162,11 +2076,7 @@
         if (ev.clipboardData.types.includes('text/plain')) {
             datepicker.enterEditMode();
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/otherListeners.js
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/events/otherListeners.js
 
     // for the `document` to delegate the events from outside the picker/input field
     function onClickOutside(datepicker, ev) {
@@ -2175,29 +2085,14 @@
             return;
         }
         const pickerElem = datepicker.picker.element;
-        if (findElementInEventPath(ev, el => el === element || el === pickerElem)) {
+        if (findElementInEventPath(ev, (el) => el === element || el === pickerElem)) {
             return;
         }
         unfocus(datepicker);
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/Datepicker.js
-
-
-
-
-
-
-
-
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/Datepicker.js
 
     function stringifyDates(dates, config) {
-        return dates
-            .map(dt => formatDate(dt, config.format, config.locale))
-            .join(config.dateDelimiter);
+        return dates.map((dt) => formatDate(dt, config.format, config.locale)).join(config.dateDelimiter);
     }
 
     // parse input dates and create an array of time values for selection
@@ -2223,20 +2118,16 @@
                 // is the range-end picker of a rangepicker
                 const dt = new Date(date);
                 if (config.pickLevel === 1) {
-                    date = rangeEnd
-                        ? dt.setMonth(dt.getMonth() + 1, 0)
-                        : dt.setDate(1);
+                    date = rangeEnd ? dt.setMonth(dt.getMonth() + 1, 0) : dt.setDate(1);
                 } else {
-                    date = rangeEnd
-                        ? dt.setFullYear(dt.getFullYear() + 1, 0, 0)
-                        : dt.setMonth(0, 1);
+                    date = rangeEnd ? dt.setFullYear(dt.getFullYear() + 1, 0, 0) : dt.setMonth(0, 1);
                 }
             }
             if (
-                isInRange(date, config.minDate, config.maxDate)
-                && !dates.includes(date)
-                && !config.datesDisabled.includes(date)
-                && !config.daysOfWeekDisabled.includes(new Date(date).getDay())
+                isInRange(date, config.minDate, config.maxDate) &&
+                !dates.includes(date) &&
+                !config.datesDisabled.includes(date) &&
+                !config.daysOfWeekDisabled.includes(new Date(date).getDay())
             ) {
                 dates.push(date);
             }
@@ -2247,17 +2138,18 @@
         }
         if (config.multidate && !clear) {
             // get the synmetric difference between origDates and newDates
-            newDates = newDates.reduce((dates, date) => {
-                if (!origDates.includes(date)) {
-                    dates.push(date);
-                }
-                return dates;
-            }, origDates.filter(date => !newDates.includes(date)));
+            newDates = newDates.reduce(
+                (dates, date) => {
+                    if (!origDates.includes(date)) {
+                        dates.push(date);
+                    }
+                    return dates;
+                },
+                origDates.filter((date) => !newDates.includes(date))
+            );
         }
         // do length check always because user can input multiple dates regardless of the mode
-        return config.maxNumberOfDates && newDates.length > config.maxNumberOfDates
-            ? newDates.slice(config.maxNumberOfDates * -1)
-            : newDates;
+        return config.maxNumberOfDates && newDates.length > config.maxNumberOfDates ? newDates.slice(config.maxNumberOfDates * -1) : newDates;
     }
 
     // refresh the UI elements
@@ -2317,18 +2209,21 @@
             this.element = element;
 
             // set up config
-            const config = this.config = Object.assign({
-                buttonClass: (options.buttonClass && String(options.buttonClass)) || 'button',
-                container: document.body,
-                defaultViewDate: today(),
-                maxDate: undefined,
-                minDate: undefined,
-            }, processOptions(options_defaultOptions, this));
+            const config = (this.config = Object.assign(
+                {
+                    buttonClass: (options.buttonClass && String(options.buttonClass)) || 'button',
+                    container: document.body,
+                    defaultViewDate: today(),
+                    maxDate: undefined,
+                    minDate: undefined,
+                },
+                processOptions(options_defaultOptions, this)
+            ));
             this._options = options;
             Object.assign(config, processOptions(options, this));
 
             // configure by type
-            const inline = this.inline = element.tagName !== 'INPUT';
+            const inline = (this.inline = element.tagName !== 'INPUT');
             let inputField;
             let initialDates;
 
@@ -2375,7 +2270,7 @@
                 inputField.value = stringifyDates(this.dates, config);
             }
 
-            const picker = this.picker = new Picker(this);
+            const picker = (this.picker = new Picker(this));
 
             if (inline) {
                 this.show();
@@ -2390,7 +2285,7 @@
                     [inputField, 'paste', onPaste.bind(null, this)],
                     [document, 'mousedown', onMousedownDocument],
                     [document, 'touchstart', onMousedownDocument],
-                    [window, 'resize', picker.place.bind(picker)]
+                    [window, 'resize', picker.place.bind(picker)],
                 ];
                 registerListeners(this, listeners);
             }
@@ -2411,7 +2306,7 @@
          * @return {String} formatted date
          */
         static formatDate(date, format, lang) {
-            return formatDate(date, format, lang && locales[lang] || locales.en);
+            return formatDate(date, format, (lang && locales[lang]) || locales.en);
         }
 
         /**
@@ -2430,7 +2325,7 @@
          * @return {Number} time value of parsed date
          */
         static parseDate(dateStr, format, lang) {
-            return parseDate(dateStr, format, lang && locales[lang] || locales.en);
+            return parseDate(dateStr, format, (lang && locales[lang]) || locales.en);
         }
 
         /**
@@ -2525,9 +2420,7 @@
          * selected, empty array in multidate mode and untitled in sigledate mode
          */
         getDate(format = undefined) {
-            const callback = format
-                ? date => formatDate(date, format, this.config.locale)
-                : date => new Date(date);
+            const callback = format ? (date) => formatDate(date, format, this.config.locale) : (date) => new Date(date);
 
             if (this.config.multidate) {
                 return this.dates.map(callback);
@@ -2580,12 +2473,7 @@
             const dates = [...args];
             const opts = {};
             const lastArg = lastItemOf(args);
-            if (
-                typeof lastArg === 'object'
-                && !Array.isArray(lastArg)
-                && !(lastArg instanceof Date)
-                && lastArg
-            ) {
+            if (typeof lastArg === 'object' && !Array.isArray(lastArg) && !(lastArg instanceof Date) && lastArg) {
                 Object.assign(opts, dates.pop());
             }
 
@@ -2668,12 +2556,7 @@
                 this.update(opts);
             }
         }
-    }
-
-    ;// CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/DateRangePicker.js
-
-
-
+    } // CONCATENATED MODULE: ./node_modules/@themesberg/tailwind-datepicker/js/DateRangePicker.js
 
     // filter out the config options inapproprite to pass to Datepicker
     function filterOptions(options) {
@@ -2687,9 +2570,7 @@
     }
 
     function setupDatepicker(rangepicker, changeDateListener, el, options) {
-        registerListeners(rangepicker, [
-            [el, 'changeDate', changeDateListener],
-        ]);
+        registerListeners(rangepicker, [[el, 'changeDate', changeDateListener]]);
         new Datepicker(el, options, rangepicker);
     }
 
@@ -2744,9 +2625,7 @@
          * @param  {Object} [options] - config options
          */
         constructor(element, options = {}) {
-            const inputs = Array.isArray(options.inputs)
-                ? options.inputs
-                : Array.from(element.querySelectorAll('input'));
+            const inputs = Array.isArray(options.inputs) ? options.inputs : Array.from(element.querySelectorAll('input'));
             if (inputs.length < 2) {
                 return;
             }
@@ -2781,12 +2660,7 @@
          * @type {Array} - selected date of the linked date pickers
          */
         get dates() {
-            return this.datepickers.length === 2
-                ? [
-                    this.datepickers[0].dates[0],
-                    this.datepickers[1].dates[0],
-                ]
-                : undefined;
+            return this.datepickers.length === 2 ? [this.datepickers[0].dates[0], this.datepickers[1].dates[0]] : undefined;
         }
 
         /**
@@ -2827,11 +2701,9 @@
          * @return {Array} - Start and end dates
          */
         getDates(format = undefined) {
-            const callback = format
-                ? date => formatDate(date, format, this.datepickers[0].config.locale)
-                : date => new Date(date);
+            const callback = format ? (date) => formatDate(date, format, this.datepickers[0].config.locale) : (date) => new Date(date);
 
-            return this.dates.map(date => date === undefined ? date : callback(date));
+            return this.dates.map((date) => (date === undefined ? date : callback(date)));
         }
 
         /**
@@ -2880,13 +2752,9 @@
                 onChangeDate(this, { target: this.inputs[0] });
             }
         }
-    }
+    } // CONCATENATED MODULE: ./src/plugins/datepicker.js
 
-    ;// CONCATENATED MODULE: ./src/plugins/datepicker.js
-
-
-
-    const getDatepickerOptions = datepickerEl => {
+    const getDatepickerOptions = (datepickerEl) => {
         const buttons = datepickerEl.hasAttribute('datepicker-buttons');
         const autohide = datepickerEl.hasAttribute('datepicker-autohide');
         const format = datepickerEl.hasAttribute('datepicker-format');
@@ -2928,6 +2796,5 @@
         new DateRangePicker(datepickerEl, getDatepickerOptions(datepickerEl));
     });
     /******/
-})()
-    ;
+})();
 //# sourceMappingURL=datepicker.bundle.js.map

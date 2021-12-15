@@ -89,7 +89,7 @@ const Input = (props) => {
                                 onChange={changeHandler}
                                 name='notification-method'
                                 type={props.type}
-                                defaultChecked={o === 'male'}
+                                defaultChecked={o === 'Male'}
                                 value={o}
                                 className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
                             />

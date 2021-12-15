@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Main from './Main';
 import Service from './service-available/pages/Service';
 import Setting from './Setting';
+import Signin from './authentication-page/pages/Signin';
 import Register from './authentication-page/pages/Register';
-import RegisterProvider from './authentication-page/pages/RegisterProvider';
 import Login from './authentication-page/pages/Login';
 import AboutUs from './shared/pages/AboutUs';
 import Navbar from './shared/components/Navbar';
@@ -30,8 +30,8 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<Main />}></Route>
                     {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}
-                    {!isLoggedIn && <Route path='/register' element={<Register />}></Route>}
-                    <Route path='/register-as-provider' element={<RegisterProvider />}></Route>
+                    {!isLoggedIn && <Route path='/signin' element={<Signin />}></Route>}
+                    <Route path='/register' element={<Register />}></Route>
                     <Route path='/aboutus' element={<AboutUs />}></Route>
                     <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
                     <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
