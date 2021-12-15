@@ -10,6 +10,8 @@ router.get('/:uid', userController.getUserById);
 
 router.post('/signup', userController.signup);
 
+router.post('/register', userController.register);
+
 router.post('/login', userController.login);
 
 router.patch('/:uid', userController.updateUser);

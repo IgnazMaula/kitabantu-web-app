@@ -104,6 +104,44 @@ const signup = async (req, res, next) => {
     res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
+const register = async (req, res, next) => {
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
+    // }
+    const { email, password, name, location, userType, description, vaccinated } = req.body;
+    let existingUser;
+    try {
+        existingUser = await User.findOne({ email: email });
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
+    if (existingUser) {
+        return next(new HttpError('User already exist, please Log in', 422));
+    }
+
+    const createdUser = new User({
+        email,
+        password,
+        name,
+        role: 'Provider',
+        location,
+        userType,
+        description,
+        vaccinated,
+        services: [],
+    });
+
+    try {
+        await createdUser.save();
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
+    res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+};
+
 const login = async (req, res, next) => {
     const { email, password } = req.body;
 
@@ -144,6 +182,7 @@ module.exports = {
     getAllUser,
     getUserById,
     signup,
+    register,
     login,
     updateUser,
     deleteUser,

@@ -74,7 +74,9 @@ const Input = (props) => {
                 className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
             >
                 {props.option.map((o) => (
-                    <option value={o}>{o}</option>
+                    <option value={o} key={o}>
+                        {o}
+                    </option>
                 ))}
             </select>
         );
@@ -83,18 +85,18 @@ const Input = (props) => {
             <fieldset className='mt-4'>
                 <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6'>
                     {props.option.map((o) => (
-                        <div key={o} className='flex items-center'>
+                        <div key={o.option} className='flex items-center'>
                             <input
-                                id={o}
+                                id={o.option}
                                 onChange={changeHandler}
                                 name='notification-method'
                                 type={props.type}
-                                defaultChecked={o === 'Male'}
-                                value={o}
+                                defaultChecked={o.value === props.option[0].value}
+                                value={o.value}
                                 className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
                             />
                             <label htmlFor={o} className='ml-3 block text-sm font-medium text-gray-700'>
-                                {o}
+                                {o.option}
                             </label>
                         </div>
                     ))}
@@ -102,7 +104,17 @@ const Input = (props) => {
             </fieldset>
         );
     } else {
-        element = <textarea id={props.id} rows={props.rows || 3} onChange={changeHandler} onBlur={touchHandler} value={inputState.value} />;
+        element = (
+            <textarea
+                id={props.id}
+                rows={props.rows || 4}
+                placeholder={props.placeholder}
+                onChange={changeHandler}
+                onBlur={touchHandler}
+                value={inputState.value}
+                className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+            />
+        );
     }
 
     return (

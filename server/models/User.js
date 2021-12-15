@@ -18,8 +18,8 @@ const userSchema = new Schema({
     gender: { type: String, required: false, default: undefined },
     occupation: { type: String, required: false, default: undefined },
     // Properties of Service Provider
-    description: { type: String, required: false, default: undefined },
     userType: { type: String, required: false, default: undefined },
+    description: { type: String, required: false, default: undefined },
     vaccinated: { type: Boolean, required: false, default: undefined },
     // Collections of Service Client
     orders: [{ type: String, required: false }],

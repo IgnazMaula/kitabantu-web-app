@@ -8,16 +8,16 @@ import Navbar from './shared/components/Navbar';
 import Footer from './shared/components/Footer';
 
 const Main = (props) => {
-  return (
-    <div>
-      <Navbar />
-      <Header />
-      <Category />
-      <Content services={services} />
-      <CalltoAction />
-      <Footer />
-    </div>
-  );
+    return (
+        <div>
+            <Navbar />
+            <Header />
+            <Category />
+            <Content services={services} />
+            <CalltoAction />
+            <Footer />
+        </div>
+    );
 };
 
 export default Main;

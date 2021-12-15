@@ -10,7 +10,10 @@ import RadioButton from '../components/RadioButton';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
 const occupations = ['Students', 'Worker', 'Housewife/Husband'];
-const genders = ['Male', 'Female'];
+const genders = [
+    { option: 'Male', value: 'Male' },
+    { option: 'Female', value: 'Female' },
+];
 
 export default function Signin() {
     const auth = useContext(AuthContext);
