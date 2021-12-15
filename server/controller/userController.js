@@ -59,30 +59,40 @@ const getUserById = (req, res, next) => {
     }
 };
 
-const signup = (req, res, next) => {
+const signup = async (req, res, next) => {
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
     //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
     // }
-    const { email, password, firstName, lastName } = req.body;
-
-    const hasUser = users.find((u) => u.email === email);
-    if (hasUser) {
-        throw new HttpError('Could not create user, email already exists.', 422);
+    const { email, password, name, location, gender, occupation } = req.body;
+    let existingUser;
+    try {
+        existingUser = await User.findOne({ email: email });
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
     }
 
-    const createdUser = {
-        id: uuid(),
+    if (existingUser) {
+        return next(new HttpError('User already exist, please Log in', 422));
+    }
+
+    const createdUser = new User({
         email,
         password,
-        firstName, // name: name
-        lastName,
-        role: 'admin',
-    };
+        name,
+        role: 'client',
+        location,
+        gender,
+        occupation,
+    });
 
-    users.push(createdUser);
+    try {
+        await createdUser.save();
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
 
-    res.status(201).json({ user: createdUser });
+    res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
 
 const login = (req, res, next) => {

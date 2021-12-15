@@ -27,7 +27,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect('mongodb+srv://ignazmaula:sAnfUUO9J473iz4J@cluster0.wsn80.mongodb.net/kitaBantu?retryWrites=true&w=majority')
+    .connect('mongodb+srv://ignazmaula:sAnfUUO9J473iz4J@cluster0.wsn80.mongodb.net/KitaBantu?retryWrites=true&w=majority')
     .then(() => app.listen(5000))
     .catch((err) => {
         console.log(err);
