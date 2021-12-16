@@ -79,7 +79,7 @@ const signup = async (req, res, next) => {
     }
 
     if (existingUser) {
-        return next(new HttpError('The user that you tried to register already exist, please login!', 422));
+        return next(new HttpError('The user email that you tried to register already exist, please login to your account!', 422));
     }
 
     const createdUser = new User({
@@ -118,7 +118,7 @@ const register = async (req, res, next) => {
     }
 
     if (existingUser) {
-        return next(new HttpError('The user that you tried to register already exist, please login!', 422));
+        return next(new HttpError('The user email that you tried to register already exist, please login to your account!', 422));
     }
 
     const createdUser = new User({
