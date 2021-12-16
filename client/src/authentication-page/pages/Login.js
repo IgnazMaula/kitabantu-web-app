@@ -6,10 +6,11 @@ import Input from '../../authentication-page/components/Input';
 import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import ErrorModal from '../../shared/components/modal/ErrorModal';
 
 export default function Login() {
     const auth = useContext(AuthContext);
-    const [isLoginMode, setIsLoginMode] = useState(true);
+    const [error, setError] = useState(false);
 
     const [formState, inputHandler, setFormData] = useForm(
         {
@@ -25,45 +26,38 @@ export default function Login() {
         false
     );
 
-    const switchModeHandler = () => {
-        if (!isLoginMode) {
-            setFormData(
-                {
-                    ...formState.inputs,
-                    name: undefined,
+    const authSubmitHandler = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5000/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                formState.inputs.email.isValid && formState.inputs.password.isValid
-            );
-        } else {
-            setFormData(
-                {
-                    ...formState.inputs,
-                    name: {
-                        value: '',
-                        isValid: false,
-                    },
-                },
-                false
-            );
+                body: JSON.stringify({
+                    email: formState.inputs.email.value,
+                    password: formState.inputs.password.value,
+                }),
+            });
+
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+            console.log(responseData);
+            auth.login();
+        } catch (error) {
+            console.log(error);
+            setError(error.message || 'Something is wrong, please try again.');
         }
-        setIsLoginMode((prevMode) => !prevMode);
+    };
+    const errorHandler = () => {
+        setError(null);
     };
 
-    const authSubmitHandler = (event) => {
-        event.preventDefault();
-        console.log(formState.inputs);
-        auth.login();
-    };
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
+            <ErrorModal error={error} onClear={errorHandler} />
             <div className='min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
                 <div className='max-w-md w-full space-y-8'>
                     <div>
