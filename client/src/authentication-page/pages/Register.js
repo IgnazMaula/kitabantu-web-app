@@ -17,6 +17,8 @@ const vaccinations = [
 
 export default function Register() {
     const auth = useContext(AuthContext);
+    const [error, setError] = useState(false);
+
     const [formState, inputHandler, setFormData] = useForm(
         {
             email: {
@@ -75,12 +77,17 @@ export default function Register() {
             });
 
             const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
             console.log(responseData);
+            auth.login();
         } catch (error) {
             console.log(error);
+            setError(error.message || 'Something is wrong, please try again.');
         }
-        auth.login();
     };
+
     return (
         <>
             {/*
