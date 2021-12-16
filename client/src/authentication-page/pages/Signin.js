@@ -7,6 +7,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import RadioButton from '../components/RadioButton';
+import ErrorModal from '../../shared/components/modal/ErrorModal';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
 const occupations = ['Students', 'Worker', 'Housewife/Husband'];
@@ -82,16 +83,14 @@ export default function Signin() {
             setError(error.message || 'Something is wrong, please try again.');
         }
     };
+
+    const errorHandler = () => {
+        setError(null);
+    };
+
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
+            <ErrorModal error={error} onClear={errorHandler} />
             <div className='min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
                 <div className='max-w-md w-full space-y-8'>
                     <div>
