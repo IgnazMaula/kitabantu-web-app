@@ -156,7 +156,7 @@ const login = async (req, res, next) => {
         return next(new HttpError('Failed to login, invalid credential', 401));
     }
 
-    res.json({ message: 'Logged in!' });
+    res.json({ message: 'Logged in!', user: existingUser.toObject({ getters: true }) });
 };
 
 const updateUser = (req, res, next) => {

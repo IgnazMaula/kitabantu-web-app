@@ -17,16 +17,19 @@ import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const login = useCallback(() => {
+    const [loggedUser, setLoggedUser] = useState();
+    const login = useCallback((user) => {
         setIsLoggedIn(true);
+        setLoggedUser(user);
     }, []);
     const logout = useCallback(() => {
         setIsLoggedIn(false);
+        setLoggedUser(null);
     }, []);
 
     return (
         <>
-            <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}>
+            <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, loggedUser: loggedUser, login: login, logout: logout }}>
                 <Routes>
                     <Route path='/' element={<Main />}></Route>
                     {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}

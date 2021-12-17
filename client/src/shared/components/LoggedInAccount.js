@@ -4,22 +4,28 @@ import { AuthContext } from '../context/auth-context';
 
 const LoggedInAccount = (props) => {
     const auth = useContext(AuthContext);
-    let bg = '';
-    // if (props.currentRole === 'Service Client') {
-    //     bg = 'bg-red-800';
-    // } else if (props.currentRole === 'Service Provider') {
-    //     bg = 'bg-green-600';
-    // } else if (props.currentRole === 'Admin') {
-    //     bg = 'bg-blue-800';
-    // } else {
-    //     bg = 'bg-gray-400';
-    // }
-    auth.isLoggedIn ? (bg = 'bg-green-600') : (bg = 'bg-gray-400');
+    let bg;
+    let accountType;
+
+    if (auth.isLoggedIn) {
+        if (auth.loggedUser.role === 'Client') {
+            bg = 'bg-green-600';
+            accountType = 'Service Client Account';
+        } else if (auth.loggedUser.role === 'Provider') {
+            bg = 'bg-blue-800';
+            accountType = 'Service Provider Account';
+        } else if (auth.loggedUser.role === 'Admin') {
+            bg = 'bg-red-800';
+            accountType = 'Administrator Account';
+        }
+    } else {
+        bg = 'bg-gray-400';
+        accountType = 'Not Logged in';
+    }
+
     return (
         <div>
-            <p className={`${bg} h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8`}>
-                {auth.isLoggedIn ? 'Logged In' : 'Not Logged In'}
-            </p>
+            <p className={`${bg} h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8`}>{accountType}</p>
         </div>
     );
 };

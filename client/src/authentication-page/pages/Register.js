@@ -81,8 +81,8 @@ export default function Register() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            console.log(responseData);
-            auth.login();
+            console.log(responseData.user);
+            auth.login(responseData.user);
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');

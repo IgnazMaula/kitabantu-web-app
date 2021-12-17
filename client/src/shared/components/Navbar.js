@@ -275,7 +275,7 @@ export default function Navbar(props) {
             </Transition.Root>
 
             <header className='relative bg-white'>
-                <LoggedInAccount currentRole={currentRole} />
+                <LoggedInAccount />
                 <nav aria-label='Top' className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
                     <div className='border-b border-gray-200'>
                         <div className='h-16 flex items-center'>
@@ -328,26 +328,6 @@ export default function Navbar(props) {
                                                             <div className='relative bg-white'>
                                                                 <div className='max-w-7xl mx-auto px-8'>
                                                                     <div className='grid grid-cols-1 gap-y-10 gap-x-8 py-16'>
-                                                                        {/* <div className="col-start-2 grid grid-cols-2 gap-x-8">
-                                      {category.featured.map((item) => (
-                                        <div key={item.name} className="group relative text-base sm:text-sm">
-                                          <div className="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75">
-                                            <img
-                                              src={item.imageSrc}
-                                              alt={item.imageAlt}
-                                              className="object-center object-cover"
-                                            />
-                                          </div>
-                                          <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                            <span className="absolute z-10 inset-0" aria-hidden="true" />
-                                            {item.name}
-                                          </a>
-                                          <p aria-hidden="true" className="mt-1">
-                                            Shop now
-                                          </p>
-                                        </div>
-                                      ))}
-                                    </div> */}
                                                                         <div className='row-start-1 grid grid-cols-6 gap-y-10 gap-x-8 text-sm'>
                                                                             {category.sections.map((section) => (
                                                                                 <div key={section.name}>
@@ -410,7 +390,7 @@ export default function Navbar(props) {
                                     ) : (
                                         <>
                                             <NavLink to='/login' className='text-sm font-medium text-gray-700 hover:text-gray-800'>
-                                                Hello, Mr. Ignaz Maula
+                                                Welcome, {auth.loggedUser.gender === 'Male' ? 'Mr.' : 'Ms.'} {auth.loggedUser.name}
                                             </NavLink>
                                         </>
                                     )}
