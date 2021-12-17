@@ -70,7 +70,7 @@ const signup = async (req, res, next) => {
     // if (!errors.isEmpty()) {
     //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
     // }
-    const { email, password, name, location, gender, occupation } = req.body;
+    const { email, password, name, location, identityNumber, phoneNumber, address, gender, occupation } = req.body;
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email });
@@ -88,6 +88,9 @@ const signup = async (req, res, next) => {
         name,
         role: 'Client',
         location,
+        identityNumber,
+        phoneNumber,
+        address,
         gender,
         occupation,
         orders: [],
@@ -109,7 +112,7 @@ const register = async (req, res, next) => {
     // if (!errors.isEmpty()) {
     //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
     // }
-    const { email, password, name, location, userType, description, vaccinated } = req.body;
+    const { email, password, name, location, identityNumber, phoneNumber, address, userType, description, vaccinated } = req.body;
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email });
@@ -127,6 +130,9 @@ const register = async (req, res, next) => {
         name,
         role: 'Provider',
         location,
+        identityNumber,
+        phoneNumber,
+        address,
         userType,
         description,
         vaccinated,

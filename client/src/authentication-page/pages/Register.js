@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import RadioButton from '../components/RadioButton';
 import ErrorModal from '../../shared/components/modal/ErrorModal';
 
@@ -30,11 +30,7 @@ export default function Register() {
                 value: '',
                 isValid: false,
             },
-            firstName: {
-                value: '',
-                isValid: false,
-            },
-            lastName: {
+            name: {
                 value: '',
                 isValid: false,
             },
@@ -42,18 +38,6 @@ export default function Register() {
                 value: '',
                 isValid: false,
             },
-            // location: {
-            //     value: '',
-            //     isValid: false,
-            // },
-            // gender: {
-            //     value: '',
-            //     isValid: false,
-            // },
-            // occupation: {
-            //     value: '',
-            //     isValid: false,
-            // },
         },
         false
     );
@@ -69,8 +53,11 @@ export default function Register() {
                 body: JSON.stringify({
                     email: formState.inputs.email.value,
                     password: formState.inputs.password.value,
-                    name: formState.inputs.firstName.value + ' ' + formState.inputs.lastName.value,
+                    name: formState.inputs.name.value,
                     location: formState.inputs.location.value,
+                    identityNumber: formState.inputs.identityNumber.value,
+                    phoneNumber: formState.inputs.phoneNumber.value,
+                    address: formState.inputs.address.value,
                     userType: formState.inputs.userType.value,
                     vaccinated: formState.inputs.vaccinated.value,
                     description: formState.inputs.description.value,
@@ -96,7 +83,7 @@ export default function Register() {
     return (
         <>
             <ErrorModal error={error} onClear={errorHandler} />
-            <div className='min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+            <div className=' flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
                 <div className='max-w-md w-full space-y-8'>
                     <div>
                         <Link to='/'>
@@ -111,39 +98,22 @@ export default function Register() {
                         </p>
                     </div>
                     <form className='space-y-6' onSubmit={authSubmitHandler}>
-                        <div className='mt-6 grid grid-cols-4 gap-6'>
-                            <div className='col-span-4 sm:col-span-2'>
-                                <Input
-                                    element='input'
-                                    id='firstName'
-                                    type='text'
-                                    label='First Name'
-                                    placeholder='first name'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
-                                    errorText='Please enter a valid name.'
-                                    onInput={inputHandler}
-                                />
-                            </div>
-
-                            <div className='col-span-4 sm:col-span-2'>
-                                <Input
-                                    element='input'
-                                    id='lastName'
-                                    type='text'
-                                    label='Last Name'
-                                    placeholder='last name'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
-                                    errorText='Please enter a valid name.'
-                                    onInput={inputHandler}
-                                />
-                            </div>
-                        </div>
+                        <Input
+                            element='input'
+                            id='name'
+                            type='text'
+                            label='Your Name'
+                            placeholder='Your name'
+                            validators={[VALIDATOR_MINLENGTH(4)]}
+                            errorText='Please enter a valid name.'
+                            onInput={inputHandler}
+                        />
                         <Input
                             element='input'
                             id='email'
                             type='email'
                             label='Email'
-                            placeholder='email'
+                            placeholder='Email'
                             validators={[VALIDATOR_EMAIL()]}
                             errorText='Please enter a valid email address'
                             onInput={inputHandler}
@@ -153,29 +123,65 @@ export default function Register() {
                             id='password'
                             type='password'
                             label='Password'
-                            placeholder='password'
-                            validators={[VALIDATOR_MINLENGTH(5)]}
-                            errorText='Please enter a valid password, at least 5 characters.'
+                            placeholder='Password'
+                            validators={[VALIDATOR_MINLENGTH(6)]}
+                            errorText='Please enter a valid password, at least 6 characters.'
                             onInput={inputHandler}
                         />
+                        <div className='mt-6 grid grid-cols-4 gap-6'>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='input'
+                                    id='identityNumber'
+                                    type='number'
+                                    label='National Identity Number'
+                                    placeholder='Identity number'
+                                    validators={[VALIDATOR_MINLENGTH(16), VALIDATOR_MAXLENGTH(16)]}
+                                    errorText='Please enter a valid 16-digit identity number'
+                                    onInput={inputHandler}
+                                />
+                            </div>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='input'
+                                    id='phoneNumber'
+                                    type='tel'
+                                    label='Phone Number'
+                                    placeholder='Telephone number'
+                                    validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(20)]}
+                                    errorText='Please enter a valid phone number'
+                                    onInput={inputHandler}
+                                />
+                            </div>
+                        </div>
                         <div>
                             <Input
                                 element='option'
                                 id='location'
                                 label='Location'
-                                validators={[VALIDATOR_MINLENGTH(1)]}
-                                errorText='Please enter a valid location.'
+                                validators={[VALIDATOR_REQUIRE()]}
+                                errorText='Please enter a valid location'
                                 onInput={inputHandler}
                                 option={locations}
                             />
                         </div>
+                        <Input
+                            element='input'
+                            id='address'
+                            type='text'
+                            label='Address'
+                            placeholder='Your address'
+                            validators={[VALIDATOR_MINLENGTH(10)]}
+                            errorText='Please enter a valid address'
+                            onInput={inputHandler}
+                        />
                         <div className='mt-6 grid grid-cols-5 gap-6'>
                             <div className='col-span-4 sm:col-span-2'>
                                 <Input
                                     element='option'
                                     id='userType'
                                     label='Type of User'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
+                                    validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid user type.'
                                     onInput={inputHandler}
                                     option={userTypes}
@@ -187,7 +193,7 @@ export default function Register() {
                                     id='vaccinated'
                                     type='radio'
                                     label='Vaccination Status'
-                                    validators={[]}
+                                    validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid vaccination status.'
                                     onInput={inputHandler}
                                     option={vaccinations}
@@ -199,7 +205,7 @@ export default function Register() {
                             <Input
                                 element='textarea'
                                 id='description'
-                                placeholder='description about yourself/group/corporation'
+                                placeholder='Description about yourself/group/corporation'
                                 label='Description'
                                 validators={[VALIDATOR_MINLENGTH(12)]}
                                 errorText='Description is too short.'
