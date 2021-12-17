@@ -141,7 +141,7 @@ const navigation = {
     ],
     pages: [
         { name: 'About KitaBantu', href: '/aboutus' },
-        { name: 'Become Service Provider', href: '/register' },
+        // { name: 'Become Service Provider', href: '/register' },
     ],
 };
 
@@ -380,11 +380,11 @@ export default function Navbar(props) {
                                     {!auth.isLoggedIn ? (
                                         <>
                                             <NavLink to='/login' className='text-sm font-medium text-gray-700 hover:text-gray-800'>
-                                                Log in
+                                                Login
                                             </NavLink>
                                             <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
-                                            <NavLink to='/signin' className='text-sm font-medium text-gray-700 hover:text-gray-800'>
-                                                Create account
+                                            <NavLink to='/register' className='text-sm font-medium text-gray-700 hover:text-gray-800'>
+                                                Register Now
                                             </NavLink>
                                         </>
                                     ) : (

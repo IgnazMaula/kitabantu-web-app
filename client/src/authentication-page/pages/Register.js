@@ -105,7 +105,7 @@ export default function Register() {
                         <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 pt-12'>Register as Service Provider</h2>
                         <p className='mt-2 text-center text-sm text-gray-600'>
                             Or{' '}
-                            <Link to='/login' className='font-medium text-red-600 hover:text-red-500'>
+                            <Link to='/login' className='font-medium text-blue-600 hover:text-blue-500'>
                                 Login to Your Account
                             </Link>
                         </p>
@@ -211,11 +211,11 @@ export default function Register() {
                             <button
                                 disabled={!formState.isValid}
                                 type='submit'
-                                className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-60'
+                                className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-60'
                             >
                                 {!formState.isValid && (
                                     <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
-                                        <LockClosedIcon className='h-5 w-5 text-red-500 group-hover:text-red-400' aria-hidden='true' />
+                                        <LockClosedIcon className='h-5 w-5 text-blue-500 group-hover:text-blue-400' aria-hidden='true' />
                                     </span>
                                 )}
                                 Register Now
@@ -223,7 +223,7 @@ export default function Register() {
                         </div>
                     </form>
                     <div className='text-sm text-center'>
-                        <Link to='/' className='font-medium text-red-600 hover:text-red-500'>
+                        <Link to='/' className='font-medium text-blue-600 hover:text-blue-500'>
                             Back to home
                         </Link>
                     </div>

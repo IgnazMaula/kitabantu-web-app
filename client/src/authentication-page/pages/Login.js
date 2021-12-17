@@ -67,7 +67,7 @@ export default function Login() {
                         <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 pt-12'>Login to Your Account</h2>
                         <p className='mt-2 text-center text-sm text-gray-600'>
                             Or{' '}
-                            <Link to='/signin' className='font-medium text-red-600 hover:text-red-500'>
+                            <Link to='/register' className='font-medium text-red-600 hover:text-red-500'>
                                 Create New Account
                             </Link>
                         </p>
@@ -97,7 +97,7 @@ export default function Login() {
                         </div>
 
                         <div className='flex items-center justify-between'>
-                            <div className='flex items-center'>
+                            {/* <div className='flex items-center'>
                                 <input
                                     id='remember-me'
                                     name='remember-me'
@@ -113,7 +113,7 @@ export default function Login() {
                                 <a href='#' className='font-medium text-red-600 hover:text-red-500'>
                                     Forgot your password?
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div>

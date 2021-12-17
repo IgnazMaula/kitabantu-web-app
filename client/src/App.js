@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Main from './Main';
 import Service from './service-available/pages/Service';
 import Setting from './Setting';
-import Signin from './authentication-page/pages/Signin';
+import Signup from './authentication-page/pages/Signup';
 import Register from './authentication-page/pages/Register';
 import Login from './authentication-page/pages/Login';
 import AboutUs from './shared/pages/AboutUs';
@@ -14,6 +14,7 @@ import ClientDashboard from './service-client/pages/ClientDashboard';
 import Browse from './shared/pages/Browse';
 
 import { AuthContext } from './shared/context/auth-context';
+import RegisterMenu from './authentication-page/pages/RegisterMenu';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,8 +34,9 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<Main />}></Route>
                     {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}
-                    {!isLoggedIn && <Route path='/signin' element={<Signin />}></Route>}
-                    {!isLoggedIn && <Route path='/register' element={<Register />}></Route>}
+                    {!isLoggedIn && <Route path='/register' element={<RegisterMenu />}></Route>}
+                    {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
+                    {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
                     <Route path='/aboutus' element={<AboutUs />}></Route>
                     <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
                     <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
