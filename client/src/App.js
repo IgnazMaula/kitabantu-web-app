@@ -38,7 +38,7 @@ const App = () => {
                     {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
                     <Route path='/aboutus' element={<AboutUs />}></Route>
-                    <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
+                    {isLoggedIn && <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>}
                     <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
                     <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>
                     <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>

@@ -1,8 +1,12 @@
+import { useContext } from 'react';
+
 import ClientBookmarks from './ClientBookmarks';
 import ClientReviews from './ClientReviews';
 import ServiceHistory from './ServiceHistory';
+import { AuthContext } from '../../shared/context/auth-context';
 
 const ClientProfile = (props) => {
+    const auth = useContext(AuthContext);
     if (props.activeMenu === 'My Profile') {
         return (
             <div>
@@ -49,7 +53,7 @@ const ClientProfile = (props) => {
                                         </div>
 
                                         <div className='hidden relative rounded-full overflow-hidden lg:block'>
-                                            <img className='relative rounded-full w-40 h-40' src={props.user.imageUrl} alt='' />
+                                            <img className='relative rounded-full w-40 h-40' src={auth.loggedUser.image} alt='' />
                                             <label
                                                 htmlFor='desktop-user-photo'
                                                 className='absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100'
@@ -70,7 +74,7 @@ const ClientProfile = (props) => {
                                 <div className='mt-6 grid grid-cols-4 gap-6'>
                                     <div className='col-span-4 sm:col-span-2'>
                                         <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
-                                            First name
+                                            Name
                                         </label>
                                         <input
                                             type='text'
@@ -78,22 +82,7 @@ const ClientProfile = (props) => {
                                             id='first-name'
                                             autoComplete='cc-given-name'
                                             className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
-                                            placeholder='Ignaz'
-                                            disabled
-                                        />
-                                    </div>
-
-                                    <div className='col-span-4 sm:col-span-2'>
-                                        <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
-                                            Last name
-                                        </label>
-                                        <input
-                                            type='text'
-                                            name='last-name'
-                                            id='last-name'
-                                            autoComplete='cc-family-name'
-                                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
-                                            placeholder='Maula'
+                                            placeholder={auth.loggedUser.name}
                                             disabled
                                         />
                                     </div>
@@ -113,17 +102,32 @@ const ClientProfile = (props) => {
                                         />
                                     </div>
 
-                                    <div className='col-span-4 sm:col-span-1'>
-                                        <label htmlFor='expiration-date' className='block text-sm font-medium text-gray-700'>
-                                            Username
+                                    <div className='col-span-4 sm:col-span-2'>
+                                        <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                                            Occupation
                                         </label>
                                         <input
                                             type='text'
-                                            name='expiration-date'
-                                            id='expiration-date'
+                                            name='occupation'
+                                            id='occupation'
+                                            autoComplete='cc-family-name'
+                                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                            placeholder={auth.loggedUser.occupation}
+                                            disabled
+                                        />
+                                    </div>
+
+                                    <div className='col-span-4 sm:col-span-1'>
+                                        <label htmlFor='gender' className='block text-sm font-medium text-gray-700'>
+                                            Gender
+                                        </label>
+                                        <input
+                                            type='text'
+                                            name='gender'
+                                            id='gender'
                                             autoComplete='cc-exp'
                                             className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
-                                            placeholder='ignazmaula169'
+                                            placeholder={auth.loggedUser.gender}
                                             disabled
                                         />
                                     </div>
@@ -131,7 +135,7 @@ const ClientProfile = (props) => {
                                     <div className='col-span-4 sm:col-span-1'>
                                         <label htmlFor='security-code' className='flex items-center text-sm font-medium text-gray-700'>
                                             <label htmlFor='role' className='block text-sm font-medium text-gray-700'>
-                                                Role
+                                                Account Type
                                             </label>
                                         </label>
                                         <input
@@ -146,10 +150,26 @@ const ClientProfile = (props) => {
                                     </div>
 
                                     <div className='col-span-4 sm:col-span-2'>
+                                        <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
+                                            Location
+                                        </label>
+                                        <input
+                                            type='text'
+                                            name='location'
+                                            id='location'
+                                            autoComplete='cc-family-name'
+                                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                            placeholder={auth.loggedUser.location}
+                                            disabled
+                                        />
+                                    </div>
+
+                                    {/* <div className='col-span-4 sm:col-span-2'>
                                         <label htmlFor='country' className='block text-sm font-medium text-gray-700'>
                                             Location
                                         </label>
                                         <select
+                                            disabled
                                             id='country'
                                             name='country'
                                             autoComplete='country-name'
@@ -159,9 +179,9 @@ const ClientProfile = (props) => {
                                             <option>Surabaya</option>
                                             <option>Bali</option>
                                         </select>
-                                    </div>
+                                    </div> */}
 
-                                    <div className='col-span-4 sm:col-span-2'>
+                                    {/* <div className='col-span-4 sm:col-span-2'>
                                         <label htmlFor='postal-code' className='block text-sm font-medium text-gray-700'>
                                             ZIP / Postal code
                                         </label>
@@ -172,7 +192,7 @@ const ClientProfile = (props) => {
                                             autoComplete='postal-code'
                                             className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className='px-4 py-3 text-right sm:px-6'>
