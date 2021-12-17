@@ -3,7 +3,7 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react';
 import { MenuIcon, UserCircleIcon, ChatAlt2Icon, XIcon } from '@heroicons/react/outline';
 import { NavLink } from 'react-router-dom';
 
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu from './dropdown/DropdownMenu';
 import LoggedInAccount from './LoggedInAccount';
 import { AuthContext } from '../context/auth-context';
 
@@ -398,7 +398,9 @@ export default function Navbar(props) {
                                         ) : (
                                             <>
                                                 <NavLink to='/login' className='text-sm font-medium text-gray-700 hover:text-gray-800'>
-                                                    Welcome, {auth.loggedUser.gender === 'Male' ? 'Mr.' : 'Ms.'} {auth.loggedUser.name}
+                                                    Welcome, {auth.loggedUser.role === 'Client' && auth.loggedUser.gender === 'Male' && 'Mr.'}
+                                                    {auth.loggedUser.role === 'Client' && auth.loggedUser.gender === 'Female' && 'Ms.'}{' '}
+                                                    {auth.loggedUser.name}
                                                 </NavLink>
                                             </>
                                         )}
