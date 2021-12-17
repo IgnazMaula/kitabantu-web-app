@@ -223,8 +223,8 @@ export default function Register() {
                         </div>
                     </form>
                     <div className='text-sm text-center'>
-                        <Link to='/' className='font-medium text-blue-600 hover:text-blue-500'>
-                            Back to home
+                        <Link to='/register' className='font-medium text-blue-600 hover:text-blue-500'>
+                            Back to Registration Menu
                         </Link>
                     </div>
                 </div>
