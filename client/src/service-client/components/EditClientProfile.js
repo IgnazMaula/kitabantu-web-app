@@ -2,14 +2,14 @@ import { useContext } from 'react';
 
 import { AuthContext } from '../../shared/context/auth-context';
 
-const ClientProfile = () => {
+const EditClientProfile = () => {
     const auth = useContext(AuthContext);
     return (
         <div>
             <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                 <div className='max-w-2xl mx-auto px-4 lg:max-w-4xl lg:px-0'>
                     <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Profile</h1>
-                    <p className='mt-2 text-sm text-gray-500'>View and edit the details of your account profile.</p>
+                    <p className='mt-2 text-sm text-gray-500'>Check the status of recent orders, manage returns, and discover similar products.</p>
                 </div>
             </div>
             <div className>
@@ -65,47 +65,97 @@ const ClientProfile = () => {
                                 </div>
                             </div>
 
-                            <div className='mt-6 grid grid-cols-6 gap-6'>
+                            <div className='mt-6 grid grid-cols-4 gap-6'>
                                 <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='name' className='block text-md font-medium text-gray-700'>
+                                    <label htmlFor='first-name' className='block text-sm font-medium text-gray-700'>
                                         Name
                                     </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.name}</p>
+                                    <input
+                                        type='text'
+                                        name='first-name'
+                                        id='first-name'
+                                        autoComplete='cc-given-name'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder={auth.loggedUser.name}
+                                        disabled
+                                    />
                                 </div>
 
                                 <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='email' className='block text-md font-medium text-gray-700'>
-                                        Email Address
+                                    <label htmlFor='email-address' className='block text-sm font-medium text-gray-700'>
+                                        Email address
                                     </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.email}</p>
+                                    <input
+                                        type='text'
+                                        name='email-address'
+                                        id='email-address'
+                                        autoComplete='email'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder='ignazmaula@gmail.com'
+                                        disabled
+                                    />
                                 </div>
 
                                 <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='occupation' className='block text-md font-medium text-gray-700'>
+                                    <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
                                         Occupation
                                     </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.occupation}</p>
+                                    <input
+                                        type='text'
+                                        name='occupation'
+                                        id='occupation'
+                                        autoComplete='cc-family-name'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder={auth.loggedUser.occupation}
+                                        disabled
+                                    />
                                 </div>
 
-                                <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='gender' className='block text-md font-medium text-gray-700'>
+                                <div className='col-span-4 sm:col-span-1'>
+                                    <label htmlFor='gender' className='block text-sm font-medium text-gray-700'>
                                         Gender
                                     </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.gender}</p>
+                                    <input
+                                        type='text'
+                                        name='gender'
+                                        id='gender'
+                                        autoComplete='cc-exp'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder={auth.loggedUser.gender}
+                                        disabled
+                                    />
+                                </div>
+
+                                <div className='col-span-4 sm:col-span-1'>
+                                    <label htmlFor='security-code' className='flex items-center text-sm font-medium text-gray-700'>
+                                        <label htmlFor='role' className='block text-sm font-medium text-gray-700'>
+                                            Account Type
+                                        </label>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        name='security-code'
+                                        id='security-code'
+                                        autoComplete='cc-csc'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder='Service Client'
+                                        disabled
+                                    />
                                 </div>
 
                                 <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='location' className='block text-md font-medium text-gray-700'>
+                                    <label htmlFor='last-name' className='block text-sm font-medium text-gray-700'>
                                         Location
                                     </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.location}</p>
-                                </div>
-
-                                <div className='col-span-4 sm:col-span-2'>
-                                    <label htmlFor='gender' className='block text-md font-medium text-gray-700'>
-                                        User Type
-                                    </label>
-                                    <p className='text-md mt-1  '>{auth.loggedUser.role}</p>
+                                    <input
+                                        type='text'
+                                        name='location'
+                                        id='location'
+                                        autoComplete='cc-family-name'
+                                        className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                                        placeholder={auth.loggedUser.location}
+                                        disabled
+                                    />
                                 </div>
 
                                 {/* <div className='col-span-4 sm:col-span-2'>
@@ -139,12 +189,12 @@ const ClientProfile = () => {
                                 </div> */}
                             </div>
                         </div>
-                        <div className='px-4 py-3 sm:px-6 text-right'>
+                        <div className='px-4 py-3 text-right sm:px-6'>
                             <button
                                 type='submit'
                                 className='bg-blue-800 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900'
                             >
-                                Edit Profile
+                                Edit Details
                             </button>
                         </div>
                     </div>
@@ -154,4 +204,4 @@ const ClientProfile = () => {
     );
 };
 
-export default ClientProfile;
+export default EditClientProfile;

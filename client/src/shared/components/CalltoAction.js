@@ -1,48 +1,36 @@
-import React from "react";
+import React from 'react';
 
 export const CalltoAction = () => {
     return (
         <div>
-            <section className="bg-red-700 px-4 py-12 mt-24 mb-12 mx-auto">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl font-extrabold leading-9 text-white sm:text-4xl sm:leading-10">
+            <section className='bg-red-700 px-4 py-12 mt-24 mx-auto'>
+                <div className='max-w-4xl mx-auto text-center'>
+                    <h2 className='text-3xl font-extrabold leading-9 text-white sm:text-4xl sm:leading-10'>
                         Providing Services from Our Trusted Partners Directly Into Your Home
                     </h2>
-                    <p className="mt-3 text-base leading-7 sm:mt-4 text-white">
+                    <p className='mt-3 text-base leading-7 sm:mt-4 text-white'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi beatae quibusdam numquam!
                     </p>
                 </div>
-                <div className="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
+                <div className='mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8'>
                     <div>
-                        <p className="text-5xl font-extrabold leading-none text-white">
-                            50
-                        </p>
-                        <p className="mt-2 text-base font-medium leading-6 text-white">
-                            Service Categories
-                        </p>
+                        <p className='text-5xl font-extrabold leading-none text-white'>50</p>
+                        <p className='mt-2 text-base font-medium leading-6 text-white'>Service Categories</p>
                     </div>
-                    <div className="mt-10 sm:mt-0">
-                        <p className="text-5xl font-extrabold leading-none text-white">
-                            125+
-                        </p>
-                        <p className="mt-2 text-base font-medium leading-6 text-white">
-                            Service Provider
-                        </p>
+                    <div className='mt-10 sm:mt-0'>
+                        <p className='text-5xl font-extrabold leading-none text-white'>125+</p>
+                        <p className='mt-2 text-base font-medium leading-6 text-white'>Service Provider</p>
                     </div>
-                    <div className="mt-10 sm:mt-0">
-                        <p className="text-5xl font-extrabold leading-none text-white">
-                            150+
-                        </p>
-                        <p className="mt-2 text-base font-medium leading-6 text-white">
-                            Services
-                        </p>
+                    <div className='mt-10 sm:mt-0'>
+                        <p className='text-5xl font-extrabold leading-none text-white'>150+</p>
+                        <p className='mt-2 text-base font-medium leading-6 text-white'>Services</p>
                     </div>
                 </div>
-                <div className="w-52 mx-auto mt-4 p-4 flex">
-                    <div className="rounded-md shadow">
+                <div className='w-52 mx-auto mt-4 p-4 flex'>
+                    <div className='rounded-md shadow'>
                         <a
-                            href="#"
-                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-800 hover:bg-red-600 md:py-4 md:text-lg md:px-10"
+                            href='#'
+                            className='w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-800 hover:bg-red-600 md:py-4 md:text-lg md:px-10'
                         >
                             Get started
                         </a>
