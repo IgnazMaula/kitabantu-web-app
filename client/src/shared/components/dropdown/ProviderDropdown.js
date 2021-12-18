@@ -2,18 +2,7 @@
 import { useContext } from 'react';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import {
-    ArchiveIcon,
-    ArrowCircleRightIcon,
-    ChevronDownIcon,
-    DuplicateIcon,
-    HeartIcon,
-    UserIcon,
-    TrashIcon,
-    StarIcon,
-    LogoutIcon,
-} from '@heroicons/react/solid';
-import { UserCircleIcon } from '@heroicons/react/outline';
+import { CollectionIcon, SaveIcon, CreditCardIcon, PlusCircleIcon, MenuIcon, UserCircleIcon, LogoutIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../context/auth-context';
@@ -52,7 +41,7 @@ export default function ProviderDropdown() {
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <UserIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
+                                    <UserCircleIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
                                     My Profile
                                 </Link>
                             )}
@@ -66,7 +55,7 @@ export default function ProviderDropdown() {
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <DuplicateIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
+                                    <SaveIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
                                     Manage Order
                                 </Link>
                             )}
@@ -82,7 +71,7 @@ export default function ProviderDropdown() {
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <DuplicateIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
+                                    <PlusCircleIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
                                     Add New Service
                                 </Link>
                             )}
@@ -96,7 +85,7 @@ export default function ProviderDropdown() {
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <DuplicateIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
+                                    <CollectionIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
                                     Manage My Service
                                 </Link>
                             )}

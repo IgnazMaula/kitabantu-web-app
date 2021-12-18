@@ -26,11 +26,11 @@
 import { Fragment, useState } from 'react';
 import { Disclosure, Menu, RadioGroup, Switch, Transition } from '@headlessui/react';
 import { QuestionMarkCircleIcon, SearchIcon } from '@heroicons/react/solid';
-import { StarIcon, CogIcon, CreditCardIcon, HeartIcon, ViewGridIcon, UserCircleIcon, ViewGridAddIcon, XIcon } from '@heroicons/react/outline';
+import { CollectionIcon, SaveIcon, CreditCardIcon, PlusCircleIcon, MenuIcon, UserCircleIcon, ViewGridAddIcon, XIcon } from '@heroicons/react/outline';
 
 import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
-import ClientMenu from '../components/ClientMenu';
+import ProviderMenu from '../components/ProviderMenu';
 import { Link } from 'react-router-dom';
 
 const user = {
@@ -51,9 +51,9 @@ const userNavigation = [
 ];
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: true },
-    { name: 'Order History', href: '/order-history', icon: ViewGridIcon, current: false },
-    { name: 'My Bookmarks', href: '/my-bookmarks', icon: HeartIcon, current: false },
-    { name: 'My Reviews', href: '/my-reviews', icon: StarIcon, current: false },
+    { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon, current: false },
+    { name: 'Add New Service', href: '/profile', icon: PlusCircleIcon, current: false },
+    { name: 'Manage My Service', href: '/profile', icon: CollectionIcon, current: false },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
 ];
@@ -78,7 +78,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function ClientDashboard(props) {
+export default function ProviderDashboard(props) {
     const [selectedPlan, setSelectedPlan] = useState(plans[1]);
     const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true);
     const [activeMenu, setActiveMenu] = useState(props.active);
@@ -100,7 +100,7 @@ export default function ClientDashboard(props) {
                                             key={item.name}
                                             className={classNames(
                                                 item.current
-                                                    ? 'bg-green-50 border-green-600 text-green-600'
+                                                    ? 'bg-blue-50 border-blue-600 text-blue-600'
                                                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
                                             )}
@@ -120,7 +120,7 @@ export default function ClientDashboard(props) {
                             </nav>
                         </aside>
                         <div className='space-y-6 sm:px-6 lg:px-0 lg:col-span-9'>
-                            <ClientMenu user={user} activeMenu={props.active} />
+                            <ProviderMenu user={user} activeMenu={props.active} />
                         </div>
                     </div>
                 </main>

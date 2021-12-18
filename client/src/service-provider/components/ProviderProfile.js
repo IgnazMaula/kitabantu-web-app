@@ -40,7 +40,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function ProviderProfile() {
     const auth = useContext(AuthContext);
     const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true);
     const [autoUpdateApplicantDataEnabled, setAutoUpdateApplicantDataEnabled] = useState(false);
@@ -68,24 +68,12 @@ export default function Example() {
                                                             <dt className='text-sm font-medium text-gray-500'>Photo</dt>
                                                             <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
                                                                 <span className='flex-grow'>
-                                                                    {auth.loggedUser.gender === 'Male' ? (
-                                                                        <img
-                                                                            className='h-32 w-32 rounded-full'
-                                                                            src='/images/client-male.png'
-                                                                            alt=''
-                                                                        />
-                                                                    ) : (
-                                                                        <img
-                                                                            className='h-32 w-32 rounded-full'
-                                                                            src='/images/client-female.png'
-                                                                            alt=''
-                                                                        />
-                                                                    )}
+                                                                    <img className='h-32 w-32 rounded-full' src='/images/provider-male.png' alt='' />
                                                                 </span>
                                                                 <span className='ml-4 flex-shrink-0 flex items-start space-x-4'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -94,7 +82,7 @@ export default function Example() {
                                                                     </span>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Remove
                                                                     </button>
@@ -108,7 +96,7 @@ export default function Example() {
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -124,7 +112,7 @@ export default function Example() {
                                                         <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200'>
                                                             <dt className='text-sm font-medium text-gray-500'>Type of Account</dt>
                                                             <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>Service Client Account</span>
+                                                                <span className='flex-grow'>Service Provider</span>
                                                             </dd>
                                                         </div>
                                                     </dl>
@@ -145,7 +133,7 @@ export default function Example() {
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -159,7 +147,7 @@ export default function Example() {
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -167,13 +155,13 @@ export default function Example() {
                                                             </dd>
                                                         </div>
                                                         <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Gender</dt>
+                                                            <dt className='text-sm font-medium text-gray-500'>Type of User</dt>
                                                             <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>{auth.loggedUser.gender}</span>
+                                                                <span className='flex-grow'>{auth.loggedUser.userType}</span>
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -181,13 +169,15 @@ export default function Example() {
                                                             </dd>
                                                         </div>
                                                         <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Occupation</dt>
+                                                            <dt className='text-sm font-medium text-gray-500'>Vaccination Status</dt>
                                                             <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>{auth.loggedUser.occupation}</span>
+                                                                <span className='flex-grow'>
+                                                                    {auth.loggedUser.vaccinated ? 'Vaccinated' : 'Not Vaccinated'}
+                                                                </span>
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -201,7 +191,7 @@ export default function Example() {
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
@@ -215,7 +205,21 @@ export default function Example() {
                                                                 <span className='ml-4 flex-shrink-0'>
                                                                     <button
                                                                         type='button'
-                                                                        className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                                                    >
+                                                                        Update
+                                                                    </button>
+                                                                </span>
+                                                            </dd>
+                                                        </div>
+                                                        <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
+                                                            <dt className='text-sm font-medium text-gray-500'>Description</dt>
+                                                            <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                                <span className='flex-grow'>{auth.loggedUser.description}</span>
+                                                                <span className='ml-4 flex-shrink-0'>
+                                                                    <button
+                                                                        type='button'
+                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                     >
                                                                         Update
                                                                     </button>
