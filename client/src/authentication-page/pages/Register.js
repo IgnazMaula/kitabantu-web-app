@@ -22,22 +22,34 @@ export default function Register() {
 
     const [formState, inputHandler, setFormData] = useForm(
         {
-            email: {
-                value: '',
-                isValid: false,
-            },
-            password: {
-                value: '',
-                isValid: false,
-            },
-            name: {
-                value: '',
-                isValid: false,
-            },
-            description: {
-                value: '',
-                isValid: false,
-            },
+            // email: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // password: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // name: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // identityNumber: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // phoneNumber: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // address: {
+            //     value: '',
+            //     isValid: false,
+            // },
+            // description: {
+            //     value: '',
+            //     isValid: false,
+            // },
         },
         false
     );
@@ -154,17 +166,16 @@ export default function Register() {
                                 />
                             </div>
                         </div>
-                        <div>
-                            <Input
-                                element='option'
-                                id='location'
-                                label='Location'
-                                validators={[VALIDATOR_REQUIRE()]}
-                                errorText='Please enter a valid location'
-                                onInput={inputHandler}
-                                option={locations}
-                            />
-                        </div>
+
+                        <Input
+                            element='option'
+                            id='location'
+                            label='Location'
+                            validators={[VALIDATOR_REQUIRE()]}
+                            errorText='Please enter a valid location'
+                            onInput={inputHandler}
+                            option={locations}
+                        />
                         <Input
                             element='input'
                             id='address'
@@ -198,21 +209,18 @@ export default function Register() {
                                     onInput={inputHandler}
                                     option={vaccinations}
                                 />
-                                {/* <RadioButton /> */}
                             </div>
                         </div>
-                        <div>
-                            <Input
-                                element='textarea'
-                                id='description'
-                                placeholder='Description about yourself/group/corporation'
-                                label='Description'
-                                validators={[VALIDATOR_MINLENGTH(12)]}
-                                errorText='Description is too short.'
-                                onInput={inputHandler}
-                                option={locations}
-                            />
-                        </div>
+                        <Input
+                            element='textarea'
+                            id='description'
+                            placeholder='Description about yourself/group/corporation'
+                            label='Description'
+                            validators={[VALIDATOR_MINLENGTH(12)]}
+                            errorText='Description is too short.'
+                            onInput={inputHandler}
+                            option={locations}
+                        />
                         <div>
                             <button
                                 disabled={!formState.isValid}

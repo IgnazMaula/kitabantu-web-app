@@ -50,7 +50,7 @@ const userNavigation = [
     { name: 'Sign out', href: '#' },
 ];
 const subNavigation = [
-    { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: false },
+    { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: true },
     { name: 'Order History', href: '/order-history', icon: CogIcon, current: false },
     { name: 'My Bookmarks', href: '/my-bookmarks', icon: HeartIcon, current: false },
     { name: 'My Reviews', href: '/my-reviews', icon: StarIcon, current: false },
@@ -100,9 +100,9 @@ export default function ClientDashboard(props) {
                                             key={item.name}
                                             className={classNames(
                                                 item.current
-                                                    ? 'bg-gray-50 text-orange-600 hover:bg-white'
-                                                    : 'text-gray-900 hover:text-gray-900 hover:bg-gray-50',
-                                                'group rounded-md px-3 py-2 flex items-center text-sm font-medium'
+                                                    ? 'bg-green-50 border-green-600 text-green-600'
+                                                    : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                                                'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
                                             )}
                                             aria-current={item.current ? 'page' : undefined}
                                         >

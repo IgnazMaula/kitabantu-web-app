@@ -70,7 +70,7 @@ const Input = (props) => {
             <select
                 id={props.id}
                 onChange={changeHandler}
-                value={inputState.value}
+                // value={inputState.value}
                 className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
             >
                 {props.option.map((o) => (
@@ -91,7 +91,7 @@ const Input = (props) => {
                                 onChange={changeHandler}
                                 name='notification-method'
                                 type={props.type}
-                                defaultChecked={o.value === props.option[0].value}
+                                // defaultChecked={props.option[0].value}
                                 value={o.value}
                                 className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
                             />

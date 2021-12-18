@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import RadioButton from '../components/RadioButton';
 import ErrorModal from '../../shared/components/modal/ErrorModal';
 
@@ -22,22 +22,6 @@ export default function Signin() {
 
     const [formState, inputHandler, setFormData] = useForm(
         {
-            email: {
-                value: '',
-                isValid: false,
-            },
-            password: {
-                value: '',
-                isValid: false,
-            },
-            firstName: {
-                value: '',
-                isValid: false,
-            },
-            lastName: {
-                value: '',
-                isValid: false,
-            },
             // location: {
             //     value: '',
             //     isValid: false,
@@ -67,6 +51,9 @@ export default function Signin() {
                     password: formState.inputs.password.value,
                     name: formState.inputs.firstName.value + ' ' + formState.inputs.lastName.value,
                     location: formState.inputs.location.value,
+                    identityNumber: formState.inputs.identityNumber.value,
+                    phoneNumber: formState.inputs.phoneNumber.value,
+                    address: formState.inputs.address.value,
                     gender: formState.inputs.gender.value,
                     occupation: formState.inputs.occupation.value,
                 }),
@@ -112,8 +99,8 @@ export default function Signin() {
                                     id='firstName'
                                     type='text'
                                     label='First Name'
-                                    placeholder='first name'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
+                                    placeholder='First name'
+                                    validators={[VALIDATOR_MINLENGTH(4)]}
                                     errorText='Please enter a valid name.'
                                     onInput={inputHandler}
                                 />
@@ -125,8 +112,8 @@ export default function Signin() {
                                     id='lastName'
                                     type='text'
                                     label='Last Name'
-                                    placeholder='last name'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
+                                    placeholder='Last name'
+                                    validators={[VALIDATOR_MINLENGTH(4)]}
                                     errorText='Please enter a valid name.'
                                     onInput={inputHandler}
                                 />
@@ -137,7 +124,7 @@ export default function Signin() {
                             id='email'
                             type='email'
                             label='Email'
-                            placeholder='email'
+                            placeholder='Email'
                             validators={[VALIDATOR_EMAIL()]}
                             errorText='Please enter a valid email address'
                             onInput={inputHandler}
@@ -147,29 +134,63 @@ export default function Signin() {
                             id='password'
                             type='password'
                             label='Password'
-                            placeholder='password'
+                            placeholder='Password'
                             validators={[VALIDATOR_MINLENGTH(5)]}
                             errorText='Please enter a valid password, at least 5 characters.'
                             onInput={inputHandler}
                         />
-                        <div>
-                            <Input
-                                element='option'
-                                id='location'
-                                label='Location'
-                                validators={[VALIDATOR_MINLENGTH(1)]}
-                                errorText='Please enter a valid location.'
-                                onInput={inputHandler}
-                                option={locations}
-                            />
+                        <div className='mt-6 grid grid-cols-4 gap-6'>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='input'
+                                    id='identityNumber'
+                                    type='number'
+                                    label='National Identity Number'
+                                    placeholder='Identity number'
+                                    validators={[VALIDATOR_MINLENGTH(16), VALIDATOR_MAXLENGTH(16)]}
+                                    errorText='Please enter a valid 16-digit identity number'
+                                    onInput={inputHandler}
+                                />
+                            </div>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='input'
+                                    id='phoneNumber'
+                                    type='tel'
+                                    label='Phone Number'
+                                    placeholder='Telephone number'
+                                    validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(20)]}
+                                    errorText='Please enter a valid phone number'
+                                    onInput={inputHandler}
+                                />
+                            </div>
                         </div>
+                        <Input
+                            element='option'
+                            id='location'
+                            label='Location'
+                            validators={[VALIDATOR_REQUIRE()]}
+                            errorText='Please enter a valid location.'
+                            onInput={inputHandler}
+                            option={locations}
+                        />
+                        <Input
+                            element='input'
+                            id='address'
+                            type='text'
+                            label='Address'
+                            placeholder='Your address'
+                            validators={[VALIDATOR_MINLENGTH(10)]}
+                            errorText='Please enter a valid address'
+                            onInput={inputHandler}
+                        />
                         <div className='mt-6 grid grid-cols-5 gap-6'>
                             <div className='col-span-4 sm:col-span-3'>
                                 <Input
                                     element='option'
                                     id='occupation'
                                     label='Occupation'
-                                    validators={[VALIDATOR_MINLENGTH(1)]}
+                                    validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid occupation.'
                                     onInput={inputHandler}
                                     option={occupations}
@@ -181,7 +202,7 @@ export default function Signin() {
                                     id='gender'
                                     type='radio'
                                     label='Occupation'
-                                    validators={[]}
+                                    validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid gender.'
                                     onInput={inputHandler}
                                     option={genders}
