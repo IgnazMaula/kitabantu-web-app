@@ -171,6 +171,7 @@ export default function Register() {
                             element='option'
                             id='location'
                             label='Location'
+                            placeholder='Select Location'
                             validators={[VALIDATOR_REQUIRE()]}
                             errorText='Please enter a valid location'
                             onInput={inputHandler}
@@ -192,6 +193,7 @@ export default function Register() {
                                     element='option'
                                     id='userType'
                                     label='Type of User'
+                                    placeholder='Select Type of User'
                                     validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid user type.'
                                     onInput={inputHandler}

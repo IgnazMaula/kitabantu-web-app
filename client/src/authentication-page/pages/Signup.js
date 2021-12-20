@@ -169,6 +169,7 @@ export default function Signin() {
                             element='option'
                             id='location'
                             label='Location'
+                            placeholder='Select Location'
                             validators={[VALIDATOR_REQUIRE()]}
                             errorText='Please enter a valid location.'
                             onInput={inputHandler}
@@ -190,6 +191,7 @@ export default function Signin() {
                                     element='option'
                                     id='occupation'
                                     label='Occupation'
+                                    placeholder='Select Occupation'
                                     validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid occupation.'
                                     onInput={inputHandler}
@@ -201,7 +203,7 @@ export default function Signin() {
                                     element='radio'
                                     id='gender'
                                     type='radio'
-                                    label='Occupation'
+                                    label='Gender'
                                     validators={[VALIDATOR_REQUIRE()]}
                                     errorText='Please enter a valid gender.'
                                     onInput={inputHandler}
