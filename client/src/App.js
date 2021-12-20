@@ -12,6 +12,7 @@ import Navbar from './shared/components/Navbar';
 import Footer from './shared/components/Footer';
 import ClientDashboard from './service-client/pages/ClientDashboard';
 import ProviderDashboard from './service-provider/pages/ProviderDashboard';
+import AdminDashboard from './administrator/pages/AdminDashboard';
 import Browse from './shared/pages/Browse';
 
 import { AuthContext } from './shared/context/auth-context';
@@ -21,12 +22,12 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedUser, setLoggedUser] = useState();
     const login = useCallback((user) => {
-        setIsLoggedIn(true);
         setLoggedUser(user);
+        setIsLoggedIn(true);
     }, []);
     const logout = useCallback(() => {
-        setIsLoggedIn(false);
         setLoggedUser(null);
+        setIsLoggedIn(false);
     }, []);
 
     return (
@@ -34,16 +35,19 @@ const App = () => {
             <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, loggedUser: loggedUser, login: login, logout: logout }}>
                 <Routes>
                     <Route path='/' element={<Main />}></Route>
+                    <Route path='/aboutus' element={<AboutUs />}></Route>
                     {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}
                     {!isLoggedIn && <Route path='/register' element={<RegisterMenu />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
-                    <Route path='/aboutus' element={<AboutUs />}></Route>
-                    {isLoggedIn && loggedUser !== undefined && loggedUser.role === 'Client' && (
+                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Client' && (
                         <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
                     )}
-                    {isLoggedIn && loggedUser !== undefined && loggedUser.role === 'Provider' && (
+                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Provider' && (
                         <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
+                    )}
+                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Admin' && (
+                        <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
                     )}
                     <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
                     <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>

@@ -79,7 +79,7 @@ export default function Login() {
                                 element='input'
                                 id='email'
                                 type='email'
-                                placeholder='email'
+                                placeholder='Email'
                                 validators={[VALIDATOR_EMAIL()]}
                                 errorText='Please enter a valid email address'
                                 onInput={inputHandler}
@@ -89,9 +89,9 @@ export default function Login() {
                                 element='input'
                                 id='password'
                                 type='password'
-                                placeholder='password'
-                                validators={[VALIDATOR_MINLENGTH(5)]}
-                                errorText='Please enter a valid password, at least 5 characters.'
+                                placeholder='Password'
+                                validators={[VALIDATOR_MINLENGTH(6)]}
+                                errorText='Please enter a valid password, at least 6 characters.'
                                 onInput={inputHandler}
                             />
                         </div>
