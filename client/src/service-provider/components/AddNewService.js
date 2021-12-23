@@ -121,76 +121,68 @@ export default function Example() {
                                     </div>
                                 </div>
                             )}
-                            {true === true && (
-                                <div className='space-y-6 sm:space-y-5 divide-y divide-gray-200'>
-                                    <div className='pt-6 sm:pt-5'>
-                                        <div role='group' aria-labelledby='label-email'>
-                                            <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
-                                                <div>
-                                                    <div className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700' id='label-email'>
-                                                        {label}
-                                                    </div>
+                            <div className='space-y-6 sm:space-y-5 divide-y divide-gray-200'>
+                                <div className='pt-6 sm:pt-5'>
+                                    <div role='group' aria-labelledby='label-email'>
+                                        <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
+                                            <div>
+                                                <div className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700' id='label-email'>
+                                                    {label}
                                                 </div>
-                                                <div className='mt-4 sm:mt-0 sm:col-span-2'>
-                                                    <div className='max-w-lg space-y-4'>{element}</div>
-                                                </div>
+                                            </div>
+                                            <div className='mt-4 sm:mt-0 sm:col-span-2'>
+                                                <div className='max-w-lg space-y-4'>{element}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='pt-6 sm:pt-5'>
-                                        <div role='group' aria-labelledby='label-notifications'>
-                                            <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
-                                                <div>
-                                                    <div
-                                                        className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700'
-                                                        id='label-notifications'
-                                                    >
-                                                        Push Notifications
-                                                    </div>
+                                </div>
+                                <div className='pt-6 sm:pt-5'>
+                                    <div role='group' aria-labelledby='label-notifications'>
+                                        <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
+                                            <div>
+                                                <div
+                                                    className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700'
+                                                    id='label-notifications'
+                                                >
+                                                    Push Notifications
                                                 </div>
-                                                <div className='sm:col-span-2'>
-                                                    <div className='max-w-lg'>
-                                                        <p className='text-sm text-gray-500'>These are delivered via SMS to your mobile phone.</p>
-                                                        <div className='mt-4 space-y-4'>
-                                                            <div className='flex items-center'>
-                                                                <input
-                                                                    id='push-everything'
-                                                                    name='push-notifications'
-                                                                    type='radio'
-                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
-                                                                />
-                                                                <label
-                                                                    htmlFor='push-everything'
-                                                                    className='ml-3 block text-sm font-medium text-gray-700'
-                                                                >
-                                                                    Everything
-                                                                </label>
-                                                            </div>
-                                                            <div className='flex items-center'>
-                                                                <input
-                                                                    id='push-email'
-                                                                    name='push-notifications'
-                                                                    type='radio'
-                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
-                                                                />
-                                                                <label htmlFor='push-email' className='ml-3 block text-sm font-medium text-gray-700'>
-                                                                    Same as email
-                                                                </label>
-                                                            </div>
-                                                            <div className='flex items-center'>
-                                                                <input
-                                                                    id='push-nothing'
-                                                                    name='push-notifications'
-                                                                    type='radio'
-                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
-                                                                />
-                                                                <label
-                                                                    htmlFor='push-nothing'
-                                                                    className='ml-3 block text-sm font-medium text-gray-700'
-                                                                >
-                                                                    No push notifications
-                                                                </label>
-                                                            </div>
+                                            </div>
+                                            <div className='sm:col-span-2'>
+                                                <div className='max-w-lg'>
+                                                    <p className='text-sm text-gray-500'>These are delivered via SMS to your mobile phone.</p>
+                                                    <div className='mt-4 space-y-4'>
+                                                        <div className='flex items-center'>
+                                                            <input
+                                                                id='push-everything'
+                                                                name='push-notifications'
+                                                                type='radio'
+                                                                className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                            />
+                                                            <label htmlFor='push-everything' className='ml-3 block text-sm font-medium text-gray-700'>
+                                                                Everything
+                                                            </label>
+                                                        </div>
+                                                        <div className='flex items-center'>
+                                                            <input
+                                                                id='push-email'
+                                                                name='push-notifications'
+                                                                type='radio'
+                                                                className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                            />
+                                                            <label htmlFor='push-email' className='ml-3 block text-sm font-medium text-gray-700'>
+                                                                Same as email
+                                                            </label>
+                                                        </div>
+                                                        <div className='flex items-center'>
+                                                            <input
+                                                                id='push-nothing'
+                                                                name='push-notifications'
+                                                                type='radio'
+                                                                className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                            />
+                                                            <label htmlFor='push-nothing' className='ml-3 block text-sm font-medium text-gray-700'>
+                                                                No push notifications
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,7 +190,7 @@ export default function Example() {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            </div>
                             <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                 <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
                                     About
