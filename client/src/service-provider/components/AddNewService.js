@@ -4,15 +4,60 @@ import { Link } from 'react-router-dom';
 
 import Input from '../../shared/components/form/Input';
 import { useForm } from '../../shared/hooks/form-hook';
-import { AuthContext } from '../../shared/context/auth-context';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
-import ErrorModal from '../../shared/components/modal/ErrorModal';
+import { categories } from '../../shared/util/categories';
 
 export default function Example() {
-    const auth = useContext(AuthContext);
     const [error, setError] = useState(false);
-
     const [formState, inputHandler, setFormData] = useForm({}, false);
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedSubCategory, setSubSelectedCategory] = useState(null);
+
+    const handleSelectedCategory = (e) => {
+        setSelectedCategory(e.target.value);
+        console.log(selectedCategory);
+    };
+
+    const subCategoriesList = [];
+    const categoriesList = [];
+    let label;
+    let element;
+
+    categories.map((c) => {
+        categoriesList.push(c.name);
+        if (c.name === selectedCategory) {
+            c.sub.forEach((s) => {
+                subCategoriesList.push(s.name);
+            });
+        }
+    });
+    categories.forEach((c) => {
+        if (c.name === selectedCategory) {
+            c.sub.forEach((s) => {
+                if (s.name === selectedSubCategory) {
+                    label = s.label1;
+                    element = s.option1.map((o) => (
+                        <div className='relative flex items-start'>
+                            <div className='flex items-center h-5'>
+                                <input
+                                    id={o}
+                                    name={o}
+                                    type='checkbox'
+                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded'
+                                />
+                            </div>
+                            <div className='ml-3 text-sm'>
+                                <label htmlFor='comments' className='font-medium text-gray-700'>
+                                    {o}
+                                </label>
+                            </div>
+                        </div>
+                    ));
+                }
+            });
+        }
+    });
 
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
@@ -26,7 +71,7 @@ export default function Example() {
                         <div className='mt-6 sm:mt-5 space-y-6 sm:space-y-5'>
                             <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                 <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                    About
+                                    Service Name
                                 </label>
                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                     <Input
@@ -40,6 +85,120 @@ export default function Example() {
                                     />
                                 </div>
                             </div>
+                            <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                    Categories
+                                </label>
+                                <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                    <Input
+                                        element='option'
+                                        id='location'
+                                        placeholder='Select Categories'
+                                        validators={[VALIDATOR_REQUIRE()]}
+                                        errorText='Please enter a valid location'
+                                        onInput={inputHandler}
+                                        option={categoriesList}
+                                        onChange={handleSelectedCategory}
+                                    />
+                                </div>
+                            </div>
+                            {selectedCategory && (
+                                <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5'>
+                                    <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                        Sub Category
+                                    </label>
+                                    <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                        <Input
+                                            element='option'
+                                            id='location'
+                                            placeholder='Select Sub Categories'
+                                            validators={[VALIDATOR_REQUIRE()]}
+                                            errorText='Please enter a valid location'
+                                            onInput={inputHandler}
+                                            option={subCategoriesList}
+                                            onChange={(e) => setSubSelectedCategory(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                            {true === true && (
+                                <div className='space-y-6 sm:space-y-5 divide-y divide-gray-200'>
+                                    <div className='pt-6 sm:pt-5'>
+                                        <div role='group' aria-labelledby='label-email'>
+                                            <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
+                                                <div>
+                                                    <div className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700' id='label-email'>
+                                                        {label}
+                                                    </div>
+                                                </div>
+                                                <div className='mt-4 sm:mt-0 sm:col-span-2'>
+                                                    <div className='max-w-lg space-y-4'>{element}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='pt-6 sm:pt-5'>
+                                        <div role='group' aria-labelledby='label-notifications'>
+                                            <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
+                                                <div>
+                                                    <div
+                                                        className='text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700'
+                                                        id='label-notifications'
+                                                    >
+                                                        Push Notifications
+                                                    </div>
+                                                </div>
+                                                <div className='sm:col-span-2'>
+                                                    <div className='max-w-lg'>
+                                                        <p className='text-sm text-gray-500'>These are delivered via SMS to your mobile phone.</p>
+                                                        <div className='mt-4 space-y-4'>
+                                                            <div className='flex items-center'>
+                                                                <input
+                                                                    id='push-everything'
+                                                                    name='push-notifications'
+                                                                    type='radio'
+                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                                />
+                                                                <label
+                                                                    htmlFor='push-everything'
+                                                                    className='ml-3 block text-sm font-medium text-gray-700'
+                                                                >
+                                                                    Everything
+                                                                </label>
+                                                            </div>
+                                                            <div className='flex items-center'>
+                                                                <input
+                                                                    id='push-email'
+                                                                    name='push-notifications'
+                                                                    type='radio'
+                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                                />
+                                                                <label htmlFor='push-email' className='ml-3 block text-sm font-medium text-gray-700'>
+                                                                    Same as email
+                                                                </label>
+                                                            </div>
+                                                            <div className='flex items-center'>
+                                                                <input
+                                                                    id='push-nothing'
+                                                                    name='push-notifications'
+                                                                    type='radio'
+                                                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                                                />
+                                                                <label
+                                                                    htmlFor='push-nothing'
+                                                                    className='ml-3 block text-sm font-medium text-gray-700'
+                                                                >
+                                                                    No push notifications
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                             <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                 <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
                                     About

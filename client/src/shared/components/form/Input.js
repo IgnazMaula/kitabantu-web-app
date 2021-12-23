@@ -69,8 +69,7 @@ const Input = (props) => {
         element = (
             <select
                 id={props.id}
-                onChange={changeHandler}
-                // value={inputState.value}
+                onChange={(changeHandler, props.onChange)}
                 className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
             >
                 <option disabled selected value>
