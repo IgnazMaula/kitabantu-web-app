@@ -17,6 +17,7 @@ import Browse from './shared/pages/Browse';
 
 import { AuthContext } from './shared/context/auth-context';
 import RegisterMenu from './authentication-page/pages/RegisterMenu';
+import AddNewService from './service-provider/components/AddNewService';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,12 +41,18 @@ const App = () => {
                     {!isLoggedIn && <Route path='/register' element={<RegisterMenu />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
+                    {/* Routes for client */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Client' && (
                         <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
                     )}
+                    {/* Routes for provider */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Provider' && (
-                        <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
+                        <>
+                            <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
+                            <Route path='/add-service' element={<ProviderDashboard active='Add New Service' />}></Route>
+                        </>
                     )}
+                    {/* Routes for admin */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Admin' && (
                         <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
                     )}

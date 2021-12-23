@@ -52,7 +52,7 @@ const userNavigation = [
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: true },
     { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon, current: false },
-    { name: 'Add New Service', href: '/profile', icon: PlusCircleIcon, current: false },
+    { name: 'Add New Service', href: '/add-service', icon: PlusCircleIcon, current: false },
     { name: 'Manage My Service', href: '/profile', icon: CollectionIcon, current: false },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
@@ -94,12 +94,12 @@ export default function ProviderDashboard(props) {
                         <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3'>
                             <nav className='space-y-1'>
                                 {subNavigation.map((item) => (
-                                    <div onClick={() => setActiveMenuHandler(item.name, item.current)}>
+                                    <div>
                                         <Link
                                             to={item.href}
                                             key={item.name}
                                             className={classNames(
-                                                item.current
+                                                item.name === props.active
                                                     ? 'bg-blue-50 border-blue-600 text-blue-600'
                                                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
