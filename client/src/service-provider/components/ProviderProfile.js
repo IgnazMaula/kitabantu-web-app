@@ -42,8 +42,6 @@ function classNames(...classes) {
 
 export default function ProviderProfile() {
     const auth = useContext(AuthContext);
-    const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true);
-    const [autoUpdateApplicantDataEnabled, setAutoUpdateApplicantDataEnabled] = useState(false);
     return (
         <>
             <div>

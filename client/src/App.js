@@ -35,15 +35,24 @@ const App = () => {
         <>
             <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, loggedUser: loggedUser, login: login, logout: logout }}>
                 <Routes>
+                    {/* General routes */}
                     <Route path='/' element={<Main />}></Route>
                     <Route path='/aboutus' element={<AboutUs />}></Route>
+
+                    {/* Routes for authorized user */}
                     {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}
                     {!isLoggedIn && <Route path='/register' element={<RegisterMenu />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
                     {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
+
                     {/* Routes for client */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Client' && (
-                        <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
+                        <>
+                            <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
+                            <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
+                            <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>
+                            <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
+                        </>
                     )}
                     {/* Routes for provider */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Provider' && (
@@ -54,11 +63,10 @@ const App = () => {
                     )}
                     {/* Routes for admin */}
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Admin' && (
-                        <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
+                        <>
+                            <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
+                        </>
                     )}
-                    <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
-                    <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>
-                    <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
                     <Route path='/browse' element={<Browse />}></Route>
                     <Route path='/service/:serviceId' element={<Service />}></Route>
                     <Route path='*' element={<Navigate to='/' />} />

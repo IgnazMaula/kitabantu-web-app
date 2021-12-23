@@ -50,10 +50,10 @@ const userNavigation = [
     { name: 'Sign out', href: '#' },
 ];
 const subNavigation = [
-    { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: true },
-    { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon, current: false },
-    { name: 'Add New Service', href: '/add-service', icon: PlusCircleIcon, current: false },
-    { name: 'Manage My Service', href: '/profile', icon: CollectionIcon, current: false },
+    { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
+    { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon },
+    { name: 'Manage My Service', href: '/profile', icon: CollectionIcon },
+    { name: 'Add New Service', href: '/add-service', icon: PlusCircleIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
 ];
@@ -79,12 +79,6 @@ function classNames(...classes) {
 }
 
 export default function ProviderDashboard(props) {
-    const [selectedPlan, setSelectedPlan] = useState(plans[1]);
-    const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true);
-    const [activeMenu, setActiveMenu] = useState(props.active);
-    const setActiveMenuHandler = (name, current) => {
-        setActiveMenu(name);
-    };
     return (
         <>
             <Navbar />
@@ -104,14 +98,12 @@ export default function ProviderDashboard(props) {
                                                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
                                             )}
-                                            aria-current={item.current ? 'page' : undefined}
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.current ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                    item.name === props.active ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500',
                                                     'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                                 )}
-                                                aria-hidden='true'
                                             />
                                             <span className='truncate'>{item.name}</span>
                                         </Link>

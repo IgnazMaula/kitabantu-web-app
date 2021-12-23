@@ -50,10 +50,10 @@ const userNavigation = [
     { name: 'Sign out', href: '#' },
 ];
 const subNavigation = [
-    { name: 'My Profile', href: '/profile', icon: UserCircleIcon, current: true },
-    { name: 'Order History', href: '/order-history', icon: ViewGridIcon, current: false },
-    { name: 'My Bookmarks', href: '/my-bookmarks', icon: HeartIcon, current: false },
-    { name: 'My Reviews', href: '/my-reviews', icon: StarIcon, current: false },
+    { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
+    { name: 'Order History', href: '/order-history', icon: ViewGridIcon },
+    { name: 'My Bookmarks', href: '/my-bookmarks', icon: HeartIcon },
+    { name: 'My Reviews', href: '/my-reviews', icon: StarIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
 ];
@@ -79,12 +79,6 @@ function classNames(...classes) {
 }
 
 export default function ClientDashboard(props) {
-    const [selectedPlan, setSelectedPlan] = useState(plans[1]);
-    const [annualBillingEnabled, setAnnualBillingEnabled] = useState(true);
-    const [activeMenu, setActiveMenu] = useState(props.active);
-    const setActiveMenuHandler = (name, current) => {
-        setActiveMenu(name);
-    };
     return (
         <>
             <Navbar />
@@ -94,24 +88,22 @@ export default function ClientDashboard(props) {
                         <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3'>
                             <nav className='space-y-1'>
                                 {subNavigation.map((item) => (
-                                    <div onClick={() => setActiveMenuHandler(item.name, item.current)}>
+                                    <div>
                                         <Link
                                             to={item.href}
                                             key={item.name}
                                             className={classNames(
-                                                item.current
+                                                item.name === props.active
                                                     ? 'bg-green-50 border-green-600 text-green-600'
                                                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
                                             )}
-                                            aria-current={item.current ? 'page' : undefined}
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.current ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                    item.name === props.active ? 'text-green-500' : 'text-gray-400 group-hover:text-gray-500',
                                                     'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                                 )}
-                                                aria-hidden='true'
                                             />
                                             <span className='truncate'>{item.name}</span>
                                         </Link>
