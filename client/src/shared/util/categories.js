@@ -6,7 +6,7 @@ export const categories = [
             {
                 id: 'a1',
                 name: 'Home Cook',
-                unit: 'menu set',
+                unit: '/menu set',
                 label1: 'Type of Service',
                 label2: 'Menu',
                 option1: ['Delivery', 'Cook at Home', 'Cooking Class'],
@@ -15,7 +15,7 @@ export const categories = [
             {
                 id: 'a2',
                 name: 'Dishwashing',
-                unit: 'hour',
+                unit: '/hour',
                 label1: 'Gender',
                 option1: ['Male', 'Female'],
             },
@@ -31,14 +31,14 @@ export const categories = [
             {
                 id: 'a4',
                 name: 'Laundry',
-                unit: 'kg',
+                unit: '/kg',
                 label1: 'Laundry Service',
                 option1: ['Laundry', 'Ironing', 'Dry Clean', 'Shoe Laundry', 'Bag Laundry', 'Doll Laundry', 'Pillow Laundry'],
             },
             {
                 id: 'a5',
                 name: 'Delivery',
-                unit: 'delivery',
+                unit: '/delivery',
                 label1: 'Delivery Item',
                 option1: ['Cooking Gas', 'Drinking Water Gallon'],
             },
@@ -51,7 +51,7 @@ export const categories = [
             {
                 id: 'b1',
                 name: 'House Cleaning',
-                unit: 'hour',
+                unit: '/hour',
                 label1: 'Cleaning Service',
                 option1: [
                     'Room Cleaning',
@@ -70,7 +70,7 @@ export const categories = [
             {
                 id: 'b2',
                 name: 'House Handyman',
-                unit: 'hour',
+                unit: '/hour',
                 label1: 'House Handyman Service',
                 option1: ['Fixing Broken Furniture', 'Assembling Furniture', 'Wall Painting & Décor Installation', 'Organizing Room'],
             },

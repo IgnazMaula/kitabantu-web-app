@@ -221,7 +221,6 @@ export default function Register() {
                             validators={[VALIDATOR_MINLENGTH(12)]}
                             errorText='Description is too short.'
                             onInput={inputHandler}
-                            option={locations}
                         />
                         <div>
                             <button
