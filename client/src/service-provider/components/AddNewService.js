@@ -4,20 +4,51 @@ import { Link } from 'react-router-dom';
 
 import Input from '../../shared/components/form/Input';
 import { useForm } from '../../shared/hooks/form-hook';
+import { AuthContext } from '../../shared/context/auth-context';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import { categories } from '../../shared/util/categories';
 
-export default function Example() {
+export default function AddNewService() {
+    const auth = useContext(AuthContext);
     const [error, setError] = useState(false);
     const [formState, inputHandler, setFormData] = useForm({}, false);
 
+    const authSubmitHandler = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5000/api/services/create-service', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formState.inputs.name.value,
+                    category: selectedCategory,
+                    subCategory: selectedSubCategory,
+                    price: formState.inputs.price.value,
+                    unit: unit,
+                    label: label,
+                    property: ['1', '2'],
+                    description: formState.inputs.description.value,
+                    serviceProvider: '1',
+                }),
+            });
+
+            const responseData = await response.json();
+            if (!response.ok) {
+                console.log(formState.inputs.category.value);
+                throw new Error(responseData.message);
+            }
+            // console.log(responseData.user);
+            // auth.login(responseData.user);
+        } catch (error) {
+            console.log(error);
+            setError(error.message || 'Something is wrong, please try again.');
+        }
+    };
+
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategory, setSubSelectedCategory] = useState(null);
-
-    const handleSelectedCategory = (e) => {
-        setSelectedCategory(e.target.value);
-        console.log(selectedCategory);
-    };
 
     const subCategoriesList = [];
     const categoriesList = [];
@@ -25,17 +56,28 @@ export default function Example() {
     let unit;
     let element;
 
+    const handleSelectedCategory = (e) => {
+        setSelectedCategory(e.target.value);
+        console.log(selectedCategory);
+        categories.forEach((c) => {
+            if (c.name === e.target.value) {
+                console.log('new sub is' + c.sub[0].name);
+                setSubSelectedCategory(c.sub[0].name);
+            }
+        });
+
+        // setSubSelectedCategory('House Cleaning');
+    };
+    const handleSelectedSubCategory = (e) => {
+        console.log(selectedSubCategory);
+        setSubSelectedCategory(e.target.value);
+    };
+
     categories.map((c) => {
         categoriesList.push(c.name);
         if (c.name === selectedCategory) {
             c.sub.forEach((s) => {
                 subCategoriesList.push(s.name);
-            });
-        }
-    });
-    categories.forEach((c) => {
-        if (c.name === selectedCategory) {
-            c.sub.forEach((s) => {
                 if (s.name === selectedSubCategory) {
                     label = s.label1;
                     unit = s.unit;
@@ -60,6 +102,11 @@ export default function Example() {
             });
         }
     });
+    // categories.forEach((c) => {
+    //     if (c.name === selectedCategory) {
+    //         c.sub.forEach((s) => {});
+    //     }
+    // });
 
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
@@ -67,7 +114,7 @@ export default function Example() {
                 <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Add New Service</h1>
                 <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
             </div>
-            <form className='space-y-8 divide-y divide-gray-200'>
+            <form className='space-y-8 divide-y divide-gray-200' onSubmit={authSubmitHandler}>
                 <div className='space-y-8 divide-y divide-gray-200 sm:space-y-5'>
                     <div>
                         <div className='mt-6 sm:mt-5 space-y-6 sm:space-y-5'>
@@ -97,10 +144,10 @@ export default function Example() {
                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                     <Input
                                         element='option'
-                                        id='location'
+                                        id='category'
                                         placeholder='Select Categories'
                                         validators={[VALIDATOR_REQUIRE()]}
-                                        errorText='Please enter a valid location'
+                                        errorText='Please enter a valid category'
                                         onInput={inputHandler}
                                         option={categoriesList}
                                         onChange={handleSelectedCategory}
@@ -115,18 +162,18 @@ export default function Example() {
                                     <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                         <Input
                                             element='option'
-                                            id='location'
+                                            id='subCategory'
                                             placeholder='Select Sub Categories'
                                             validators={[VALIDATOR_REQUIRE()]}
-                                            errorText='Please enter a valid location'
+                                            errorText='Please enter a valid sub category'
                                             onInput={inputHandler}
                                             option={subCategoriesList}
-                                            onChange={(e) => setSubSelectedCategory(e.target.value)}
+                                            onChange={handleSelectedSubCategory}
                                         />
                                     </div>
                                 </div>
                             )}
-                            {selectedSubCategory && (
+                            {true && (
                                 <div className='pt-6 sm:pt-5'>
                                     <div role='group' aria-labelledby='label-email'>
                                         <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline'>
@@ -148,18 +195,19 @@ export default function Example() {
                                 </label>
                                 <div className='mt-1 sm:mt-0 sm:col-span-1'>
                                     <div className='mt-1 relative'>
-                                        <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                                        <div className='absolute inset-y-0 left-0 top-2 pl-3 flex pointer-events-none'>
                                             <span className='text-gray-500 sm:text-sm'>Rp</span>
                                         </div>
-                                        <input
-                                            type='number'
-                                            name='price'
+                                        <Input
+                                            element='input'
                                             id='price'
-                                            className='pl-10 pr-12 input-price'
+                                            type='number'
                                             placeholder='0'
-                                            aria-describedby='price-currency'
+                                            validators={[VALIDATOR_REQUIRE()]}
+                                            errorText='Please enter a valid price.'
+                                            onInput={inputHandler}
                                         />
-                                        <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
+                                        <div className='absolute inset-y-0 right-0 pr-3 top-2 flex pointer-events-none'>
                                             <span className='text-gray-500 sm:text-sm' id='price-currency'>
                                                 {unit}
                                             </span>

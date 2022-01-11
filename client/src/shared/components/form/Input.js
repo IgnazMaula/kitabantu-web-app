@@ -53,18 +53,31 @@ const Input = (props) => {
     let element;
 
     if (props.element === 'input') {
-        element = (
-            <input
-                id={props.id}
-                type={props.type}
-                placeholder={props.placeholder}
-                onChange={changeHandler}
-                onBlur={touchHandler}
-                value={inputState.value}
-                // className={`input ${!inputState.isValid && inputState.isTouched && 'inputError'}`}
-                className={!inputState.isValid && inputState.isTouched ? 'inputError' : 'input'}
-            />
-        );
+        if (props.type === 'number') {
+            element = (
+                <input
+                    id={props.id}
+                    type={props.type}
+                    placeholder={props.placeholder}
+                    onChange={changeHandler}
+                    onBlur={touchHandler}
+                    value={inputState.value}
+                    className={!inputState.isValid && inputState.isTouched ? 'inputPriceError' : 'inputPrice'}
+                />
+            );
+        } else {
+            element = (
+                <input
+                    id={props.id}
+                    type={props.type}
+                    placeholder={props.placeholder}
+                    onChange={changeHandler}
+                    onBlur={touchHandler}
+                    value={inputState.value}
+                    className={!inputState.isValid && inputState.isTouched ? 'inputError' : 'input'}
+                />
+            );
+        }
     } else if (props.element === 'option') {
         element = (
             <select
@@ -72,9 +85,12 @@ const Input = (props) => {
                 onChange={(changeHandler, props.onChange)}
                 className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
             >
-                <option disabled selected value>
-                    {props.placeholder}
-                </option>
+                {props.id !== 'subCategory' && (
+                    <option disabled selected value>
+                        {props.placeholder}
+                    </option>
+                )}
+
                 {props.option.map((o) => (
                     <option value={o} key={o}>
                         {o}

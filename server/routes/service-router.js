@@ -8,7 +8,7 @@ router.get('/', serviceController.getAllService);
 
 router.get('/:sid', serviceController.getServiceById);
 
-router.post('/', serviceController.createService);
+router.post('/create-service', serviceController.createService);
 
 router.patch('/:sid', serviceController.updateService);
 

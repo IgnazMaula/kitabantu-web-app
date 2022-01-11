@@ -18,7 +18,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/users/', userRoutes);
-
 app.use('/api/services/', serviceRoutes);
 
 app.use((req, res, next) => {

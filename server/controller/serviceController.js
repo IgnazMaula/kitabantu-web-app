@@ -1,6 +1,7 @@
 const { v4: uuid } = require('uuid');
 
 const HttpError = require('../models/http-error');
+const Service = require('../models/Service');
 
 let services = [
     {
@@ -137,8 +138,14 @@ let services = [
     },
 ];
 
-const getAllService = (req, res, next) => {
-    res.json({ services });
+const getAllService = async (req, res, next) => {
+    let services;
+    try {
+        services = await Service.find({});
+    } catch (error) {
+        return next(new HttpError('Fetching services failed', 500));
+    }
+    res.json({ services: services.map((u) => u.toObject({ getters: true })) });
 };
 
 const getServiceById = (req, res, next) => {
@@ -153,15 +160,27 @@ const getServiceById = (req, res, next) => {
     }
 };
 
-const createService = (req, res, next) => {
-    const { name, serviceProvider } = req.body;
-    const service = {
-        id: uuid(),
+const createService = async (req, res, next) => {
+    const { name, category, subCategory, price, unit, label, property, description, serviceProvider } = req.body;
+    const createdService = new Service({
         name,
+        category,
+        subCategory,
+        price,
+        unit,
+        label,
+        property,
+        description,
         serviceProvider,
-    };
-    services.push(service);
-    res.status(201).json({ service });
+    });
+
+    try {
+        await createdService.save();
+    } catch (error) {
+        return next(new HttpError('Create service failed, please try again later', 500));
+    }
+
+    res.status(201).json({ service: createdService.toObject({ getters: true }) });
 };
 
 const updateService = (req, res, next) => {
