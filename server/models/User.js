@@ -29,7 +29,7 @@ const userSchema = new Schema({
     ratings: [{ type: String, required: false }],
     bookmarks: [{ type: String, required: false }],
     // Collections of Service Provider
-    services: [{ type: String, required: false }],
+    services: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Service' }],
 });
 
 userSchema.plugin(uniqueValidator);

@@ -30,7 +30,7 @@ export default function AddNewService() {
                     label: label,
                     property: ['1', '2'],
                     description: formState.inputs.description.value,
-                    serviceProvider: '1',
+                    serviceProvider: auth.loggedUser,
                 }),
             });
 
@@ -79,9 +79,9 @@ export default function AddNewService() {
             c.sub.forEach((s) => {
                 subCategoriesList.push(s.name);
                 if (s.name === selectedSubCategory) {
-                    label = s.label1;
+                    label = s.label;
                     unit = s.unit;
-                    element = s.option1.map((o) => (
+                    element = s.option.map((o) => (
                         <div className='relative flex items-start'>
                             <div className='flex items-center h-5'>
                                 <input

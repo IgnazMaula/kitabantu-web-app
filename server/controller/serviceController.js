@@ -1,7 +1,9 @@
 const { v4: uuid } = require('uuid');
+const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
 const Service = require('../models/Service');
+const User = require('../models/User');
 
 let services = [
     {
@@ -174,9 +176,24 @@ const createService = async (req, res, next) => {
         serviceProvider,
     });
 
+    let sp;
+
     try {
-        await createdService.save();
+        sp = await User.findById(serviceProvider);
     } catch (error) {
+        console.log('ad');
+        return next(new HttpError('Create service failed, please try again later', 500));
+    }
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await createdService.save({ session: sess });
+        await sp.services.push(createdService);
+        await sp.save({ session: sess });
+        await sess.commitTransaction();
+    } catch (error) {
+        console.log(error);
         return next(new HttpError('Create service failed, please try again later', 500));
     }
 

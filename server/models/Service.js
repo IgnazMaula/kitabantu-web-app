@@ -17,8 +17,8 @@ const ServiceSchema = new Schema({
         required: false,
         default: 'https://library.kissclipart.com/20180906/wtq/kissclipart-user-profile-clipart-user-profile-computer-icons-15b5c3086edf7512.png',
     },
+    serviceProvider: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     status: { type: String, required: true, default: 'Pending' },
-    serviceProvider: { type: String, required: false, default: undefined },
 });
 
 ServiceSchema.plugin(uniqueValidator);
