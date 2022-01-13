@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import { categories } from '../../shared/util/categories';
 export default function AddNewService() {
     const auth = useContext(AuthContext);
     const [error, setError] = useState(false);
+    const [property, setProperty] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
 
     const authSubmitHandler = async (event) => {
@@ -28,7 +29,7 @@ export default function AddNewService() {
                     price: formState.inputs.price.value,
                     unit: unit,
                     label: label,
-                    property: ['1', '2'],
+                    property: property,
                     description: formState.inputs.description.value,
                     serviceProvider: auth.loggedUser,
                 }),
@@ -39,8 +40,6 @@ export default function AddNewService() {
                 console.log(formState.inputs.category.value);
                 throw new Error(responseData.message);
             }
-            // console.log(responseData.user);
-            // auth.login(responseData.user);
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');
@@ -59,6 +58,8 @@ export default function AddNewService() {
     const handleSelectedCategory = (e) => {
         setSelectedCategory(e.target.value);
         console.log(selectedCategory);
+        setProperty([]);
+        document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
         categories.forEach((c) => {
             if (c.name === e.target.value) {
                 console.log('new sub is' + c.sub[0].name);
@@ -71,7 +72,28 @@ export default function AddNewService() {
     const handleSelectedSubCategory = (e) => {
         console.log(selectedSubCategory);
         setSubSelectedCategory(e.target.value);
+        setProperty([]);
+        document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
     };
+
+    const checkBoxHandler = (e) => {
+        const {
+            target: { name, value },
+        } = e;
+        setProperty((property) => {
+            if (property.includes(name)) {
+                property.splice(property.indexOf(name), 1);
+                return [...property];
+            } else {
+                console.log('no');
+                return [...property, name];
+            }
+        });
+    };
+
+    useEffect(() => {
+        console.log(property);
+    }, [property]);
 
     categories.map((c) => {
         categoriesList.push(c.name);
@@ -89,6 +111,8 @@ export default function AddNewService() {
                                     name={o}
                                     type='checkbox'
                                     className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded'
+                                    onChange={checkBoxHandler}
+                                    value='1'
                                 />
                             </div>
                             <div className='ml-3 text-sm'>
