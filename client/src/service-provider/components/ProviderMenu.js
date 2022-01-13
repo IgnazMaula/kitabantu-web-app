@@ -2,6 +2,7 @@ import { useContext } from 'react';
 
 import { AuthContext } from '../../shared/context/auth-context';
 import AddNewService from './AddNewService';
+import ProviderManageService from './ProviderManageService';
 import ProviderProfile from './ProviderProfile';
 
 const ProviderMenu = (props) => {
@@ -10,10 +11,10 @@ const ProviderMenu = (props) => {
         return <ProviderProfile />;
     } else if (props.activeMenu === 'Manage Order') {
         return <ProviderProfile />;
+    } else if (props.activeMenu === 'Manage My Service') {
+        return <ProviderManageService />;
     } else if (props.activeMenu === 'Add New Service') {
         return <AddNewService />;
-    } else if (props.activeMenu === 'Manage My Service') {
-        return <ProviderProfile />;
     } else {
         return <h1>Hello</h1>;
     }

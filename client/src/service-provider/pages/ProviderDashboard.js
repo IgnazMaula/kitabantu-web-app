@@ -52,7 +52,7 @@ const userNavigation = [
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
     { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon },
-    { name: 'Manage My Service', href: '/profile', icon: CollectionIcon },
+    { name: 'Manage My Service', href: '/manage-service', icon: CollectionIcon },
     { name: 'Add New Service', href: '/add-service', icon: PlusCircleIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
