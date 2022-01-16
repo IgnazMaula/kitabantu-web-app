@@ -15,7 +15,7 @@
   }
   ```
 */
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { StarIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 import { useParams } from 'react-router';
@@ -111,23 +111,37 @@ function classNames(...classes) {
 }
 
 export default function Service() {
-    const serviceId = useParams().serviceId;
-    const selectedService = services.find((service) => service.id == serviceId);
-    console.log(selectedService);
+    const sid = useParams().sid;
+    console.log(sid);
+    const [service, setService] = useState([]);
+    useEffect(() => {
+        const getUsers = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/services/${sid}`);
+                const responseData = await response.json();
+                setService(responseData.service);
+                console.log(responseData.service);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getUsers();
+    }, []);
+
     return (
         <>
             <Navbar />
             <div className='bg-white'>
                 <div className='mx-auto py-12 px-4 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8'>
                     <div className='pb-8'>
-                        <Breadcrumbs name={selectedService.name} category={selectedService.category} />
+                        <Breadcrumbs name={service.name} category={service.category} />
                     </div>
                     {/* Product */}
                     <div className='lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16'>
                         {/* Product image */}
                         <div className='lg:row-end-1 lg:col-span-4'>
                             <div className='aspect-w-4 aspect-h-3 rounded-lg bg-gray-100 overflow-hidden'>
-                                <img src={selectedService.image} alt={selectedService.name} className='object-center object-cover' />
+                                <img src={service.image} alt={service.name} className='object-center object-cover' />
                             </div>
                         </div>
 
@@ -135,7 +149,7 @@ export default function Service() {
                         <div className='max-w-2xl mx-auto mt-14 sm:mt-16 lg:max-w-none lg:mt-0 lg:row-end-2 lg:row-span-2 lg:col-span-3'>
                             <div className='flex flex-col-reverse'>
                                 <div className='mt-4'>
-                                    <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>{selectedService.name}</h1>
+                                    <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>{service.name}</h1>
 
                                     <h2 id='information-heading' className='sr-only'>
                                         Product information
@@ -181,9 +195,7 @@ export default function Service() {
                                 </button>
                             </div>
 
-                            <div className='mt-10 pt-10'>
-                                <ProviderProfile providerId={selectedService.providerId} />
-                            </div>
+                            <div className='mt-10 pt-10'>{/* <ProviderProfile providerId={service.serviceProvider} /> */}</div>
 
                             <div className='border-t border-gray-200 mt-10 pt-10'>
                                 <h3 className='text-sm font-medium text-gray-900'>License</h3>

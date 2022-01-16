@@ -14,7 +14,7 @@ const Content = (props) => {
     const Services = props.services.map((r) => {
         const { id, image, name, rating, serviceProvider, location, category, type } = r;
         return (
-            <Link to={`/service/${id}`} key={id}>
+            <Link to={`/service/61e40a7fa891dd40e3dd67b3`} key={id}>
                 <ServiceCard
                     key={name}
                     image={image}

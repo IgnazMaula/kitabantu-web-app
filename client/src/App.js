@@ -69,7 +69,7 @@ const App = () => {
                         </>
                     )}
                     <Route path='/browse' element={<Browse />}></Route>
-                    <Route path='/service/:serviceId' element={<Service />}></Route>
+                    <Route path='/service/:sid' element={<Service />}></Route>
                     <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
             </AuthContext.Provider>
