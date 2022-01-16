@@ -150,15 +150,35 @@ const getAllService = async (req, res, next) => {
     res.json({ services: services.map((u) => u.toObject({ getters: true })) });
 };
 
-const getServiceById = (req, res, next) => {
+const getServiceById = async (req, res, next) => {
     const serviceId = req.params.sid;
-    const service = services.find((s) => {
-        return s.id === serviceId;
-    });
+    let service;
+    try {
+        service = await Service.findById(serviceId);
+    } catch (error) {
+        return next(new HttpError('Could not find service with that id', 500));
+    }
+
     if (!service) {
-        next(new HttpError('Could not find service with that id', 404));
+        return next(new HttpError('Could not find service with that id', 404));
     } else {
-        res.json({ service });
+        res.json({ service: service.toObject({ getters: true }) });
+    }
+};
+
+const getServiceByUserId = async (req, res, next) => {
+    const userId = req.params.uid;
+    let services;
+    try {
+        services = await Service.find({ serviceProvider: userId });
+    } catch (error) {
+        return next(new HttpError('Fetching places failed', 500));
+    }
+
+    if (!services) {
+        return next(new HttpError('Could not find service with that id' + services, 404));
+    } else {
+        res.json({ services: services.map((service) => service.toObject({ getters: true })) });
     }
 };
 
@@ -225,6 +245,7 @@ const deleteService = (req, res, next) => {
 module.exports = {
     getAllService,
     getServiceById,
+    getServiceByUserId,
     createService,
     updateService,
     deleteService,

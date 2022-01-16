@@ -15,7 +15,7 @@ const ServiceSchema = new Schema({
     image: {
         type: String,
         required: false,
-        default: 'https://library.kissclipart.com/20180906/wtq/kissclipart-user-profile-clipart-user-profile-computer-icons-15b5c3086edf7512.png',
+        default: 'https://i.pinimg.com/originals/23/ec/f9/23ecf945d6f184b0bd3d6df1e905ea56.jpg',
     },
     serviceProvider: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     status: { type: String, required: true, default: 'Pending' },

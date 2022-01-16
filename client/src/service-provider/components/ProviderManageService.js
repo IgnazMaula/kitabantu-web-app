@@ -1,19 +1,23 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon } from '@heroicons/react/solid';
+import { AuthContext } from '../../shared/context/auth-context';
+import EmptyState from '../../shared/components/EmptyState';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
 export default function ProviderManageService() {
+    const auth = useContext(AuthContext);
+    const loggedUserId = auth.loggedUser.id;
     const [services, setServices] = useState([]);
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/services');
+                const response = await fetch(`http://localhost:5000/api/services/user/${loggedUserId}`);
                 const responseData = await response.json();
                 setServices(responseData.services);
             } catch (error) {
@@ -47,9 +51,7 @@ const NoOrders = () => {
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
             <div className='max-w-2xl mx-auto space-y-8 sm:px-4 lg:max-w-4xl lg:px-0'>
-                <div className='flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6'>
-                    <h1>No Order</h1>
-                </div>
+                <EmptyState title='Currently you have no service to offer, click to create a service' link='/add-service'></EmptyState>
             </div>
         </div>
     );

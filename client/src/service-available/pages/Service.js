@@ -110,7 +110,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function Service() {
     const serviceId = useParams().serviceId;
     const selectedService = services.find((service) => service.id == serviceId);
     console.log(selectedService);
