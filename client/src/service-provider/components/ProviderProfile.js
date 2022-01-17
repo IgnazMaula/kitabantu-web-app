@@ -14,6 +14,9 @@ import {
 } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../shared/context/auth-context';
+import { useForm } from '../../shared/hooks/form-hook';
+import Input from '../../shared/components/form/Input';
+import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 
 const navigation = [
     { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -41,6 +44,8 @@ function classNames(...classes) {
 }
 
 export default function ProviderProfile() {
+    const [nameEdit, setNameEdit] = useState(false);
+    const [formState, inputHandler, setFormData] = useForm({}, false);
     const auth = useContext(AuthContext);
     return (
         <>
@@ -90,14 +95,48 @@ export default function ProviderProfile() {
                                                         <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4'>
                                                             <dt className='text-sm font-medium text-gray-500'>Name</dt>
                                                             <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>{auth.loggedUser.name}</span>
+                                                                {nameEdit ? (
+                                                                    <div className='flex-grow'>
+                                                                        <Input
+                                                                            element='input'
+                                                                            id='name'
+                                                                            type='text'
+                                                                            placeholder={auth.loggedUser.name}
+                                                                            validators={[VALIDATOR_MINLENGTH(4)]}
+                                                                            errorText='Please enter a valid name.'
+                                                                            onInput={inputHandler}
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <span className='flex-grow'>{auth.loggedUser.name}</span>
+                                                                )}
                                                                 <span className='ml-4 flex-shrink-0'>
-                                                                    <button
-                                                                        type='button'
-                                                                        className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-                                                                    >
-                                                                        Update
-                                                                    </button>
+                                                                    {nameEdit ? (
+                                                                        <div>
+                                                                            <button
+                                                                                type='button'
+                                                                                onClick={() => setNameEdit(true)}
+                                                                                className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                                                            >
+                                                                                Save Change
+                                                                            </button>
+                                                                            <button
+                                                                                type='button'
+                                                                                onClick={() => setNameEdit(false)}
+                                                                                className='bg-white ml-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                                                            >
+                                                                                Cancel
+                                                                            </button>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <button
+                                                                            type='button'
+                                                                            onClick={() => setNameEdit(true)}
+                                                                            className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                                                                        >
+                                                                            Update
+                                                                        </button>
+                                                                    )}
                                                                 </span>
                                                             </dd>
                                                         </div>

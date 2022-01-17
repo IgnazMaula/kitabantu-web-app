@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { Link } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ import { categories } from '../../shared/util/categories';
 
 export default function AddNewService() {
     const auth = useContext(AuthContext);
+    const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [property, setProperty] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
@@ -40,6 +42,7 @@ export default function AddNewService() {
                 console.log(formState.inputs.category.value);
                 throw new Error(responseData.message);
             }
+            navigate('/manage-service');
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');
