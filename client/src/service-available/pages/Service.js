@@ -195,7 +195,9 @@ export default function Service() {
                                 </button>
                             </div>
 
-                            <div className='mt-10 pt-10'>{/* <ProviderProfile providerId={service.serviceProvider} /> */}</div>
+                            <div className='mt-10 pt-10'>
+                                <ProviderProfile providerId={service.serviceProvider} />
+                            </div>
 
                             <div className='border-t border-gray-200 mt-10 pt-10'>
                                 <h3 className='text-sm font-medium text-gray-900'>License</h3>

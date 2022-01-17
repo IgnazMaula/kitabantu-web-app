@@ -53,15 +53,19 @@ const getAllUser = async (req, res, next) => {
     res.json({ users: users.map((u) => u.toObject({ getters: true })) });
 };
 
-const getUserById = (req, res, next) => {
+const getUserById = async (req, res, next) => {
     const userId = req.params.uid;
-    const user = users.find((u) => {
-        return u.id === userId;
-    });
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next(new HttpError('Could not find user with that id', 500));
+    }
+
     if (!user) {
-        next(new HttpError('Could not find user with that id', 404));
+        return next(new HttpError('Could not find user with that id', 404));
     } else {
-        res.json({ user });
+        res.json({ user: user.toObject({ getters: true }) });
     }
 };
 
