@@ -169,17 +169,28 @@ const login = async (req, res, next) => {
     res.json({ message: 'Logged in!', user: existingUser.toObject({ getters: true }) });
 };
 
-const updateUser = (req, res, next) => {
-    const { firstName, lastName } = req.body;
+const updateUser = async (req, res, next) => {
+    const { name, description, identityNumber } = req.body;
     const userId = req.params.uid;
-    const user = { ...users.find((u) => u.id === userId) };
-    const userIndex = users.findIndex((u) => u.id === userId);
 
-    user.firstName = firstName;
-    user.lastName = lastName;
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
 
-    users[userIndex] = user;
-    res.status(200).json({ user });
+    user.name = name;
+    user.description = description;
+    user.identityNumber = identityNumber;
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
 const deleteUser = (req, res, next) => {

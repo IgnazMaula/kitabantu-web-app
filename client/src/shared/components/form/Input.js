@@ -53,7 +53,7 @@ const Input = (props) => {
     let element;
 
     if (props.element === 'input') {
-        if (props.type === 'number') {
+        if (props.type === 'number' && props.id === 'price') {
             element = (
                 <input
                     id={props.id}
