@@ -11,12 +11,14 @@ import {
     QuestionMarkCircleIcon,
     UsersIcon,
     XIcon,
+    CheckIcon,
 } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useForm } from '../../shared/hooks/form-hook';
 import Input from '../../shared/components/form/Input';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import InformModal from '../../shared/components/modal/InformModal';
 
 const navigation = [
     { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -45,6 +47,7 @@ function classNames(...classes) {
 
 export default function ProviderProfile() {
     const [edit, setEdit] = useState(false);
+    const [open, setOpen] = useState(false);
     const [provider, setProvider] = useState([]);
     const auth = useContext(AuthContext);
     const [formState, inputHandler, setFormData] = useForm({}, false);
@@ -63,6 +66,7 @@ export default function ProviderProfile() {
     }, [edit]);
 
     const editSubmitHandler = async (event) => {
+        setOpen(true);
         event.preventDefault();
         try {
             const response = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`, {
@@ -91,6 +95,9 @@ export default function ProviderProfile() {
         <>
             <div>
                 {/* Content area */}
+                <InformModal open={open} setOpen={setOpen} title='Edit Success' message='User detail has been edited' buttonText='Okay' color='blue'>
+                    <CheckIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                </InformModal>
                 <div>
                     <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                         <main className='flex-1'>
