@@ -79,40 +79,72 @@ const Input = (props) => {
             );
         }
     } else if (props.element === 'option') {
-        element = (
-            <select
-                id={props.id}
-                onChange={(changeHandler, props.onChange)}
-                className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
-            >
-                {props.id !== 'subCategory' && (
+        if (props.id === 'category' || props.id === 'subCategory') {
+            element = (
+                <select
+                    id={props.id}
+                    onChange={(changeHandler, props.onChange)}
+                    className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                >
+                    {props.id !== 'subCategory' && (
+                        <option disabled selected value>
+                            {props.placeholder}
+                        </option>
+                    )}
+
+                    {props.option.map((o) => (
+                        <option value={o} key={o}>
+                            {o}
+                        </option>
+                    ))}
+                </select>
+            );
+        } else {
+            element = (
+                <select
+                    id={props.id}
+                    onChange={changeHandler}
+                    // value={inputState.value}
+                    className='block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm'
+                >
                     <option disabled selected value>
                         {props.placeholder}
                     </option>
-                )}
-
-                {props.option.map((o) => (
-                    <option value={o} key={o}>
-                        {o}
-                    </option>
-                ))}
-            </select>
-        );
+                    {props.option.map((o) => (
+                        <option value={o} key={o}>
+                            {o}
+                        </option>
+                    ))}
+                </select>
+            );
+        }
     } else if (props.element === 'radio') {
         element = (
             <fieldset className='mt-4'>
                 <div className='space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6'>
                     {props.option.map((o) => (
                         <div key={o.option} className='flex items-center'>
-                            <input
-                                id={o.option}
-                                onChange={changeHandler}
-                                name='notification-method'
-                                type={props.type}
-                                // defaultChecked={props.option[0].value}
-                                value={o.value}
-                                className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
-                            />
+                            {props.placeholder === o.value ? (
+                                <input
+                                    id={o.option}
+                                    onChange={changeHandler}
+                                    name='notification-method'
+                                    type={props.type}
+                                    defaultChecked={true}
+                                    value={o.value}
+                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                />
+                            ) : (
+                                <input
+                                    id={o.option}
+                                    onChange={changeHandler}
+                                    name='notification-method'
+                                    type={props.type}
+                                    defaultChecked={false}
+                                    value={o.value}
+                                    className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
+                                />
+                            )}
                             <label htmlFor={o} className='ml-3 block text-sm font-medium text-gray-700'>
                                 {o.option}
                             </label>

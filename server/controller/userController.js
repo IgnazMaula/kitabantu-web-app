@@ -170,7 +170,7 @@ const login = async (req, res, next) => {
 };
 
 const updateUser = async (req, res, next) => {
-    const { name, description, identityNumber } = req.body;
+    const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description } = req.body;
     const userId = req.params.uid;
 
     let user;
@@ -181,8 +181,13 @@ const updateUser = async (req, res, next) => {
     }
 
     user.name = name;
-    user.description = description;
+    user.location = location;
     user.identityNumber = identityNumber;
+    user.phoneNumber = phoneNumber;
+    user.address = address;
+    user.userType = userType;
+    user.vaccinated = vaccinated;
+    user.description = description;
 
     try {
         await user.save();
