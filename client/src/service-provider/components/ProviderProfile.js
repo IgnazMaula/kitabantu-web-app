@@ -209,7 +209,7 @@ export default function ProviderProfile() {
                                                                 <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
                                                                     <dt className='text-sm font-medium text-gray-500'>Email</dt>
                                                                     <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                        <span className='flex-grow'>{auth.loggedUser.email}</span>
+                                                                        <span className='flex-grow'>{provider.email}</span>
                                                                     </dd>
                                                                 </div>
                                                                 <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200'>
