@@ -14,7 +14,9 @@ router.post('/register', userController.register);
 
 router.post('/login', userController.login);
 
-router.patch('/:uid', userController.updateUser);
+router.patch('/update/provider/:uid', userController.updateProvider);
+
+router.patch('/update/client/:uid', userController.updateClient);
 
 router.delete('/:uid', userController.deleteUser);
 

@@ -169,7 +169,36 @@ const login = async (req, res, next) => {
     res.json({ message: 'Logged in!', user: existingUser.toObject({ getters: true }) });
 };
 
-const updateUser = async (req, res, next) => {
+const updateProvider = async (req, res, next) => {
+    const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description } = req.body;
+    const userId = req.params.uid;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
+
+    user.name = name;
+    user.location = location;
+    user.identityNumber = identityNumber;
+    user.phoneNumber = phoneNumber;
+    user.address = address;
+    user.userType = userType;
+    user.vaccinated = vaccinated;
+    user.description = description;
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
+const updateClient = async (req, res, next) => {
     const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description } = req.body;
     const userId = req.params.uid;
 
@@ -210,6 +239,7 @@ module.exports = {
     signup,
     register,
     login,
-    updateUser,
+    updateProvider,
+    updateClient,
     deleteUser,
 };

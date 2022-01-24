@@ -60,7 +60,7 @@ export default function ProviderProfile() {
         formState.inputs.userType.value === '' ? (userValue = provider.userType) : (userValue = formState.inputs.userType.value);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`, {
+            const response = await fetch(`http://localhost:5000/api/users/update/provider/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
