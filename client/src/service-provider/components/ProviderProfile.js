@@ -34,7 +34,6 @@ function classNames(...classes) {
 
 export default function ProviderProfile() {
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState();
     const [edit, setEdit] = useState(false);
     const [open, setOpen] = useState(false);
     const [provider, setProvider] = useState([]);
@@ -54,7 +53,6 @@ export default function ProviderProfile() {
                 console.log(auth.loggedUser);
             } catch (error) {
                 setIsLoading(false);
-                setError(error.message);
                 console.log(error);
             }
         };
