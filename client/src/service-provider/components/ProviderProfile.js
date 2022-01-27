@@ -100,20 +100,20 @@ export default function ProviderProfile() {
                 <InformModal open={open} setOpen={setOpen} title='Edit Success' message='User detail has been edited' buttonText='Okay' color='blue'>
                     <CheckIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
                 </InformModal>
-                {isLoading ? (
-                    <div className='text-center p-24'>
-                        <LoadingSpinner />
-                    </div>
-                ) : (
-                    <div>
-                        <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
-                            <main className='flex-1'>
-                                <div className='relative max-w-4xl mx-auto md:px-8 xl:px-0'>
-                                    <div>
-                                        <div className='px-4 sm:px-6 md:px-0'>
-                                            <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Profile</h1>
-                                            <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
+                <div>
+                    <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
+                        <main className='flex-1'>
+                            <div className='relative max-w-4xl mx-auto md:px-8 xl:px-0'>
+                                <div>
+                                    <div className='px-4 sm:px-6 md:px-0'>
+                                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Profile</h1>
+                                        <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
+                                    </div>
+                                    {isLoading ? (
+                                        <div className='text-center p-24'>
+                                            <LoadingSpinner />
                                         </div>
+                                    ) : (
                                         <form onSubmit={editSubmitHandler}>
                                             <div className='px-4 sm:px-6 md:px-0'>
                                                 <div className='py-6'>
@@ -416,12 +416,12 @@ export default function ProviderProfile() {
                                                 </div>
                                             </div>
                                         </form>
-                                    </div>
+                                    )}
                                 </div>
-                            </main>
-                        </div>
+                            </div>
+                        </main>
                     </div>
-                )}
+                </div>
             </div>
         </>
     );
