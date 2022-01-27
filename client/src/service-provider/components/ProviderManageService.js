@@ -5,6 +5,7 @@ import { DotsVerticalIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../shared/context/auth-context';
 import EmptyState from '../../shared/components/EmptyState';
+import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -13,14 +14,18 @@ function classNames(...classes) {
 export default function ProviderManageService() {
     const auth = useContext(AuthContext);
     const loggedUserId = auth.loggedUser.id;
+    const [isLoading, setIsLoading] = useState(false);
     const [services, setServices] = useState([]);
     useEffect(() => {
         const getUsers = async () => {
             try {
+                setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/user/${loggedUserId}`);
                 const responseData = await response.json();
                 setServices(responseData.services);
+                setIsLoading(false);
             } catch (error) {
+                setIsLoading(false);
                 console.log(error);
             }
         };
@@ -41,7 +46,13 @@ export default function ProviderManageService() {
                 <div className='mt-16'>
                     <h2 className='sr-only'>Recent orders</h2>
                     <h1>{services.number}</h1>
-                    {services.length === 0 ? <NoOrders /> : <Orders services={services} />}
+                    {isLoading ? (
+                        <div className='text-center p-24'>
+                            <LoadingSpinner />
+                        </div>
+                    ) : (
+                        <div> {services.length === 0 ? <NoOrders /> : <Orders services={services} />}</div>
+                    )}
                 </div>
             </div>
         </div>
