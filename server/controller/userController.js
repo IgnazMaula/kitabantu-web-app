@@ -181,12 +181,12 @@ const updateProvider = async (req, res, next) => {
     }
 
     user.name = name;
-    user.location = location;
     user.identityNumber = identityNumber;
     user.phoneNumber = phoneNumber;
-    user.address = address;
     user.userType = userType;
     user.vaccinated = vaccinated;
+    user.location = location;
+    user.address = address;
     user.description = description;
 
     try {
@@ -199,7 +199,7 @@ const updateProvider = async (req, res, next) => {
 };
 
 const updateClient = async (req, res, next) => {
-    const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description } = req.body;
+    const { name, location, identityNumber, phoneNumber, address, gender, occupation } = req.body;
     const userId = req.params.uid;
 
     let user;
@@ -210,13 +210,12 @@ const updateClient = async (req, res, next) => {
     }
 
     user.name = name;
-    user.location = location;
     user.identityNumber = identityNumber;
     user.phoneNumber = phoneNumber;
+    user.gender = gender;
+    user.occupation = occupation;
+    user.location = location;
     user.address = address;
-    user.userType = userType;
-    user.vaccinated = vaccinated;
-    user.description = description;
 
     try {
         await user.save();

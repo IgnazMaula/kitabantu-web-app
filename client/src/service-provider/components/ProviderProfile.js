@@ -54,8 +54,7 @@ export default function ProviderProfile() {
     const editSubmitHandler = async (event) => {
         setOpen(true);
         event.preventDefault();
-        let locationValue;
-        let userValue;
+        let locationValue, userValue;
         formState.inputs.location.value === '' ? (locationValue = provider.location) : (locationValue = formState.inputs.location.value);
         formState.inputs.userType.value === '' ? (userValue = provider.userType) : (userValue = formState.inputs.userType.value);
 
@@ -67,12 +66,12 @@ export default function ProviderProfile() {
                 },
                 body: JSON.stringify({
                     name: formState.inputs.name.value,
-                    location: locationValue,
                     identityNumber: formState.inputs.identityNumber.value,
                     phoneNumber: formState.inputs.phoneNumber.value,
-                    address: formState.inputs.address.value,
                     userType: userValue,
                     vaccinated: formState.inputs.vaccinated.value,
+                    location: locationValue,
+                    address: formState.inputs.address.value,
                     description: formState.inputs.description.value,
                 }),
             });
