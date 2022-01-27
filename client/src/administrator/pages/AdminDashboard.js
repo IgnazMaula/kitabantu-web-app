@@ -52,7 +52,7 @@ const userNavigation = [
 ];
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
-    { name: 'Approve Service Request', href: '/profile', icon: ClipboardCheckIcon },
+    { name: 'Manage Service Request', href: '/manage-request', icon: ClipboardCheckIcon },
     { name: 'Manage Users', href: '/profile', icon: UsersIcon },
     { name: 'Manage Services', href: '/profile', icon: CollectionIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },

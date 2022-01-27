@@ -16,7 +16,7 @@ const ProviderMenu = (props) => {
     } else if (props.activeMenu === 'Add New Service') {
         return <AddNewService />;
     } else {
-        return <h1>Hello</h1>;
+        return <h1>Wrong Route</h1>;
     }
 };
 

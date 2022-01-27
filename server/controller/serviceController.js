@@ -182,6 +182,16 @@ const getServiceByUserId = async (req, res, next) => {
     }
 };
 
+const getPendingService = async (req, res, next) => {
+    let services;
+    try {
+        services = await Service.find({ status: 'Pending' });
+    } catch (error) {
+        return next(new HttpError('Fetching services failed', 500));
+    }
+    res.json({ services: services.map((u) => u.toObject({ getters: true })) });
+};
+
 const createService = async (req, res, next) => {
     const { name, category, subCategory, price, unit, label, property, description, serviceProvider } = req.body;
     const createdService = new Service({
@@ -233,6 +243,28 @@ const updateService = (req, res, next) => {
     res.status(200).json({ service });
 };
 
+const updateServiceStatus = async (req, res, next) => {
+    const { status } = req.body;
+    const serviceId = req.params.sid;
+
+    let service;
+    try {
+        service = await Service.findById(serviceId);
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    service.status = status;
+
+    try {
+        await service.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ service: service.toObject({ getters: true }) });
+};
+
 const deleteService = (req, res, next) => {
     const serviceId = req.params.sid;
     if (!services.find((s) => s.id === serviceId)) {
@@ -246,7 +278,9 @@ module.exports = {
     getAllService,
     getServiceById,
     getServiceByUserId,
+    getPendingService,
     createService,
     updateService,
+    updateServiceStatus,
     deleteService,
 };

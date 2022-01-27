@@ -17,7 +17,7 @@ const ClientMenu = (props) => {
     } else if (props.activeMenu === 'My Bookmarks') {
         return <ClientBookmarks />;
     } else {
-        return <h1>Hello</h1>;
+        return <h1>Wrong Route</h1>;
     }
 };
 

@@ -37,7 +37,7 @@ export default function InformModal(props) {
                     >
                         <div className='inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6'>
                             <div>
-                                <div className='mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100'>{children}</div>
+                                <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-${color}-100`}>{children}</div>
                                 <div className='mt-3 text-center sm:mt-5'>
                                     <Dialog.Title as='h3' className='text-lg leading-6 font-medium text-gray-900'>
                                         {title}

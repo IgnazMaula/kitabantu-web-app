@@ -66,6 +66,7 @@ const App = () => {
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Admin' && (
                         <>
                             <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
+                            <Route path='/manage-request' element={<AdminDashboard active='Manage Service Request' />}></Route>
                         </>
                     )}
                     <Route path='/browse' element={<Browse />}></Route>
