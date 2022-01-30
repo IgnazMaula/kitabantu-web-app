@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Content from './shared/components/Content';
+import ServiceList from './shared/components/ServiceList';
 import Category from './shared/components/Category';
 import Header from './shared/components/Header';
 import CalltoAction from './shared/components/CalltoAction';
@@ -15,7 +15,7 @@ const Main = (props) => {
             <Navbar />
             {!auth.isLoggedIn && <Header />}
             <Category />
-            <Content services={services} />
+            <ServiceList services={services} />
             {!auth.isLoggedIn && <CalltoAction />}
             <Footer />
         </div>

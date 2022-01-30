@@ -11,7 +11,7 @@ import LoadingSpinner from './LoadingSpinner';
 import Pagination from './Pagination';
 import { Link } from 'react-router-dom';
 
-export default function Content() {
+export default function ServiceList() {
     let serviceAvailable = false;
     const [isLoading, setIsLoading] = useState(false);
     const [services, setServices] = useState([]);

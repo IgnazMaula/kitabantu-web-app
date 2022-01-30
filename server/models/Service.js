@@ -15,7 +15,7 @@ const ServiceSchema = new Schema({
     image: {
         type: String,
         required: false,
-        default: 'https://i.pinimg.com/originals/23/ec/f9/23ecf945d6f184b0bd3d6df1e905ea56.jpg',
+        default: 'http://localhost:3000/images/default-service-thumbnail.jpg',
     },
     serviceProvider: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     status: { type: String, required: true, default: 'Pending' },
