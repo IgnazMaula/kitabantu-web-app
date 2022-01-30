@@ -19,7 +19,7 @@ export default function AdminManageRequest() {
     const [isLoading, setIsLoading] = useState(false);
     const [services, setServices] = useState([]);
     const [message, setMessage] = useState();
-    let [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     useEffect(() => {
         const getUsers = async () => {
             try {

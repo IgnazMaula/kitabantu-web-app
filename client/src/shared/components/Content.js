@@ -12,6 +12,7 @@ import Pagination from './Pagination';
 import { Link } from 'react-router-dom';
 
 export default function Content() {
+    let serviceAvailable = false;
     const [isLoading, setIsLoading] = useState(false);
     const [services, setServices] = useState([]);
     const [users, setUsers] = useState([]);
@@ -32,7 +33,7 @@ export default function Content() {
             }
         };
         getService();
-    }, []);
+    }, [services]);
     const getUserName = (userId) => {
         let name = '';
         users.forEach((user) => {
@@ -45,40 +46,43 @@ export default function Content() {
 
     console.log(services);
     const serviceList = services.map((s) => {
-        const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit } = s;
-        return (
-            <Link to={`/service/${id}`} key={id}>
-                <ServiceCard
-                    key={name}
-                    image={image}
-                    className='mx-auto cursor-pointer h-full shadow-sm'
-                    html={
-                        <div className='text-sm'>
-                            <div className='h-14  '>
-                                <h3 className='font-bold text-base'>{name}</h3>
+        const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
+        if (status === 'Active') {
+            serviceAvailable = true;
+            return (
+                <Link to={`/service/${id}`} key={id}>
+                    <ServiceCard
+                        key={name}
+                        image={image}
+                        className='mx-auto cursor-pointer h-full shadow-sm'
+                        html={
+                            <div className='text-sm'>
+                                <div className='h-14  '>
+                                    <h3 className='font-bold text-base'>{name}</h3>
+                                </div>
+                                <div className='flex items-center text-yellow-400'>
+                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                </div>
+                                <p className='mt-1 text-green-600 font-bold'>{getUserName(serviceProvider)}</p>
+                                <p>
+                                    {category} • {subCategory}
+                                </p>
+                                <p className='font-bold'>{location}</p>
+                                <p className='text-gray-400 mt-2'>
+                                    {' '}
+                                    Price starting at {price}
+                                    {unit}
+                                </p>
                             </div>
-                            <div className='flex items-center text-yellow-400'>
-                                <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                            </div>
-                            <p className='mt-1 text-green-600 font-bold'>{getUserName(serviceProvider)}</p>
-                            <p>
-                                {category} • {subCategory}
-                            </p>
-                            <p className='font-bold'>{location}</p>
-                            <p className='text-gray-400 mt-2'>
-                                {' '}
-                                Price starting at {price}
-                                {unit}
-                            </p>
-                        </div>
-                    }
-                />
-            </Link>
-        );
+                        }
+                    />
+                </Link>
+            );
+        }
     });
     return (
         <div>
@@ -93,15 +97,13 @@ export default function Content() {
                                 <div className='text-center p-24'>
                                     <LoadingSpinner />
                                 </div>
-                            ) : services.length > 0 ? (
+                            ) : serviceAvailable ? (
                                 <div className='grid grid-cols-1 sm:grid-cols-6 xl:grid-cols-4 gap-6 mt-12'>{serviceList}</div>
                             ) : (
                                 <h1 className='p-12'>No Service Registered Yet</h1>
                             )}
                         </div>
-                        <div className='pt-16'>
-                            <Pagination></Pagination>
-                        </div>
+                        <div className='pt-16'>{/* <Pagination></Pagination> */}</div>
                     </div>
                 </div>
             </div>
