@@ -41,7 +41,7 @@ export default function AdminManageRequest() {
     }, [services]);
 
     const getUserName = (userId) => {
-        let name = 'a';
+        let name = '';
         users.forEach((user) => {
             if (userId === user.id) {
                 name = user.name;
@@ -70,7 +70,6 @@ export default function AdminManageRequest() {
         } catch (error) {
             console.log(error);
         }
-        console.log('terpanggil');
     };
 
     return (
