@@ -158,8 +158,8 @@ export default function AddNewService() {
                                         id='name'
                                         type='text'
                                         placeholder='Service name'
-                                        validators={[VALIDATOR_MINLENGTH(4)]}
-                                        errorText='Please enter a valid name.'
+                                        validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_MAXLENGTH(48)]}
+                                        errorText='Please enter name between 8-48 characters.'
                                         onInput={inputHandler}
                                     />
                                 </div>

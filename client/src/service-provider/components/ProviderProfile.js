@@ -206,8 +206,8 @@ export default function ProviderProfile() {
                                                                                         type='text'
                                                                                         initialValue={provider.name}
                                                                                         initialValid={true}
-                                                                                        validators={[VALIDATOR_MINLENGTH(4)]}
-                                                                                        errorText='Please enter a valid name.'
+                                                                                        validators={[VALIDATOR_MINLENGTH(8), VALIDATOR_MAXLENGTH(48)]}
+                                                                                        errorText='Please enter name between 8-48 characters.'
                                                                                         onInput={inputHandler}
                                                                                     />
                                                                                 </div>
