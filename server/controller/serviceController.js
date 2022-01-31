@@ -230,17 +230,30 @@ const createService = async (req, res, next) => {
     res.status(201).json({ service: createdService.toObject({ getters: true }) });
 };
 
-const updateService = (req, res, next) => {
-    const { name, serviceProvider } = req.body;
+const updateService = async (req, res, next) => {
+    const { name, price, property, description } = req.body;
     const serviceId = req.params.sid;
-    const service = { ...services.find((s) => s.id === serviceId) };
-    const serviceIndex = services.findIndex((s) => s.id === serviceId);
+
+    let service;
+
+    try {
+        service = await Service.findById(serviceId);
+    } catch (error) {
+        return next(new HttpError('Create service failed, please try again later', 500));
+    }
 
     service.name = name;
-    service.serviceProvider = serviceProvider;
+    service.price = price;
+    service.property = property;
+    service.description = description;
 
-    services[serviceIndex] = service;
-    res.status(200).json({ service });
+    try {
+        await service.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ service: service.toObject({ getters: true }) });
 };
 
 const updateServiceStatus = async (req, res, next) => {

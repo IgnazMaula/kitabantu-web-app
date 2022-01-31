@@ -119,7 +119,7 @@ export default function Service() {
     const [service, setService] = useState([]);
     const [serviceProperty, setServiceProperty] = useState([]);
     useEffect(() => {
-        const getUsers = async () => {
+        const getService = async () => {
             try {
                 setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/${sid}`);
@@ -132,7 +132,7 @@ export default function Service() {
                 console.log(error);
             }
         };
-        getUsers();
+        getService();
     }, []);
 
     return (

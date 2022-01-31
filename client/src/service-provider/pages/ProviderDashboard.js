@@ -54,8 +54,6 @@ const subNavigation = [
     { name: 'Manage Incoming Order', href: '/profile', icon: SaveIcon },
     { name: 'Manage My Service', href: '/manage-service', icon: CollectionIcon },
     { name: 'Add New Service', href: '/add-service', icon: PlusCircleIcon },
-    // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
-    // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
 ];
 const plans = [
     { name: 'Startup', priceMonthly: 29, priceYearly: 290, limit: 'Up to 5 active job postings' },
@@ -79,6 +77,10 @@ function classNames(...classes) {
 }
 
 export default function ProviderDashboard(props) {
+    let activeMenu = props.active;
+    if (props.active === 'Edit Service') {
+        activeMenu = 'Manage My Service';
+    }
     return (
         <>
             <Navbar />
@@ -93,7 +95,7 @@ export default function ProviderDashboard(props) {
                                             to={item.href}
                                             key={item.name}
                                             className={classNames(
-                                                item.name === props.active
+                                                item.name === activeMenu
                                                     ? 'bg-blue-50 border-blue-600 text-blue-600'
                                                     : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium'
@@ -101,7 +103,7 @@ export default function ProviderDashboard(props) {
                                         >
                                             <item.icon
                                                 className={classNames(
-                                                    item.name === props.active ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                    item.name === activeMenu ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500',
                                                     'flex-shrink-0 -ml-1 mr-3 h-6 w-6'
                                                 )}
                                             />

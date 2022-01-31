@@ -92,7 +92,7 @@ export const categories = [
     },
     {
         id: 'c',
-        name: 'House Maintenance & Repair ',
+        name: 'House Maintenance & Repair',
         sub: [
             {
                 id: 'c1',

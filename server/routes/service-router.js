@@ -14,7 +14,7 @@ router.get('/user/:uid', serviceController.getServiceByUserId);
 
 router.post('/create-service', serviceController.createService);
 
-router.patch('/:sid', serviceController.updateService);
+router.patch('/edit-service/:sid', serviceController.updateService);
 
 router.patch('/manage-status/:sid', serviceController.updateServiceStatus);
 

@@ -18,6 +18,7 @@ import Browse from './shared/pages/Browse';
 import { AuthContext } from './shared/context/auth-context';
 import RegisterMenu from './authentication-page/pages/RegisterMenu';
 import AddNewService from './service-provider/components/AddNewService';
+import EditService from './service-provider/components/EditService';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,6 +61,7 @@ const App = () => {
                             <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
                             <Route path='/manage-service' element={<ProviderDashboard active='Manage My Service' />}></Route>
                             <Route path='/add-service' element={<ProviderDashboard active='Add New Service' />}></Route>
+                            <Route path='/edit-service/:sid' element={<ProviderDashboard active='Edit Service' />}></Route>
                         </>
                     )}
                     {/* Routes for admin */}

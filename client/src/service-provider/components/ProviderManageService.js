@@ -6,6 +6,7 @@ import { CheckCircleIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../shared/context/auth-context';
 import EmptyState from '../../shared/components/EmptyState';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
+import { NavLink } from 'react-router-dom';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -145,20 +146,20 @@ const Orders = (props) => {
                             </Menu>
 
                             <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
-                                <a
-                                    href={service.href}
+                                <NavLink
+                                    to={`/service/${service.id}`}
                                     className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                 >
                                     <span>View Service</span>
                                     <span className='sr-only'>{service.number}</span>
-                                </a>
-                                <a
-                                    href={service.invoiceHref}
+                                </NavLink>
+                                <NavLink
+                                    to={`/edit-service/${service.id}`}
                                     className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                                 >
                                     <span>Edit Service</span>
                                     <span className='sr-only'>for order {service.number}</span>
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
 
