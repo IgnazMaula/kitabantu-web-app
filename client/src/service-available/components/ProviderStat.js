@@ -1,13 +1,13 @@
 import { CursorClickIcon, MailOpenIcon, UsersIcon } from '@heroicons/react/outline';
 
-/* This example requires Tailwind CSS v2.0+ */
-const stats = [
-    { name: 'Service Owned', stat: '71,897', icon: UsersIcon },
-    { name: 'Total Provider', stat: '58.16%', icon: UsersIcon },
-    { name: 'Total Client', stat: '24.57%', icon: UsersIcon },
-];
+export default function ProviderStat(props) {
+    const { serviceOwned, orderReceived, averageRating } = props;
+    const stats = [
+        { name: 'Service Owned', stat: `${serviceOwned}`, icon: UsersIcon },
+        { name: 'Order Received', stat: `${orderReceived}`, icon: UsersIcon },
+        { name: 'Average Rating', stat: `${averageRating}`, icon: UsersIcon },
+    ];
 
-export default function ProviderStat() {
     return (
         <div>
             <dl className='mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3'>
