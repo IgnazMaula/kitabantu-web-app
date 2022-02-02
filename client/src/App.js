@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import Main from './Main';
 import Service from './service-available/pages/Service';
@@ -19,8 +19,10 @@ import { AuthContext } from './shared/context/auth-context';
 import RegisterMenu from './authentication-page/pages/RegisterMenu';
 import AddNewService from './service-provider/components/AddNewService';
 import EditService from './service-provider/components/EditService';
+import ProviderProfilePage from './service-available/pages/ProviderProfilePage';
 
 const App = () => {
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedUser, setLoggedUser] = useState();
     const login = useCallback((user) => {
@@ -30,6 +32,7 @@ const App = () => {
     const logout = useCallback(() => {
         setLoggedUser(null);
         setIsLoggedIn(false);
+        navigate('/');
     }, []);
 
     return (
@@ -73,6 +76,7 @@ const App = () => {
                     )}
                     <Route path='/browse' element={<Browse />}></Route>
                     <Route path='/service/:sid' element={<Service />}></Route>
+                    <Route path='/provider-profile/:uid' element={<ProviderProfilePage />}></Route>
                     <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
             </AuthContext.Provider>

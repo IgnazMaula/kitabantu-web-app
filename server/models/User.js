@@ -15,7 +15,7 @@ const userSchema = new Schema({
     image: {
         type: String,
         required: false,
-        default: 'https://library.kissclipart.com/20180906/wtq/kissclipart-user-profile-clipart-user-profile-computer-icons-15b5c3086edf7512.png',
+        default: 'http://localhost:3000/images/default-provider.png',
     },
     // Properties of Service Client
     gender: { type: String, required: false, default: undefined },
