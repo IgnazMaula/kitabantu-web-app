@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/outline';
 import { SearchIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../shared/context/auth-context';
+import AdminStat from './AdminStat';
 
 const navigation = [
     { name: 'Home', href: '#', icon: HomeIcon, current: false },
@@ -54,53 +55,55 @@ export default function AdminProfile() {
                             <div className='relative max-w-4xl mx-auto md:px-8 xl:px-0'>
                                 <div>
                                     <div className='px-4 sm:px-6 md:px-0'>
-                                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Profile</h1>
+                                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>KitaBantu Statistic</h1>
                                         <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
                                     </div>
                                     <div className='px-4 sm:px-6 md:px-0'>
                                         <div className='py-6'>
                                             {/* Description list with inline editing */}
-                                            <div>
-                                                <div className='space-y-1'></div>
-                                                <div className='mt-6'>
-                                                    <dl className='divide-y divide-gray-200'>
-                                                        <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Photo</dt>
-                                                            <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>
-                                                                    {auth.loggedUser.gender === 'Male' ? (
-                                                                        <img className='h-32 w-32 rounded-full' src='/images/admin-male.png' alt='' />
-                                                                    ) : (
-                                                                        <img
-                                                                            className='h-32 w-32 rounded-full'
-                                                                            src='/images/admin-female.png'
-                                                                            alt=''
-                                                                        />
-                                                                    )}
-                                                                </span>
-                                                            </dd>
-                                                        </div>
-                                                        <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Name</dt>
-                                                            <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>{auth.loggedUser.name}</span>
-                                                            </dd>
-                                                        </div>
-                                                        <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Email</dt>
-                                                            <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>{auth.loggedUser.email}</span>
-                                                            </dd>
-                                                        </div>
-                                                        <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200'>
-                                                            <dt className='text-sm font-medium text-gray-500'>Type of Account</dt>
-                                                            <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                <span className='flex-grow'>Administrator</span>
-                                                            </dd>
-                                                        </div>
-                                                    </dl>
+                                            <AdminStat />
+                                            <AdminStat />
+                                        </div>
+                                    </div>
+                                    <div className='px-4 sm:px-6 md:px-0 py-12'>
+                                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Profile</h1>
+                                        <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
+                                    </div>
+                                    <div className='px-4 sm:px-6 md:px-0'>
+                                        <div className='space-y-1'></div>
+                                        <div className='mt-6'>
+                                            <dl className='divide-y divide-gray-200'>
+                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
+                                                    <dt className='text-sm font-medium text-gray-500'>Photo</dt>
+                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                        <span className='flex-grow'>
+                                                            {auth.loggedUser.gender === 'Male' ? (
+                                                                <img className='h-32 w-32 rounded-full' src='/images/admin-male.png' alt='' />
+                                                            ) : (
+                                                                <img className='h-32 w-32 rounded-full' src='/images/admin-female.png' alt='' />
+                                                            )}
+                                                        </span>
+                                                    </dd>
                                                 </div>
-                                            </div>
+                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4'>
+                                                    <dt className='text-sm font-medium text-gray-500'>Name</dt>
+                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                        <span className='flex-grow'>{auth.loggedUser.name}</span>
+                                                    </dd>
+                                                </div>
+                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
+                                                    <dt className='text-sm font-medium text-gray-500'>Email</dt>
+                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                        <span className='flex-grow'>{auth.loggedUser.email}</span>
+                                                    </dd>
+                                                </div>
+                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200'>
+                                                    <dt className='text-sm font-medium text-gray-500'>Type of Account</dt>
+                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                        <span className='flex-grow'>Administrator</span>
+                                                    </dd>
+                                                </div>
+                                            </dl>
                                         </div>
                                     </div>
                                 </div>
