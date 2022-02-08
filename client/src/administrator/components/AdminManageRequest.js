@@ -270,7 +270,7 @@ const Orders = (props) => {
                                             </h3>
                                             <p className='hidden sm:block sm:mt-2'>{service.description}</p>
                                             <p className='hidden sm:block sm:mt-2'>
-                                                <b>Tags:</b> {service.property.join(', ')}
+                                                <b>Tags:</b> {service.properties.join(', ')}
                                             </p>
                                         </div>
                                     </div>

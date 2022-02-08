@@ -13,7 +13,7 @@ export default function AddNewService() {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
     const [error, setError] = useState(false);
-    const [property, setProperty] = useState([]);
+    const [properties, setProperties] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
 
     const authSubmitHandler = async (event) => {
@@ -31,7 +31,7 @@ export default function AddNewService() {
                     price: formState.inputs.price.value,
                     unit: unit,
                     label: label,
-                    property: property,
+                    properties: properties,
                     description: formState.inputs.description.value,
                     serviceProvider: auth.loggedUser,
                 }),
@@ -61,7 +61,7 @@ export default function AddNewService() {
     const handleSelectedCategory = (e) => {
         setSelectedCategory(e.target.value);
         console.log(selectedCategory);
-        setProperty([]);
+        setProperties([]);
         document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
         categories.forEach((c) => {
             if (c.name === e.target.value) {
@@ -75,7 +75,7 @@ export default function AddNewService() {
     const handleSelectedSubCategory = (e) => {
         console.log(selectedSubCategory);
         setSubSelectedCategory(e.target.value);
-        setProperty([]);
+        setProperties([]);
         document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
     };
 
@@ -83,20 +83,20 @@ export default function AddNewService() {
         const {
             target: { name, value },
         } = e;
-        setProperty((property) => {
-            if (property.includes(name)) {
-                property.splice(property.indexOf(name), 1);
-                return [...property];
+        setProperties((properties) => {
+            if (properties.includes(name)) {
+                properties.splice(properties.indexOf(name), 1);
+                return [...properties];
             } else {
                 console.log('no');
-                return [...property, name];
+                return [...properties, name];
             }
         });
     };
 
     useEffect(() => {
-        console.log(property);
-    }, [property]);
+        console.log(properties);
+    }, [properties]);
 
     categories.map((c) => {
         categoriesList.push(c.name);

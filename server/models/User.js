@@ -12,6 +12,7 @@ const userSchema = new Schema({
     identityNumber: { type: String },
     phoneNumber: { type: String },
     address: { type: String },
+    isActive: { type: Boolean, default: true },
     image: {
         type: String,
         required: false,
@@ -26,7 +27,6 @@ const userSchema = new Schema({
     vaccinated: { type: Boolean, required: false, default: undefined },
     // Collections of Service Client
     orders: [{ type: String, required: false }],
-    ratings: [{ type: String, required: false }],
     bookmarks: [{ type: String, required: false }],
     // Collections of Service Provider
     services: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Service' }],

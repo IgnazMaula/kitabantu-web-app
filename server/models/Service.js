@@ -10,7 +10,7 @@ const ServiceSchema = new Schema({
     price: { type: String, required: true },
     unit: { type: String, required: true },
     label: { type: String, required: true },
-    property: [{ type: String, required: false }],
+    properties: [{ type: String, required: false }],
     description: { type: String, required: false },
     image: {
         type: String,
@@ -19,7 +19,7 @@ const ServiceSchema = new Schema({
     },
     serviceProvider: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     status: { type: String, required: true, default: 'Pending' },
-    rating: [
+    ratings: [
         {
             score: Number,
             review: String,

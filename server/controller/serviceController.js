@@ -193,7 +193,7 @@ const getPendingService = async (req, res, next) => {
 };
 
 const createService = async (req, res, next) => {
-    const { name, category, subCategory, price, unit, label, property, description, serviceProvider } = req.body;
+    const { name, category, subCategory, price, unit, label, properties, description, serviceProvider } = req.body;
     const createdService = new Service({
         name,
         category,
@@ -201,7 +201,7 @@ const createService = async (req, res, next) => {
         price,
         unit,
         label,
-        property,
+        properties,
         description,
         serviceProvider,
     });
@@ -231,7 +231,7 @@ const createService = async (req, res, next) => {
 };
 
 const updateService = async (req, res, next) => {
-    const { name, price, property, description } = req.body;
+    const { name, price, properties, description } = req.body;
     const serviceId = req.params.sid;
 
     let service;
@@ -244,7 +244,7 @@ const updateService = async (req, res, next) => {
 
     service.name = name;
     service.price = price;
-    service.property = property;
+    service.properties = properties;
     service.description = description;
 
     try {

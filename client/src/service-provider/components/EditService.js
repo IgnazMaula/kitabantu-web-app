@@ -15,7 +15,7 @@ export default function EditService() {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
     const [error, setError] = useState(false);
-    const [property, setProperty] = useState([]);
+    const [properties, setProperties] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
     const [isLoading, setIsLoading] = useState(false);
     const [service, setService] = useState([]);
@@ -26,7 +26,7 @@ export default function EditService() {
                 const response = await fetch(`http://localhost:5000/api/services/${sid}`);
                 const responseData = await response.json();
                 setService(responseData.service);
-                setProperty(property.concat(responseData.service.property));
+                setProperties(properties.concat(responseData.service.properties));
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -46,7 +46,7 @@ export default function EditService() {
                 body: JSON.stringify({
                     name: formState.inputs.name.value,
                     price: formState.inputs.price.value,
-                    property: property,
+                    properties: properties,
                     description: formState.inputs.description.value,
                 }),
             });
@@ -74,27 +74,27 @@ export default function EditService() {
         const {
             target: { name, value },
         } = e;
-        property.forEach((e) => {
+        properties.forEach((e) => {
             if (e === name) {
                 document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
             }
         });
-        setProperty((property) => {
-            if (property.includes(name)) {
-                property.splice(property.indexOf(name), 1);
-                return [...property];
+        setProperties((properties) => {
+            if (properties.includes(name)) {
+                properties.splice(properties.indexOf(name), 1);
+                return [...properties];
             } else {
-                return [...property, name];
+                return [...properties, name];
             }
         });
     };
 
-    useEffect(() => {}, [property]);
+    useEffect(() => {}, [properties]);
 
-    const isChecked = (propertyName) => {
+    const isChecked = (propertiesName) => {
         let check = false;
-        property.forEach((e) => {
-            if (e === propertyName) {
+        properties.forEach((e) => {
+            if (e === propertiesName) {
                 check = true;
             }
         });

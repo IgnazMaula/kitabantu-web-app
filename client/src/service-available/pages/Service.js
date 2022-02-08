@@ -117,7 +117,7 @@ export default function Service() {
     console.log(sid);
     const [isLoading, setIsLoading] = useState(false);
     const [service, setService] = useState([]);
-    const [serviceProperty, setServiceProperty] = useState([]);
+    const [properties, setProperties] = useState([]);
     useEffect(() => {
         const getService = async () => {
             try {
@@ -125,7 +125,7 @@ export default function Service() {
                 const response = await fetch(`http://localhost:5000/api/services/${sid}`);
                 const responseData = await response.json();
                 setService(responseData.service);
-                setServiceProperty(responseData.service.property);
+                setProperties(responseData.service.properties);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -192,7 +192,7 @@ export default function Service() {
                                 </div>
                                 {/* <p className='text-gray-500 mt-6'>{product.description}</p> */}
                                 <p className='mt-10 mb-5 text-sm font-medium text-gray-500 hover:text-gray-700'>{service.label}: </p>
-                                {serviceProperty.map((p) => (
+                                {properties.map((p) => (
                                     <Badge name={p} className='ml-1 mb-2' />
                                 ))}
                                 <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2'>
