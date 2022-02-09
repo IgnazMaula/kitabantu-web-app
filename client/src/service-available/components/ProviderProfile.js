@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { UserIcon, ChatIcon } from '@heroicons/react/solid';
 import { NavLink } from 'react-router-dom';
+import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
 const people = [
     {
@@ -19,29 +20,38 @@ const people = [
 export default function ProviderProfile(props) {
     const { providerId } = props;
     const [provider, setProvider] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         const getProvider = async () => {
             try {
+                setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/users/${providerId}`);
                 const responseData = await response.json();
                 setProvider(responseData.user);
                 console.log(responseData.user);
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
+                setIsLoading(false);
             }
         };
         getProvider();
     }, [providerId]);
     return (
         <div>
-            {provider && (
+            {isLoading && (
+                <div className='text-center p-24'>
+                    <LoadingSpinner />
+                </div>
+            )}
+            {provider && !isLoading && (
                 <ul role='list' className='grid'>
                     <li
                         key={provider.id}
                         className='col-span-1 flex flex-col text-center bg-white rounded-lg border-t border-b border-gray-200  sm:rounded-lg sm:border divide-y divide-gray-200'
                     >
                         <div className='flex-1 flex flex-col p-8'>
-                            <img className='w-32 h-32 flex-shrink-0 mx-auto rounded-full' src={provider.image} alt='' />
+                            <img className='w-32 h-32 flex-shrink-0 mx-auto rounded-full' src={`http://localhost:5000/${provider.image}`} alt='' />
                             <h3 className='mt-3 text-gray-900 text-sm font-medium text-2xl'>{provider.name}</h3>
                             <h3 className='text-gray-400 text-sm font-medium text-md'>Service Provider • {provider.userType}</h3>
                             <dl className='mt-1 flex-grow flex flex-col justify-between'>

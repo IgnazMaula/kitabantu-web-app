@@ -110,7 +110,6 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     const { email, password } = req.body;
-
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email });
@@ -182,6 +181,27 @@ const updateClient = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const updateProfilePicture = async (req, res, next) => {
+    const userId = req.params.uid;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
+
+    user.image = req.file.destination + '/' + req.file.filename;
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update user', 500);
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
 // const deleteUser = (req, res, next) => {
 //     const userId = req.params.uid;
 //     users = users.filter((u) => u.id !== userId);
@@ -196,5 +216,6 @@ module.exports = {
     login,
     updateProvider,
     updateClient,
+    updateProfilePicture,
     // deleteUser,
 };

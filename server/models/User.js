@@ -16,7 +16,7 @@ const userSchema = new Schema({
     image: {
         type: String,
         required: false,
-        default: 'http://localhost:3000/images/default-provider.png',
+        default: 'uploads/images/default-profile.png',
     },
     // Properties of Service Client
     gender: { type: String, required: false, default: undefined },

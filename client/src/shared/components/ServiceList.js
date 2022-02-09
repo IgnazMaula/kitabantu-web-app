@@ -44,7 +44,6 @@ export default function ServiceList() {
         return name;
     };
 
-    console.log(services);
     const serviceList = services.map((s) => {
         const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
         if (status === 'Active') {
