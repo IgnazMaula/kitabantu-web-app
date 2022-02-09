@@ -18,6 +18,6 @@ router.patch('/update/provider/:uid', userController.updateProvider);
 
 router.patch('/update/client/:uid', userController.updateClient);
 
-router.delete('/:uid', userController.deleteUser);
+// router.delete('/:uid', userController.deleteUser);
 
 module.exports = router;

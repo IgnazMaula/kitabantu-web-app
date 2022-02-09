@@ -18,6 +18,6 @@ router.patch('/edit-service/:sid', serviceController.updateService);
 
 router.patch('/manage-status/:sid', serviceController.updateServiceStatus);
 
-router.delete('/:sid', serviceController.deleteService);
+// router.delete('/:sid', serviceController.deleteService);
 
 module.exports = router;

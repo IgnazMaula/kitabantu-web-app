@@ -20,6 +20,7 @@ import Input from '../../shared/components/form/Input';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import InformModal from '../../shared/components/modal/InformModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
+import ImageUpload from '../../shared/components/form/ImageUpload';
 
 const userTypes = ['Individuals', 'Group', 'Corporation'];
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
@@ -133,12 +134,13 @@ export default function ProviderProfile() {
                                                                             />
                                                                         </span>
                                                                         <span className='ml-4 flex-shrink-0 flex items-start space-x-4'>
-                                                                            <button
+                                                                            {/* <button
                                                                                 type='button'
                                                                                 className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                                                             >
                                                                                 Update
-                                                                            </button>
+                                                                            </button> */}
+                                                                            <ImageUpload id='image' onInput={inputHandler} />
                                                                             <span className='text-gray-300' aria-hidden='true'>
                                                                                 |
                                                                             </span>

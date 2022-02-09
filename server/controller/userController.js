@@ -3,46 +3,6 @@ const { v4: uuid } = require('uuid');
 const HttpError = require('../models/http-error');
 const User = require('../models/User');
 
-let users = [
-    {
-        id: '1',
-        image: 'https://pm1.narvii.com/6878/701bf7222e8056959e330192a0396edfff213752r1-1080-1030v2_hq.jpg',
-        email: 'ignazmaula@gmail.com',
-        password: 'abc123',
-        firstName: 'Ignaz',
-        lastName: 'Maula',
-        role: 'Provider',
-        dateOfBirth: null,
-        location: 'Bali',
-        services: [{ serviceId: 1 }, { serviceId: 2 }],
-        orders: [],
-        bookmarks: [],
-        ratings: [],
-    },
-    {
-        id: '2',
-        image: 'https://i.pinimg.com/originals/e4/11/34/e41134a306b35c44600f08127ee407b0.jpg',
-        email: 'hecker@gmail.com',
-        password: 'abc123',
-        firstName: 'Pablo',
-        lastName: 'Escobar',
-        role: 'Provider',
-        dateOfBirth: null,
-        location: 'Bali',
-        services: [
-            {
-                serviceId: 1,
-            },
-            {
-                serviceId: 2,
-            },
-        ],
-        orders: [],
-        bookmarks: [],
-        ratings: [],
-    },
-];
-
 const getAllUser = async (req, res, next) => {
     let users;
     try {
@@ -112,10 +72,6 @@ const signup = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
-    // }
     const { email, password, name, location, identityNumber, phoneNumber, address, userType, description, vaccinated } = req.body;
     let existingUser;
     try {
@@ -226,11 +182,11 @@ const updateClient = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
-const deleteUser = (req, res, next) => {
-    const userId = req.params.uid;
-    users = users.filter((u) => u.id !== userId);
-    res.status(200).json({ message: 'Place Deleted' });
-};
+// const deleteUser = (req, res, next) => {
+//     const userId = req.params.uid;
+//     users = users.filter((u) => u.id !== userId);
+//     res.status(200).json({ message: 'Place Deleted' });
+// };
 
 module.exports = {
     getAllUser,
@@ -240,5 +196,5 @@ module.exports = {
     login,
     updateProvider,
     updateClient,
-    deleteUser,
+    // deleteUser,
 };
