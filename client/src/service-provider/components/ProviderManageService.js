@@ -12,63 +12,16 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-const orders = [
-    {
-        services: [
-            {
-                id: 1,
-                name: 'Jasa Catering Bu Haji Mahmud Khas Sunda',
-                description:
-                    "This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you're weird like that, this bottle is ready for your next adventure.",
-                href: '#',
-                price: '$35.00',
-                status: 'out-for-delivery',
-                date: 'January 5, 2021',
-                datetime: '2021-01-05',
-                imageSrc: 'https://awsimages.detik.net.id/community/media/visual/2021/10/08/catering-pon-papua-2.jpeg?w=1200',
-                imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-            },
-            {
-                id: 1,
-                name: 'Babysitter Handal Untuk Menjaga Anak Anda',
-                description:
-                    "This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you're weird like that, this bottle is ready for your next adventure.",
-                href: '#',
-                price: '$35.00',
-                status: 'out-for-delivery',
-                date: 'January 5, 2021',
-                datetime: '2021-01-05',
-                imageSrc:
-                    'https://cdn.popmama.com/content-images/post/20190201/img-01022019-140032-800-x-420-pixel-230896231d7cc97a5d5f067392782519_600xauto.jpg',
-                imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-            },
-            {
-                id: 1,
-                name: 'Service Aneka Perangkat Elektronik Rumah',
-                description:
-                    "This durable double-walled insulated tumbler keeps your beverages at the perfect temperature all day long. Hot, cold, or even lukewarm if you're weird like that, this bottle is ready for your next adventure.",
-                href: '#',
-                price: '$35.00',
-                status: 'out-for-delivery',
-                date: 'January 5, 2021',
-                datetime: '2021-01-05',
-                imageSrc: 'https://cdn-2.tstatic.net/bogor/foto/bank/images/jasa-service-elektronik_20160107_180725.jpg',
-                imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-            },
-        ],
-    },
-    // More orders...
-];
-
 export default function ProviderManageService() {
     const auth = useContext(AuthContext);
     const loggedUserId = auth.loggedUser.id;
-    const [isLoading, setIsLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [services, setServices] = useState([]);
+    const [message, setMessage] = useState();
     useEffect(() => {
         const getUsers = async () => {
             try {
-                setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/user/${loggedUserId}`);
                 const responseData = await response.json();
                 setServices(responseData.services);
@@ -79,7 +32,29 @@ export default function ProviderManageService() {
             }
         };
         getUsers();
-    }, []);
+    }, [services]);
+    const manageServiceHandler = async (serviceId, newStatus) => {
+        newStatus === 'Active' ? setMessage('Approved') : setMessage('Declined');
+        setOpen(true);
+        try {
+            const response = await fetch(`http://localhost:5000/api/services/manage-status/${serviceId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    status: newStatus,
+                }),
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className='bg-white'>
             <div>
@@ -98,7 +73,19 @@ export default function ProviderManageService() {
                             <LoadingSpinner />
                         </div>
                     ) : (
-                        <div> {services.length === 0 ? <NoOrders /> : <Orders services={services} />}</div>
+                        <div>
+                            {services.length === 0 ? (
+                                <NoOrders />
+                            ) : (
+                                <Orders
+                                    services={services}
+                                    open={open}
+                                    setOpen={setOpen}
+                                    manageServiceHandler={manageServiceHandler}
+                                    message={message}
+                                />
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
@@ -131,7 +118,7 @@ const NoOrders = () => {
     );
 };
 const Orders = (props) => {
-    const { services } = props;
+    const { services, manageServiceHandler, open, setOpen, message } = props;
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
             <div className='space-y-16 sm:space-y-10 divide-y divide-gray-200'>
@@ -168,20 +155,95 @@ const Orders = (props) => {
                                                 {service.status === 'Declined' && <p className='text-red-400'>Declined by Admin</p>}
                                             </div>
                                             <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-start lg:space-x-4'>
-                                                <NavLink
-                                                    to={`/service/${service.id}`}
-                                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                                >
-                                                    <span>View Service</span>
-                                                    <span className='sr-only'>{service.number}</span>
-                                                </NavLink>
-                                                <NavLink
-                                                    to={`/edit-service/${service.id}`}
-                                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                                >
-                                                    <span>Edit Service</span>
-                                                    <span className='sr-only'>for order {service.number}</span>
-                                                </NavLink>
+                                                {service.status !== 'Declined' ? (
+                                                    <button>
+                                                        <NavLink
+                                                            to={`/service/${service.id}`}
+                                                            className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'
+                                                        >
+                                                            <span>View Service</span>
+                                                            <span className='sr-only'>{service.number}</span>
+                                                        </NavLink>
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        disabled
+                                                        className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none disabled:opacity-50'
+                                                    >
+                                                        <span>View Service</span>
+                                                        <span className='sr-only'>{service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Active' && (
+                                                    <button
+                                                        onClick={() => manageServiceHandler(service.id, 'NotActive')}
+                                                        className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
+                                                    >
+                                                        <span>Diactivate Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'NotActive' && (
+                                                    <button
+                                                        onClick={() => manageServiceHandler(service.id, 'Active')}
+                                                        className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
+                                                    >
+                                                        <span>Activate Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Pending' && (
+                                                    <button
+                                                        disabled
+                                                        className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                                                    >
+                                                        <span>Diactivate Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Declined' && (
+                                                    <button
+                                                        disabled
+                                                        className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                                                    >
+                                                        <span>Diactivate Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Active' && (
+                                                    <button className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
+                                                        <NavLink to={`/edit-service/${service.id}`}>
+                                                            <span>Edit Service</span>
+                                                            <span className='sr-only'>for order {service.number}</span>
+                                                        </NavLink>
+                                                    </button>
+                                                )}
+                                                {service.status === 'NotActive' && (
+                                                    <button className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
+                                                        <NavLink to={`/edit-service/${service.id}`}>
+                                                            <span>Edit Service</span>
+                                                            <span className='sr-only'>for order {service.number}</span>
+                                                        </NavLink>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Pending' && (
+                                                    <button
+                                                        disabled
+                                                        className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                                                    >
+                                                        <span>Edit Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
+                                                {service.status === 'Declined' && (
+                                                    <button
+                                                        disabled
+                                                        className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50'
+                                                    >
+                                                        <span>Edit Service</span>
+                                                        <span className='sr-only'>for order {service.number}</span>
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

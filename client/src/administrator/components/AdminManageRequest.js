@@ -16,21 +16,20 @@ export default function AdminManageRequest() {
     const auth = useContext(AuthContext);
     const loggedUserId = auth.loggedUser.id;
     const [open, setOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [services, setServices] = useState([]);
     const [message, setMessage] = useState();
     const [users, setUsers] = useState([]);
     useEffect(() => {
         const getUsers = async () => {
             try {
-                setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/pending`);
                 const responseUser = await fetch(`http://localhost:5000/api/users/`);
                 const responseData = await response.json();
                 const responseDataUser = await responseUser.json();
                 setServices(responseData.services);
                 setUsers(responseDataUser.users);
-                console.log(users);
+                console.log(isLoading);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
