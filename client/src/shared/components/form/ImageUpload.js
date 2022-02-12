@@ -4,9 +4,8 @@ const ImageUpload = (props) => {
     const [file, setFile] = useState();
     const [previewUrl, setPreviewUrl] = useState();
     const [isValid, setIsValid] = useState(false);
-
     const filePickerRef = useRef();
-
+    const saveButton = useRef();
     useEffect(() => {
         if (!file) {
             return;
@@ -37,6 +36,14 @@ const ImageUpload = (props) => {
         filePickerRef.current.click();
     };
 
+    useEffect(() => {
+        if (!previewUrl) {
+            saveButton.current.disabled = true;
+        } else {
+            saveButton.current.disabled = false;
+        }
+    }, [previewUrl]);
+
     return (
         <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
             <input id={props.id} ref={filePickerRef} style={{ display: 'none' }} type='file' accept='.jpg,.png,.jpeg' onChange={pickedHandler} />
@@ -64,7 +71,7 @@ const ImageUpload = (props) => {
                     |
                 </span>
                 <button
-                    disabled={!previewUrl}
+                    ref={saveButton}
                     type='button'
                     onClick={props.onClick}
                     className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-40'

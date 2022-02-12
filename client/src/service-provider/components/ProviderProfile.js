@@ -108,6 +108,7 @@ export default function ProviderProfile() {
         } catch (error) {
             console.log(error);
         }
+        event.target.disabled = true;
     };
 
     return (
