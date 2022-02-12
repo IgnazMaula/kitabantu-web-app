@@ -63,7 +63,7 @@ const ImageUpload = (props) => {
                 <button
                     type='button'
                     onClick={pickImageHandler}
-                    className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                    className={`bg-white rounded-md font-medium text-${props.color}-600 hover:text-${props.color}-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${props.color}-500`}
                 >
                     Update
                 </button>
@@ -74,7 +74,7 @@ const ImageUpload = (props) => {
                     ref={saveButton}
                     type='button'
                     onClick={props.onClick}
-                    className='bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-40'
+                    className={`bg-white rounded-md font-medium text-${props.color}-600 hover:text-${props.color}-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${props.color}-500 disabled:opacity-40`}
                 >
                     Save Changes
                 </button>

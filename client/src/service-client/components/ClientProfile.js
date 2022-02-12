@@ -20,6 +20,7 @@ import Input from '../../shared/components/form/Input';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import InformModal from '../../shared/components/modal/InformModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
+import ImageUpload from '../../shared/components/form/ImageUpload';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
 const occupations = ['Students', 'Worker', 'Housewife/Husband'];
@@ -36,6 +37,7 @@ export default function ClientProfile() {
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(false);
     const [open, setOpen] = useState(false);
+    const [openP, setOpenP] = useState(false);
     const [client, setClient] = useState([]);
     const auth = useContext(AuthContext);
     const [formState, inputHandler, setFormData] = useForm({}, false);
@@ -90,15 +92,38 @@ export default function ClientProfile() {
             console.log(error);
         }
     };
+    const uploadProfileHandler = async (event) => {
+        event.preventDefault();
+        setOpenP(true);
+        const formData = new FormData();
+        formData.append('image', formState.inputs.image.value);
+        try {
+            await fetch(`http://localhost:5000/api/users/update/profile-picture/${auth.loggedUser.id}`, {
+                method: 'PATCH',
+                body: formData,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+        event.target.disabled = true;
+    };
 
     return (
         <>
             <div>
-                {/* Content area */}
                 <InformModal open={open} setOpen={setOpen} title='Edit Success' message='User detail has been edited' buttonText='Okay' color='green'>
                     <CheckIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
                 </InformModal>
-
+                <InformModal
+                    open={openP}
+                    setOpen={setOpenP}
+                    title='Edit Success'
+                    message='User Profile has been edited'
+                    buttonText='Okay'
+                    color='green'
+                >
+                    <CheckIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                </InformModal>
                 <div>
                     <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                         <main className='flex-1'>
@@ -123,40 +148,13 @@ export default function ClientProfile() {
                                                             <dl className='divide-gray-200'>
                                                                 <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
                                                                     <dt className='text-sm font-medium text-gray-500'>Photo</dt>
-                                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                                        <span className='flex-grow'>
-                                                                            {client.gender === 'Male' ? (
-                                                                                <img
-                                                                                    className='h-32 w-32 rounded-full'
-                                                                                    src='/images/client-male.png'
-                                                                                    alt=''
-                                                                                />
-                                                                            ) : (
-                                                                                <img
-                                                                                    className='h-32 w-32 rounded-full'
-                                                                                    src='/images/client-female.png'
-                                                                                    alt=''
-                                                                                />
-                                                                            )}
-                                                                        </span>
-                                                                        <span className='ml-4 flex-shrink-0 flex items-start space-x-4'>
-                                                                            <button
-                                                                                type='button'
-                                                                                className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
-                                                                            >
-                                                                                Update
-                                                                            </button>
-                                                                            <span className='text-gray-300' aria-hidden='true'>
-                                                                                |
-                                                                            </span>
-                                                                            <button
-                                                                                type='button'
-                                                                                className='bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
-                                                                            >
-                                                                                Remove
-                                                                            </button>
-                                                                        </span>
-                                                                    </dd>
+                                                                    <ImageUpload
+                                                                        id='image'
+                                                                        color='green'
+                                                                        image={client.image}
+                                                                        onInput={inputHandler}
+                                                                        onClick={uploadProfileHandler}
+                                                                    />
                                                                 </div>
                                                                 <div className='mt-10 divide-y divide-gray-200'>
                                                                     <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>

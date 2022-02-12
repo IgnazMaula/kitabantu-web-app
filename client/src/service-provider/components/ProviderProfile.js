@@ -153,6 +153,7 @@ export default function ProviderProfile() {
                                                                     <dt className='text-sm font-medium text-gray-500'>Photo</dt>
                                                                     <ImageUpload
                                                                         id='image'
+                                                                        color='blue'
                                                                         image={provider.image}
                                                                         onInput={inputHandler}
                                                                         onClick={uploadProfileHandler}
