@@ -62,6 +62,7 @@ const App = () => {
                     {isLoggedIn && loggedUser !== null && loggedUser.role === 'Provider' && (
                         <>
                             <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
+                            <Route path='/manage-order' element={<ProviderDashboard active='Manage Incoming Order' />}></Route>
                             <Route path='/manage-service' element={<ProviderDashboard active='Manage My Service' />}></Route>
                             <Route path='/add-service' element={<ProviderDashboard active='Add New Service' />}></Route>
                             <Route path='/edit-service/:sid' element={<ProviderDashboard active='Edit Service' />}></Route>

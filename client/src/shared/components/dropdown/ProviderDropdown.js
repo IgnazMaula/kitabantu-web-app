@@ -49,14 +49,14 @@ export default function ProviderDropdown() {
                         <Menu.Item>
                             {({ active }) => (
                                 <Link
-                                    to='/order-history'
+                                    to='/manage-order'
                                     className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'group flex items-center px-4 py-2 text-sm'
                                     )}
                                 >
                                     <SaveIcon className='mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
-                                    Manage Order
+                                    Manage Incoming Order
                                 </Link>
                             )}
                         </Menu.Item>

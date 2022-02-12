@@ -74,12 +74,12 @@ export default function ClientBookmarks() {
                                             <div key={product.id} className='flex py-6 sm:py-10'>
                                                 <div className='min-w-0 flex-1 lg:flex lg:flex-col'>
                                                     <div className='lg:flex-1'>
-                                                        <div className='sm:flex'>
+                                                        <div className='flex'>
                                                             <div>
                                                                 <h4 className='font-medium text-gray-900'>{product.name}</h4>
                                                                 <p className='hidden mt-2 text-sm text-gray-500 sm:block'>{product.description}</p>
                                                             </div>
-                                                            <p className='mt-1 font-medium text-gray-900 sm:mt-0 sm:ml-6'>{product.price}</p>
+                                                            {/* <p className='mt-1 font-medium text-gray-900 sm:mt-0 sm:ml-6'>{product.price}</p> */}
                                                         </div>
                                                         <div className='mt-2 flex text-sm font-medium sm:mt-4'>
                                                             <a href={product.href} className='text-indigo-600 hover:text-indigo-500'>
