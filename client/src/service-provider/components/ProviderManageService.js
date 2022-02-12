@@ -109,7 +109,23 @@ const NoOrders = () => {
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
             <div className='max-w-2xl mx-auto space-y-8 sm:px-4 lg:max-w-4xl lg:px-0'>
-                <EmptyState title='Currently you have no service to offer, click to create a service' link='/add-service'></EmptyState>
+                <EmptyState title='Currently you have no services, click to add one' link='/add-service'>
+                    <svg
+                        className='mx-auto h-12 w-12 text-gray-400'
+                        xmlns='http://www.w3.org/2000/svg'
+                        stroke='currentColor'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        aria-hidden='true'
+                    >
+                        <path
+                            stroke-linecap='round'
+                            stroke-linejoin='round'
+                            stroke-width='2'
+                            d='M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z'
+                        />
+                    </svg>
+                </EmptyState>
             </div>
         </div>
     );
