@@ -66,7 +66,7 @@ const createService = async (req, res, next) => {
     } else {
         imageUpload = req.file.destination + '/' + req.file.filename;
     }
-    prop = JSON.parse(properties);
+    let prop = JSON.parse(properties);
     const createdService = new Service({
         name,
         category,
@@ -105,6 +105,13 @@ const createService = async (req, res, next) => {
 const updateService = async (req, res, next) => {
     const { name, price, properties, description } = req.body;
     const serviceId = req.params.sid;
+    let imageUpload;
+    if (!req.file) {
+        imageUpload = 'uploads/images/default-service.png';
+    } else {
+        imageUpload = req.file.destination + '/' + req.file.filename;
+    }
+    let prop = JSON.parse(properties);
 
     let service;
 
@@ -116,8 +123,9 @@ const updateService = async (req, res, next) => {
 
     service.name = name;
     service.price = price;
-    service.properties = properties;
+    service.properties = prop;
     service.description = description;
+    service.image = imageUpload;
 
     try {
         await service.save();

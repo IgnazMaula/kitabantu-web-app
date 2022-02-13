@@ -16,7 +16,6 @@ export default function AddNewService() {
     const [error, setError] = useState(false);
     const [properties, setProperties] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
-    const [openP, setOpenP] = useState(false);
 
     const authSubmitHandler = async (event) => {
         event.preventDefault();
@@ -40,9 +39,6 @@ export default function AddNewService() {
         try {
             const response = await fetch('http://localhost:5000/api/services/create-service', {
                 method: 'POST',
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // },
                 body: formData,
             });
 
@@ -140,7 +136,6 @@ export default function AddNewService() {
     });
     const uploadProfileHandler = async (event) => {
         event.preventDefault();
-        setOpenP(true);
         const formData = new FormData();
         formData.append('image', formState.inputs.image.value);
         try {
