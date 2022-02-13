@@ -49,14 +49,18 @@ const ImageUpload = (props) => {
             <input id={props.id} ref={filePickerRef} style={{ display: 'none' }} type='file' accept='.jpg,.png,.jpeg' onChange={pickedHandler} />
             <span className='flex-grow'>
                 {previewUrl && (
-                    <span className='flex-grow'>
-                        <img className='h-32 w-32 rounded-full' src={previewUrl} alt='' />
-                    </span>
+                    <div className='w-32 h-32 rounded-lg overflow-hidden flex-shrink-0'>
+                        <img src={previewUrl} alt={props.name} className='object-right object-cover h-full w-full rounded-full ' />
+                    </div>
                 )}
                 {!previewUrl && (
-                    <span className='flex-grow'>
-                        <img className='h-32 w-32 rounded-full' src={`http://localhost:5000/${props.image}`} alt='' />
-                    </span>
+                    <div className='w-32 h-32 rounded-lg overflow-hidden flex-shrink-0'>
+                        <img
+                            src={`http://localhost:5000/${props.image}`}
+                            alt={props.name}
+                            className='object-right object-cover h-full w-full rounded-full '
+                        />
+                    </div>
                 )}
             </span>
             <span className='ml-4 flex-shrink-0 flex items-start space-x-4'>

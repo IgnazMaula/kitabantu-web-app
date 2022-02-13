@@ -4,19 +4,6 @@ import { UserIcon, ChatIcon } from '@heroicons/react/solid';
 import { NavLink } from 'react-router-dom';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
-const people = [
-    {
-        name: 'Jane Cooper',
-        title: 'Individual',
-        role: 'Service Provider',
-        email: 'janecooper@example.com',
-        telephone: '+1-202-555-0170',
-        imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-    },
-    // More people...
-];
-
 export default function ProviderProfile(props) {
     const { providerId } = props;
     const [provider, setProvider] = useState([]);
@@ -51,7 +38,13 @@ export default function ProviderProfile(props) {
                         className='col-span-1 flex flex-col text-center bg-white rounded-lg border-t border-b border-gray-200  sm:rounded-lg sm:border divide-y divide-gray-200'
                     >
                         <div className='flex-1 flex flex-col p-8'>
-                            <img className='w-32 h-32 flex-shrink-0 mx-auto rounded-full' src={`http://localhost:5000/${provider.image}`} alt='' />
+                            <div className='w-32 h-32 rounded-lg overflow-hidden mx-auto flex-shrink-0'>
+                                <img
+                                    src={`http://localhost:5000/${provider.image}`}
+                                    alt={provider.name}
+                                    className='object-right object-cover h-full w-full rounded-full '
+                                />
+                            </div>
                             <h3 className='mt-3 text-gray-900 text-sm font-medium text-2xl'>{provider.name}</h3>
                             <h3 className='text-gray-400 text-sm font-medium text-md'>Service Provider • {provider.userType}</h3>
                             <dl className='mt-1 flex-grow flex flex-col justify-between'>

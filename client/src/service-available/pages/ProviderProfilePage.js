@@ -204,11 +204,11 @@ export default function ProviderProfilePage(props) {
                                             <div className='bg-gray-50 p-6'>
                                                 <div className='sm:flex sm:items-center sm:justify-between'>
                                                     <div className='sm:flex sm:space-x-5'>
-                                                        <div className='flex-shrink-0'>
+                                                        <div className='w-32 h-32 rounded-lg overflow-hidden mx-auto flex-shrink-0'>
                                                             <img
-                                                                className='mx-auto h-20 w-20 rounded-full'
                                                                 src={`http://localhost:5000/${provider.image}`}
-                                                                alt=''
+                                                                alt={provider.name}
+                                                                className='object-right object-cover h-full w-full rounded-full '
                                                             />
                                                         </div>
                                                         <div className='mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left pr-80'>

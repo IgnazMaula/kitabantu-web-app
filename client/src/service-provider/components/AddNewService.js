@@ -34,7 +34,7 @@ export default function AddNewService() {
         formData.append('price', formState.inputs.price.value);
         formData.append('unit', unit);
         formData.append('label', label);
-        formData.append('properties', properties);
+        formData.append('properties', JSON.stringify(properties));
         formData.append('description', formState.inputs.description.value);
         formData.append('serviceProvider', JSON.stringify(auth.loggedUser));
         try {

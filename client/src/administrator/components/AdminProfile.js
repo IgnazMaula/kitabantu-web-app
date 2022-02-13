@@ -76,13 +76,13 @@ export default function AdminProfile() {
                                                 <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
                                                     <dt className='text-sm font-medium text-gray-500'>Photo</dt>
                                                     <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
-                                                        <span className='flex-grow'>
-                                                            {auth.loggedUser.gender === 'Male' ? (
-                                                                <img className='h-32 w-32 rounded-full' src='/images/admin-male.png' alt='' />
-                                                            ) : (
-                                                                <img className='h-32 w-32 rounded-full' src='/images/admin-female.png' alt='' />
-                                                            )}
-                                                        </span>
+                                                        <div className='w-32 h-32 rounded-lg overflow-hidden flex-shrink-0'>
+                                                            <img
+                                                                src={`http://localhost:5000/${auth.loggedUser.image}`}
+                                                                alt={auth.loggedUser.name}
+                                                                className='object-right object-cover h-full w-full rounded-full '
+                                                            />
+                                                        </div>
                                                     </dd>
                                                 </div>
                                                 <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4'>

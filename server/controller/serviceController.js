@@ -66,6 +66,7 @@ const createService = async (req, res, next) => {
     } else {
         imageUpload = req.file.destination + '/' + req.file.filename;
     }
+    prop = JSON.parse(properties);
     const createdService = new Service({
         name,
         category,
@@ -73,7 +74,7 @@ const createService = async (req, res, next) => {
         price,
         unit,
         label,
-        properties,
+        properties: prop,
         description,
         serviceProvider: provider,
         image: imageUpload,

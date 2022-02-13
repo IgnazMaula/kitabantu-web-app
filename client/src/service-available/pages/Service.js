@@ -152,8 +152,12 @@ export default function Service() {
                         <div className='lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16'>
                             {/* Product image */}
                             <div className='lg:row-end-1 lg:col-span-4'>
-                                <div className='aspect-w-4 aspect-h-3 rounded-lg bg-gray-100 overflow-hidden'>
-                                    <img src={`http://localhost:5000/${service.image}`} alt={service.name} className='object-center object-cover' />
+                                <div className='aspect-w-4 aspect-h-3 w-full h-96 rounded-lg bg-gray-100 overflow-hidden'>
+                                    <img
+                                        src={`http://localhost:5000/${service.image}`}
+                                        alt={service.name}
+                                        className='object-right object-cover h-full w-full'
+                                    />
                                 </div>
                             </div>
 
