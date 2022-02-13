@@ -249,8 +249,8 @@ const Orders = (props) => {
                                     </div>
                                     <div className='ml-4 flex-shrink-0 sm:m-0 sm:mr-6 sm:order-first'>
                                         <img
-                                            src={service.image}
-                                            alt={service.image}
+                                            src={`http://localhost:5000/${service.image}`}
+                                            alt={service.name}
                                             className='col-start-2 col-end-3 sm:col-start-1 sm:row-start-1 sm:row-span-2 w-20 h-20 rounded-lg object-center object-cover sm:w-40 sm:h-40 lg:w-52 lg:h-52'
                                         />
                                     </div>

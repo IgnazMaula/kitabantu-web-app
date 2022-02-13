@@ -153,7 +153,7 @@ export default function Service() {
                             {/* Product image */}
                             <div className='lg:row-end-1 lg:col-span-4'>
                                 <div className='aspect-w-4 aspect-h-3 rounded-lg bg-gray-100 overflow-hidden'>
-                                    <img src={service.image} alt={service.name} className='object-center object-cover' />
+                                    <img src={`http://localhost:5000/${service.image}`} alt={service.name} className='object-center object-cover' />
                                 </div>
                             </div>
 

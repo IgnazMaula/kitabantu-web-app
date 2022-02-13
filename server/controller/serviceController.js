@@ -59,6 +59,13 @@ const getPendingService = async (req, res, next) => {
 
 const createService = async (req, res, next) => {
     const { name, category, subCategory, price, unit, label, properties, description, serviceProvider } = req.body;
+    const provider = JSON.parse(serviceProvider);
+    let imageUpload;
+    if (!req.file) {
+        imageUpload = 'uploads/images/default-service.png';
+    } else {
+        imageUpload = req.file.destination + '/' + req.file.filename;
+    }
     const createdService = new Service({
         name,
         category,
@@ -68,15 +75,14 @@ const createService = async (req, res, next) => {
         label,
         properties,
         description,
-        serviceProvider,
+        serviceProvider: provider,
+        image: imageUpload,
     });
-
     let sp;
 
     try {
-        sp = await User.findById(serviceProvider);
+        sp = await User.findById(provider);
     } catch (error) {
-        console.log('ad');
         return next(new HttpError('Create service failed, please try again later', 500));
     }
 
