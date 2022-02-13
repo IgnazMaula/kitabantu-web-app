@@ -413,7 +413,7 @@ export default function ProviderProfile() {
                                                                                 />
                                                                             </div>
                                                                         ) : (
-                                                                            <span className='flex-grow'>{provider.description}</span>
+                                                                            <span className='flex-grow text-justify'>{provider.description}</span>
                                                                         )}
                                                                         <span className='ml-4 flex-shrink-0'></span>
                                                                     </dd>

@@ -120,6 +120,9 @@ const updateService = async (req, res, next) => {
     } catch (error) {
         return next(new HttpError('Create service failed, please try again later', 500));
     }
+    if (!req.file) {
+        imageUpload = service.image;
+    }
 
     service.name = name;
     service.price = price;
