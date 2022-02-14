@@ -16,6 +16,12 @@ export default function ServiceList() {
     const [isLoading, setIsLoading] = useState(false);
     const [services, setServices] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const [keyWord, setKeyWord] = useState('');
+    const [sortType, setSortType] = useState('Default');
+    const [location, setLocation] = useState('All');
+    const [providerType, setProviderType] = useState('All');
+
     useEffect(() => {
         const getService = async () => {
             try {
@@ -33,7 +39,8 @@ export default function ServiceList() {
             }
         };
         getService();
-    }, [services]);
+    }, []);
+
     const getUserName = (userId) => {
         let name = '';
         users.forEach((user) => {
@@ -43,55 +50,114 @@ export default function ServiceList() {
         });
         return name;
     };
-
-    const serviceList = services.map((s) => {
-        const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
-        if (status === 'Active') {
-            serviceAvailable = true;
-            return (
-                <Link to={`/service/${id}`} key={id}>
-                    <ServiceCard
-                        key={name}
-                        image={image}
-                        className='mx-auto cursor-pointer h-full shadow-sm'
-                        html={
-                            <div className='text-sm'>
-                                <div className='h-14  '>
-                                    <h3 className='font-bold text-base'>{name}</h3>
-                                </div>
-                                <div className='flex items-center text-yellow-400'>
-                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                    <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                </div>
-                                <p className='mt-1 text-green-600 font-bold'>{getUserName(serviceProvider)}</p>
-                                <p>
-                                    {category} • {subCategory}
-                                </p>
-                                <p className='font-bold'>{location}</p>
-                                <p className='text-gray-400 mt-2'>
-                                    {' '}
-                                    Price starting at {price}
-                                    {unit}
-                                </p>
-                            </div>
-                        }
-                    />
-                </Link>
-            );
+    const getLocation = (userId) => {
+        let location = '';
+        users.forEach((user) => {
+            if (userId === user.id) {
+                location = user.location;
+            }
+        });
+        return location;
+    };
+    const filterLocation = (getLocation, location) => {
+        if (location === 'All') {
+            return true;
+        } else {
+            return getLocation === location;
         }
-    });
+    };
+
+    const getProviderType = (userId) => {
+        let userType = '';
+        users.forEach((user) => {
+            if (userId === user.id) {
+                userType = user.userType;
+            }
+        });
+        return userType;
+    };
+    const filterProviderType = (getProviderType, providerType) => {
+        if (providerType === 'All') {
+            return true;
+        } else {
+            return getProviderType === providerType;
+        }
+    };
+
+    const sortList = (a, b) => {
+        if (sortType === 'Default') {
+            return 1;
+        } else if (sortType === 'Older Service') {
+            return -1;
+        } else if (sortType === 'Ascending') {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+        } else if (sortType === 'Descending') {
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return -1;
+            }
+        } else if (sortType === 'Most Popular') {
+            return 1;
+        }
+    };
+
+    const serviceList = services
+        .filter((ss) => filterLocation(getLocation(ss.serviceProvider), location))
+        .filter((ss) => filterProviderType(getProviderType(ss.serviceProvider), providerType))
+        .sort((a, b) => sortList(a, b))
+        .map((s) => {
+            const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
+            if (status === 'Active') {
+                serviceAvailable = true;
+                return (
+                    <Link to={`/service/${id}`} key={id}>
+                        <ServiceCard
+                            key={name}
+                            image={image}
+                            className='mx-auto cursor-pointer h-full shadow-sm'
+                            html={
+                                <div className='text-sm'>
+                                    <div className='h-14  '>
+                                        <h3 className='font-bold text-base'>{name}</h3>
+                                    </div>
+                                    <div className='flex items-center text-yellow-400'>
+                                        <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                        <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                        <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                        <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                        <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
+                                    </div>
+                                    <p className='mt-1 text-green-600 font-bold'>{getUserName(serviceProvider)}</p>
+                                    <p>
+                                        {category} • {subCategory}
+                                    </p>
+                                    <p className='font-bold'>{location}</p>
+                                    <p className='text-gray-400 mt-2'>
+                                        {' '}
+                                        Price starting at {price}
+                                        {unit}
+                                    </p>
+                                </div>
+                            }
+                        />
+                    </Link>
+                );
+            }
+        });
     return (
         <div>
-            <NavSearchMenu />
+            <NavSearchMenu setKeyWord={setKeyWord} />
             <div className='container mx-auto px-0'>
                 <div className='w-full flex flex-col lg:flex-row lg:px-6'>
-                    <SideFilters />
+                    <SideFilters setLocation={setLocation} setProviderType={setProviderType} setSortType={setSortType} />
                     <div className='flex-1 lg:pl-12 py-6 px-6 lg:px-0'>
                         <div className='mt-12'>
-                            <h1 className='text-3xl font-bold'>Recommended For You</h1>
+                            {keyWord === '' ? (
+                                <h1 className='text-3xl font-bold'>Recommendation for You</h1>
+                            ) : (
+                                <h1 className='text-3xl font-bold'>Search Result for '{keyWord}'</h1>
+                            )}
                             {isLoading ? (
                                 <div className='text-center p-24'>
                                     <LoadingSpinner />
@@ -99,7 +165,7 @@ export default function ServiceList() {
                             ) : serviceAvailable ? (
                                 <div className='grid grid-cols-1 sm:grid-cols-6 xl:grid-cols-4 gap-6 mt-12'>{serviceList}</div>
                             ) : (
-                                <h1 className='p-12'>No Service Registered Yet</h1>
+                                <h1 className='text-center text-lg p-24'>Service that you search is not available</h1>
                             )}
                         </div>
                         <div className='pt-16'>{/* <Pagination></Pagination> */}</div>

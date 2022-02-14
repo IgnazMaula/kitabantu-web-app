@@ -9,7 +9,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_RE
 import ErrorModal from '../../shared/components/modal/ErrorModal';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
-const userTypes = ['Individuals', 'Group', 'Corporation'];
+const userTypes = ['Individual', 'Group', 'Corporation'];
 const vaccinations = [
     { option: 'Vaccinated', value: true },
     { option: 'Not Vaccinated', value: false },

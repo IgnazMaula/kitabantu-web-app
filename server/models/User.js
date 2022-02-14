@@ -29,7 +29,8 @@ const userSchema = new Schema({
     orders: [{ type: String, required: false }],
     bookmarks: [{ type: String, required: false }],
     // Collections of Service Provider
-    services: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Service' }],
+    services: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],
+    ordersReceived: [{ type: String, required: false }],
 });
 
 userSchema.plugin(uniqueValidator);

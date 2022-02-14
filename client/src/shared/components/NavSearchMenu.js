@@ -4,7 +4,10 @@ import { faQuestion, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons
 
 import Avatar from './Avatar';
 
-function NavSearchMenu() {
+function NavSearchMenu(props) {
+    const searchHandler = (e) => {
+        props.setKeyWord(e.target.value);
+    };
     return (
         <div id='search'>
             <h1 className='text-3xl font-bold p-4 text-center'>Search for Service</h1>
@@ -18,6 +21,7 @@ function NavSearchMenu() {
                             type='search'
                             className='w-full max-w-full border border-gray-300 rounded-sm pr-4 pl-10 py-3 outline-none transition-colors duration-150 ease-in-out focus:border-gray-400'
                             placeholder='Search for something...'
+                            onChange={searchHandler}
                         />
                         <FontAwesomeIcon icon={faSearch} className='absolute left-0 ml-4 top-1/2 transform -translate-y-1/2 text-gray-300' />
                     </form>

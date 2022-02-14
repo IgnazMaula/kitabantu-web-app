@@ -22,7 +22,7 @@ import InformModal from '../../shared/components/modal/InformModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 import ImageUpload from '../../shared/components/form/ImageUpload';
 
-const userTypes = ['Individuals', 'Group', 'Corporation'];
+const userTypes = ['Individual', 'Group', 'Corporation'];
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
 const vaccinations = [
     { option: 'Vaccinated', value: true },

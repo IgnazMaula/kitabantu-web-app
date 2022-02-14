@@ -19,9 +19,9 @@ const ServiceSchema = new Schema({
     },
     serviceProvider: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     status: { type: String, required: true, default: 'Pending' },
-    ratings: [
+    feedBacks: [
         {
-            score: Number,
+            rating: Number,
             review: String,
         },
     ],
