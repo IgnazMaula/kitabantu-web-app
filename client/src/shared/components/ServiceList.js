@@ -103,6 +103,15 @@ export default function ServiceList() {
     };
 
     const serviceList = services
+        .filter(
+            (ss) =>
+                ss.name.toLowerCase().includes(keyWord.toLowerCase()) ||
+                ss.category.toLowerCase().includes(keyWord.toLowerCase()) ||
+                ss.subCategory.toLowerCase().includes(keyWord.toLowerCase()) ||
+                ss.description.toLowerCase().includes(keyWord.toLowerCase()) ||
+                getLocation(ss.serviceProvider).toLowerCase().includes(keyWord.toLowerCase()) ||
+                getUserName(ss.serviceProvider).toLowerCase().includes(keyWord.toLowerCase())
+        )
         .filter((ss) => filterLocation(getLocation(ss.serviceProvider), location))
         .filter((ss) => filterProviderType(getProviderType(ss.serviceProvider), providerType))
         .sort((a, b) => sortList(a, b))

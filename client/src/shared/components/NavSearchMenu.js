@@ -10,7 +10,7 @@ function NavSearchMenu(props) {
     };
     return (
         <div id='search'>
-            <h1 className='text-3xl font-bold p-4 text-center'>Search for Service</h1>
+            <h1 className='text-2xl font-bold p-4 text-center'>Search for Service by Name, Provider, Category etc.</h1>
             <div className='flex flex-col sm:flex-row sm:h-20 px-6 border-b border-gray-300 bg-white relative z-50'>
                 <div className='h-20 w-full flex items-center justify-between sm:h-auto'>
                     <div className='items-center flex'></div>
