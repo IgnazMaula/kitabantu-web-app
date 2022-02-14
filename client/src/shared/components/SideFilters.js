@@ -24,7 +24,7 @@ const sortBy = {
     name: 'Sort Services',
     options: [
         { value: 'Default', label: 'Default', checked: true },
-        { value: 'Older Service', label: 'Older Service', checked: false },
+        { value: 'Newer Service', label: 'Newer Service', checked: false },
         { value: 'Ascending', label: 'Ascending', checked: false },
         { value: 'Descending', label: 'Descending', checked: false },
         { value: 'Most Popular', label: 'Most Popular', checked: false },

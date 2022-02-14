@@ -87,7 +87,7 @@ export default function ServiceList() {
     const sortList = (a, b) => {
         if (sortType === 'Default') {
             return 1;
-        } else if (sortType === 'Older Service') {
+        } else if (sortType === 'Newer Service') {
             return -1;
         } else if (sortType === 'Ascending') {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {

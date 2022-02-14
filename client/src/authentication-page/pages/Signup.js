@@ -9,7 +9,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_RE
 import ErrorModal from '../../shared/components/modal/ErrorModal';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
-const occupations = ['Students', 'Worker', 'Housewife/Husband'];
+const occupations = ['Employee', 'Entrepreneur', 'Freelancer', 'Housewife/Husband', 'Social Worker', 'Professionals', 'Students'];
 const genders = [
     { option: 'Male', value: 'Male' },
     { option: 'Female', value: 'Female' },
