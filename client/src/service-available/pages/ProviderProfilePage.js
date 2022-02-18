@@ -213,7 +213,9 @@ export default function ProviderProfilePage(props) {
                                                         </div>
                                                         <div className='mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left pr-80'>
                                                             <p className='text-xl font-bold text-gray-900 sm:text-2xl my-2'>{provider.name}</p>
-                                                            <p className='text-sm font-medium text-gray-400 my-2'>Service Provider</p>
+                                                            <p className='text-sm font-medium text-gray-400 my-2'>
+                                                                Service Provider - {provider.userType}
+                                                            </p>
                                                             {provider.vaccinated ? (
                                                                 <span className='px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full'>
                                                                     Vaccinated
