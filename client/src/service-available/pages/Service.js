@@ -275,13 +275,14 @@ export default function Service() {
                             >
                                 <p className='text-md text-gray-700 my-5 text-justify'>
                                     <span className='font-bold'>Description: </span>
-                                    Gentlemen, a short view back to the past. Thirty years ago, Niki Lauda told us ‘take a monkey, place him into the
+                                    {/* Gentlemen, a short view back to the past. Thirty years ago, Niki Lauda told us ‘take a monkey, place him into the
                                     cockpit and he is able to drive the car.’ Thirty years later, Sebastian told us ‘I had to start my car like a
                                     computer, it’s very complicated.’ And Nico Rosberg said that during the race – I don’t remember what race - he
                                     pressed the wrong button on the wheel. Question for you both: is Formula One driving today too complicated with
                                     twenty and more buttons on the wheel, are you too much under effort, under pressure? What are your wishes for the
                                     future concerning the technical programme during the race? Less buttons, more? Or less and more communication with
-                                    your engineers?
+                                    your engineers? */}
+                                    {service.description}
                                 </p>
                                 <Tab.Group as='div'>
                                     <div className='border-b border-gray-200'>
