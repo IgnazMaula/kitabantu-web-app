@@ -4,6 +4,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import AdminProfile from './AdminProfile';
 import AdminManageRequest from './AdminManageRequest';
 import AdminManageUsers from './AdminManageUsers';
+import AdminManageServices from './AdminManageServices';
 
 const AdminMenu = (props) => {
     const auth = useContext(AuthContext);
@@ -14,7 +15,7 @@ const AdminMenu = (props) => {
     } else if (props.activeMenu === 'Manage Users') {
         return <AdminManageUsers />;
     } else if (props.activeMenu === 'Manage Services') {
-        return <AdminManageUsers />;
+        return <AdminManageServices />;
     } else {
         return <h1>Wrong Route</h1>;
     }

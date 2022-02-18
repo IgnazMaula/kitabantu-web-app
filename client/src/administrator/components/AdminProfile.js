@@ -62,7 +62,6 @@ export default function AdminProfile() {
                                         <div className='py-6'>
                                             {/* Description list with inline editing */}
                                             <AdminStat />
-                                            <AdminStat />
                                         </div>
                                     </div>
                                     <div className='px-4 sm:px-6 md:px-0 py-12'>

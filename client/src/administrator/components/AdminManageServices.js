@@ -9,7 +9,7 @@ import {
     HomeIcon,
     MenuAlt2Icon,
     QuestionMarkCircleIcon,
-    UserIcon,
+    TagIcon,
     XIcon,
     CheckIcon,
 } from '@heroicons/react/outline';
@@ -51,45 +51,67 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function AdminManageUsers() {
-    const auth = useContext(AuthContext);
+export default function AdminManageServices() {
     const [isLoading, setIsLoading] = useState(true);
+    const [services, setServices] = useState([]);
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        const getUsers = async () => {
+        const getService = async () => {
             try {
-                // setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/users/provider-and-client');
+                setIsLoading(true);
+                const response = await fetch('http://localhost:5000/api/services');
+                const responseUser = await fetch(`http://localhost:5000/api/users/`);
                 const responseData = await response.json();
-                setUsers(responseData.users);
+                const responseDataUser = await responseUser.json();
+                setServices(responseData.services);
+                setUsers(responseDataUser.users);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
                 console.log(error);
             }
         };
-        getUsers();
-    }, [users]);
+        getService();
+    }, [setUsers]);
 
-    const manageUserHandler = async (userId, newStatus) => {
-        try {
-            const response = await fetch(`http://localhost:5000/api/users/update/client-status/${userId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    isActive: newStatus,
-                }),
-            });
-            const responseData = await response.json();
-            if (!response.ok) {
-                throw new Error(responseData.message);
+    const getUserName = (userId) => {
+        let name = '';
+        users.forEach((user) => {
+            if (userId === user.id) {
+                name = user.name;
             }
-        } catch (error) {
-            console.log(error);
-        }
-        console.log('terganti');
+        });
+        return name;
+    };
+    const getProviderType = (userId) => {
+        let userType = '';
+        users.forEach((user) => {
+            if (userId === user.id) {
+                userType = user.userType;
+            }
+        });
+        return userType;
+    };
+
+    const removeService = async (userId, newStatus) => {
+        // try {
+        //     const response = await fetch(`http://localhost:5000/api/users/update/client-status/${userId}`, {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             isActive: newStatus,
+        //         }),
+        //     });
+        //     const responseData = await response.json();
+        //     if (!response.ok) {
+        //         throw new Error(responseData.message);
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        console.log('Removed');
     };
 
     return (
@@ -129,7 +151,7 @@ export default function AdminManageUsers() {
                                                                                 scope='col'
                                                                                 className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
                                                                             >
-                                                                                Role
+                                                                                Provider
                                                                             </th>
                                                                             <th
                                                                                 scope='col'
@@ -141,13 +163,7 @@ export default function AdminManageUsers() {
                                                                                 scope='col'
                                                                                 className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
                                                                             >
-                                                                                Location
-                                                                            </th>
-                                                                            <th
-                                                                                scope='col'
-                                                                                className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
-                                                                            >
-                                                                                IC Number
+                                                                                Starting Price
                                                                             </th>
                                                                             <th
                                                                                 scope='col'
@@ -156,82 +172,82 @@ export default function AdminManageUsers() {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody className='bg-white divide-y divide-gray-200'>
-                                                                        {users.map((user) => (
-                                                                            <tr key={user.email}>
+                                                                        {services.map((service) => (
+                                                                            <tr key={service.email}>
                                                                                 <td className='px-6 py-4 whitespace-nowrap'>
                                                                                     <div className='flex items-center'>
                                                                                         <div className='flex-shrink-0 h-10 w-10'>
                                                                                             <img
-                                                                                                className='object-right object-cover h-full w-full rounded-full '
-                                                                                                src={`http://localhost:5000/${user.image}`}
+                                                                                                className='object-right object-cover h-full w-full'
+                                                                                                src={`http://localhost:5000/${service.image}`}
                                                                                                 alt=''
                                                                                             />
                                                                                         </div>
                                                                                         <div className='ml-4'>
                                                                                             <div className='text-sm font-medium text-gray-900'>
-                                                                                                {user.name}
+                                                                                                {service.name}
                                                                                             </div>
-                                                                                            <div className='text-sm text-gray-500'>{user.email}</div>
+                                                                                            <div className='text-sm text-gray-500'>
+                                                                                                {service.category} - {service.subCategory}
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 whitespace-nowrap'>
                                                                                     <div className='text-sm text-gray-900 font-semibold'>
-                                                                                        {user.role}
+                                                                                        {getUserName(service.serviceProvider)}
                                                                                     </div>
-                                                                                    <div className='text-sm text-gray-500'>{user.department}</div>
+                                                                                    <div className='text-sm text-gray-500'>
+                                                                                        {getProviderType(service.serviceProvider)}
+                                                                                    </div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 whitespace-nowrap'>
-                                                                                    {user.isActive ? (
+                                                                                    {service.status === 'Active' && (
                                                                                         <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
                                                                                             Active
                                                                                         </span>
-                                                                                    ) : (
-                                                                                        <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'>
+                                                                                    )}
+                                                                                    {service.status === 'NotActive' && (
+                                                                                        <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800'>
                                                                                             Not Active
+                                                                                        </span>
+                                                                                    )}
+                                                                                    {service.status === 'Pending' && (
+                                                                                        <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800'>
+                                                                                            Pending
+                                                                                        </span>
+                                                                                    )}
+                                                                                    {service.status === 'Declined' && (
+                                                                                        <span className='px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'>
+                                                                                            Declined
                                                                                         </span>
                                                                                     )}
                                                                                 </td>
                                                                                 <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                                                                                    {user.location}
-                                                                                </td>
-                                                                                <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                                                                                    {user.identityNumber}
+                                                                                    {service.price}
+                                                                                    {service.unit}
                                                                                 </td>
                                                                                 <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                                                                                     <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
-                                                                                        <NavLink to={`/provider-profile/${user.id}`}>
+                                                                                        <NavLink to={`/service/${service.id}`}>
                                                                                             <button className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
-                                                                                                <span>User Details</span>
-                                                                                                <UserIcon
+                                                                                                <span>Service Details</span>
+                                                                                                <TagIcon
                                                                                                     className='w-6 h-6 text-blue-500 ml-2'
                                                                                                     aria-hidden='true'
                                                                                                 />
                                                                                             </button>
                                                                                         </NavLink>
-                                                                                        {user.isActive ? (
-                                                                                            <button
-                                                                                                onClick={() => manageUserHandler(user.id, false)}
-                                                                                                className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
-                                                                                            >
-                                                                                                <span>Deactivate User</span>
-                                                                                                <XIcon
-                                                                                                    className='w-6 h-6 text-red-500 ml-2'
-                                                                                                    aria-hidden='true'
-                                                                                                />
-                                                                                            </button>
-                                                                                        ) : (
-                                                                                            <button
-                                                                                                onClick={() => manageUserHandler(user.id, true)}
-                                                                                                className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
-                                                                                            >
-                                                                                                <span>Activate User</span>
-                                                                                                <CheckIcon
-                                                                                                    className='w-6 h-6 text-green-500 ml-2'
-                                                                                                    aria-hidden='true'
-                                                                                                />
-                                                                                            </button>
-                                                                                        )}
+                                                                                        <button
+                                                                                            onClick={() => removeService(service.id, false)}
+                                                                                            className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
+                                                                                        >
+                                                                                            <span>Remove Service</span>
+                                                                                            <XIcon
+                                                                                                className='w-6 h-6 text-red-500 ml-2'
+                                                                                                aria-hidden='true'
+                                                                                            />
+                                                                                        </button>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
