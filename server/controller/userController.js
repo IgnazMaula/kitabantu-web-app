@@ -13,6 +13,16 @@ const getAllUser = async (req, res, next) => {
     res.json({ users: users.map((u) => u.toObject({ getters: true })) });
 };
 
+const getProviderAndClient = async (req, res, next) => {
+    let users;
+    try {
+        users = await User.find({ role: ['Provider', 'Client'] });
+    } catch (error) {
+        return next(new HttpError('Fetching users failed', 500));
+    }
+    res.json({ users: users.map((u) => u.toObject({ getters: true })) });
+};
+
 const getUserById = async (req, res, next) => {
     const userId = req.params.uid;
     let user;
@@ -202,6 +212,28 @@ const updateProfilePicture = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const updateUserActive = async (req, res, next) => {
+    const { isActive } = req.body;
+    const userId = req.params.uid;
+
+    let user;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    user.isActive = isActive;
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ user: user.toObject({ getters: true }) });
+};
+
 // const deleteUser = (req, res, next) => {
 //     const userId = req.params.uid;
 //     users = users.filter((u) => u.id !== userId);
@@ -210,6 +242,7 @@ const updateProfilePicture = async (req, res, next) => {
 
 module.exports = {
     getAllUser,
+    getProviderAndClient,
     getUserById,
     signup,
     register,
@@ -217,5 +250,5 @@ module.exports = {
     updateProvider,
     updateClient,
     updateProfilePicture,
-    // deleteUser,
+    updateUserActive,
 };

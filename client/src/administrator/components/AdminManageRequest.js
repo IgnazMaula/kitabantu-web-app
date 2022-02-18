@@ -245,22 +245,22 @@ const Orders = (props) => {
                                 </Menu>
 
                                 <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
-                                    <a
+                                    <button
                                         onClick={() => manageServiceHandler(service.id, 'Active')}
                                         className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
                                     >
                                         <span>Approve Service</span>
                                         <CheckIcon className='w-6 h-6 text-green-500 ml-2' aria-hidden='true' />
                                         <span className='sr-only'>{service.number}</span>
-                                    </a>
-                                    <a
+                                    </button>
+                                    <button
                                         onClick={() => manageServiceHandler(service.id, 'Declined')}
                                         className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
                                     >
                                         <span>Decline Service</span>
                                         <XIcon className='w-6 h-6 text-red-500 ml-2' aria-hidden='true' />
                                         <span className='sr-only'>for order {service.number}</span>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
 

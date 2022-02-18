@@ -53,13 +53,13 @@ function classNames(...classes) {
 
 export default function AdminManageUsers() {
     const auth = useContext(AuthContext);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [users, setUsers] = useState([]);
     useEffect(() => {
         const getUsers = async () => {
             try {
-                setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/users');
+                // setIsLoading(true);
+                const response = await fetch('http://localhost:5000/api/users/provider-and-client');
                 const responseData = await response.json();
                 setUsers(responseData.users);
                 setIsLoading(false);
@@ -69,7 +69,28 @@ export default function AdminManageUsers() {
             }
         };
         getUsers();
-    }, []);
+    }, [users]);
+
+    const manageUserHandler = async (userId, newStatus) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/users/update/client-status/${userId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    isActive: newStatus,
+                }),
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        console.log('terganti');
+    };
 
     return (
         <>
@@ -182,7 +203,7 @@ export default function AdminManageUsers() {
                                                                                 <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                                                                                     <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
                                                                                         <NavLink to={`/provider-profile/${person.id}`}>
-                                                                                            <button className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
+                                                                                            <button className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
                                                                                                 <span>User Details</span>
                                                                                                 <UserIcon
                                                                                                     className='w-6 h-6 text-blue-500 ml-2'
@@ -190,13 +211,29 @@ export default function AdminManageUsers() {
                                                                                                 />
                                                                                             </button>
                                                                                         </NavLink>
-                                                                                        <button className='flex cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
-                                                                                            <span>Deactivate User</span>
-                                                                                            <XIcon
-                                                                                                className='w-6 h-6 text-red-500 ml-2'
-                                                                                                aria-hidden='true'
-                                                                                            />
-                                                                                        </button>
+                                                                                        {person.isActive ? (
+                                                                                            <button
+                                                                                                onClick={() => manageUserHandler(person.id, false)}
+                                                                                                className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
+                                                                                            >
+                                                                                                <span>Deactivate User</span>
+                                                                                                <XIcon
+                                                                                                    className='w-6 h-6 text-red-500 ml-2'
+                                                                                                    aria-hidden='true'
+                                                                                                />
+                                                                                            </button>
+                                                                                        ) : (
+                                                                                            <button
+                                                                                                onClick={() => manageUserHandler(person.id, true)}
+                                                                                                className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
+                                                                                            >
+                                                                                                <span>Activate User</span>
+                                                                                                <CheckIcon
+                                                                                                    className='w-6 h-6 text-green-500 ml-2'
+                                                                                                    aria-hidden='true'
+                                                                                                />
+                                                                                            </button>
+                                                                                        )}
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>

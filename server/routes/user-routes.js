@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/', userController.getAllUser);
 
+router.get('/provider-and-client', userController.getProviderAndClient);
+
 router.get('/:uid', userController.getUserById);
 
 router.post('/signup', userController.signup);
@@ -20,6 +22,8 @@ router.patch('/update/provider/:uid', userController.updateProvider);
 router.patch('/update/client/:uid', userController.updateClient);
 
 router.patch('/update/profile-picture/:uid', fileUpload.single('image'), userController.updateProfilePicture);
+
+router.patch('/update/client-status/:uid', userController.updateUserActive);
 
 // router.delete('/:uid', userController.deleteUser);
 
