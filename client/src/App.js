@@ -20,6 +20,7 @@ import RegisterMenu from './authentication-page/pages/RegisterMenu';
 import AddNewService from './service-provider/components/AddNewService';
 import EditService from './service-provider/components/EditService';
 import ProviderProfilePage from './service-available/pages/ProviderProfilePage';
+import ClientProfilePage from './service-available/pages/ClientProfilePage';
 
 const App = () => {
     const navigate = useNavigate();
@@ -80,6 +81,7 @@ const App = () => {
                     <Route path='/browse' element={<Browse />}></Route>
                     <Route path='/service/:sid' element={<Service />}></Route>
                     <Route path='/provider-profile/:uid' element={<ProviderProfilePage />}></Route>
+                    <Route path='/client-profile/:uid' element={<ClientProfilePage />}></Route>
                     <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
             </AuthContext.Provider>

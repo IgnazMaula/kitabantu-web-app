@@ -156,7 +156,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function ProviderProfilePage(props) {
+export default function ClientProfilePage(props) {
     const providerId = useParams().uid;
     const [isLoading, setIsLoading] = useState(false);
     const [provider, setProvider] = useState([]);
@@ -213,16 +213,7 @@ export default function ProviderProfilePage(props) {
                                                         </div>
                                                         <div className='mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left pr-80'>
                                                             <p className='text-xl font-bold text-gray-900 sm:text-2xl my-2'>{provider.name}</p>
-                                                            <p className='text-sm font-medium text-gray-400 my-2'>Service Provider</p>
-                                                            {provider.vaccinated ? (
-                                                                <span className='px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full'>
-                                                                    Vaccinated
-                                                                </span>
-                                                            ) : (
-                                                                <span className='px-2 py-1 text-red-800 text-xs font-medium bg-red-100 rounded-full'>
-                                                                    Not Vaccinated
-                                                                </span>
-                                                            )}
+                                                            <p className='text-sm font-medium text-gray-400 my-2'>Service Client</p>
                                                             <p className='text-sm text-gray-900 mt-8'>{provider.description}</p>
                                                             <p className='text-sm text-gray-900 mt-8'>
                                                                 <span className='font-bold'>Email&emsp;</span>
@@ -233,24 +224,28 @@ export default function ProviderProfilePage(props) {
                                                                 {provider.phoneNumber}
                                                             </p>
                                                             <p className='text-sm text-gray-900 mt-4'>
+                                                                <span className='font-bold'>Gender&emsp;</span>
+                                                                {provider.gender}
+                                                            </p>
+                                                            <p className='text-sm text-gray-900 mt-4'>
+                                                                <span className='font-bold'>Occupation&emsp;</span>
+                                                                {provider.occupation}
+                                                            </p>
+                                                            <p className='text-sm text-gray-900 mt-4'>
                                                                 <span className='font-bold'>Location&emsp;</span>
                                                                 {provider.location}
                                                             </p>
-                                                            <p className='text-sm text-gray-900 mt-4'>
+                                                            <p className='text-sm text-gray-900 mt-4 mb-8'>
                                                                 <span className='font-bold'>Address&emsp;</span>
                                                                 {provider.address}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <ProviderStat serviceOwned={serviceOwned} orderReceived={orderReceived} averageRating='4.5' />
                                             </div>
                                         </div>
                                     </section>
                                     {/* Actions panel */}
-                                    <section aria-labelledby='quick-links-title'>
-                                        <ProviderAllService providerName={provider.name} providerId={providerId} />
-                                    </section>
                                 </div>
                             </div>
                         </div>

@@ -200,15 +200,27 @@ export default function AdminManageUsers() {
                                                                                 </td>
                                                                                 <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
                                                                                     <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
-                                                                                        <NavLink to={`/provider-profile/${user.id}`}>
-                                                                                            <button className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
-                                                                                                <span>User Details</span>
-                                                                                                <UserIcon
-                                                                                                    className='w-6 h-6 text-blue-500 ml-2'
-                                                                                                    aria-hidden='true'
-                                                                                                />
-                                                                                            </button>
-                                                                                        </NavLink>
+                                                                                        {user.role === 'Provider' ? (
+                                                                                            <NavLink to={`/provider-profile/${user.id}`}>
+                                                                                                <button className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
+                                                                                                    <span>User Details</span>
+                                                                                                    <UserIcon
+                                                                                                        className='w-6 h-6 text-blue-500 ml-2'
+                                                                                                        aria-hidden='true'
+                                                                                                    />
+                                                                                                </button>
+                                                                                            </NavLink>
+                                                                                        ) : (
+                                                                                            <NavLink to={`/client-profile/${user.id}`}>
+                                                                                                <button className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'>
+                                                                                                    <span>User Details</span>
+                                                                                                    <UserIcon
+                                                                                                        className='w-6 h-6 text-blue-500 ml-2'
+                                                                                                        aria-hidden='true'
+                                                                                                    />
+                                                                                                </button>
+                                                                                            </NavLink>
+                                                                                        )}
                                                                                         {user.isActive ? (
                                                                                             <button
                                                                                                 onClick={() => manageUserHandler(user.id, false)}
