@@ -37,7 +37,7 @@ export default function AdminStat() {
                 <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
                     <dt>
                         <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
-                        <p className='text-sm font-medium text-gray-500 truncate'>Total User</p>
+                        <p className='text-sm font-medium text-gray-500 truncate'>Total Users</p>
                     </dt>
 
                     <dd className='mt-1 text-3xl font-semibold text-gray-900'>{users.length}</dd>
@@ -54,6 +54,30 @@ export default function AdminStat() {
                     <dt>
                         <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
                         <p className='text-sm font-medium text-gray-500 truncate'>Total Order</p>
+                    </dt>
+
+                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{0}</dd>
+                </div>
+                <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
+                    <dt>
+                        <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
+                        <p className='text-sm font-medium text-gray-500 truncate'>Service Provider</p>
+                    </dt>
+
+                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{users.length}</dd>
+                </div>
+                <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
+                    <dt>
+                        <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
+                        <p className='text-sm font-medium text-gray-500 truncate'>Service Client</p>
+                    </dt>
+
+                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{services.length}</dd>
+                </div>
+                <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
+                    <dt>
+                        <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
+                        <p className='text-sm font-medium text-gray-500 truncate'>Incoming Request</p>
                     </dt>
 
                     <dd className='mt-1 text-3xl font-semibold text-gray-900'>{0}</dd>

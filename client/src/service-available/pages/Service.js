@@ -1,22 +1,5 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/typography'),
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState, useEffect } from 'react';
-import { StarIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { Fragment, useState, useEffect, useContext } from 'react';
+import { StarIcon, ChevronRightIcon, BookmarkIcon, BookmarkAltIcon, InboxIcon, InboxInIcon } from '@heroicons/react/solid';
 import { Tab } from '@headlessui/react';
 import { useParams } from 'react-router';
 
@@ -25,19 +8,10 @@ import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { services } from '../../services';
+import { AuthContext } from '../../shared/context/auth-context';
 import Badge from '../../shared/components/Badge';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
-const product = {
-    name: 'Application UI Icon Pack',
-    version: { name: '1.0', date: 'June 5, 2021', datetime: '2021-06-05' },
-    price: '$220',
-    description:
-        'Gentlemen, a short view back to the past. Thirty years ago, Niki Lauda told us ‘take a monkey, place him into the cockpit and he is able to drive the car.’ Thirty years later, Sebastian told us ‘I had to start my car like a computer, it’s very complicated.’ And Nico Rosberg said that during the race – I don’t remember what race - he pressed the wrong button on the wheel. Question for you both: is Formula One driving today too complicated with twenty and more buttons on the wheel, are you too much under effort, under pressure? What are your wishes for the future concerning the technical programme during the race? Less buttons, more? Or less and more communication with your engineers?',
-    highlights: ['200+ SVG icons in 3 unique styles', 'Compatible with Figma, Sketch, and Adobe XD', 'Drawn on 24 x 24 pixel grid'],
-    imageSrc: 'https://www.portdevco.com/wp-content/uploads/2020/06/1-PPI-Group-Bagikan-Support-Package-min.jpg',
-    imageAlt: 'Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles.',
-};
 const reviews = {
     average: 4,
     featured: [
@@ -113,6 +87,7 @@ function classNames(...classes) {
 }
 
 export default function Service() {
+    const auth = useContext(AuthContext);
     const sid = useParams().sid;
     console.log(sid);
     const [isLoading, setIsLoading] = useState(false);
@@ -200,18 +175,43 @@ export default function Service() {
                                     <Badge name={p} className='ml-1 mb-2' />
                                 ))}
                                 <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2'>
-                                    <button
-                                        type='button'
-                                        className='w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500'
-                                    >
-                                        Pay {product.price}
-                                    </button>
-                                    <button
-                                        type='button'
-                                        className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500'
-                                    >
-                                        Chat Provider
-                                    </button>
+                                    {auth.loggedUser.role === 'Client' ? (
+                                        <>
+                                            <button
+                                                type='button'
+                                                className='w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500'
+                                            >
+                                                <InboxInIcon className='h-6 w-6 text-green-100' aria-hidden='true' />
+                                                Order Now
+                                            </button>
+                                            <button
+                                                type='button'
+                                                className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100'
+                                            >
+                                                <BookmarkIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                                                Bookmark Services
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                disabled
+                                                type='button'
+                                                className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700  disabled:opacity-70 cursor-not-allowed'
+                                            >
+                                                <InboxInIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                                                Order Now
+                                            </button>
+                                            <button
+                                                disabled
+                                                type='button'
+                                                className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700  disabled:opacity-70 cursor-not-allowed'
+                                            >
+                                                <BookmarkIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                                                Bookmark Service
+                                            </button>
+                                        </>
+                                    )}
                                 </div>
                                 <div className='mt-10 pt-10'>
                                     <ProviderProfile providerId={service.serviceProvider} />
