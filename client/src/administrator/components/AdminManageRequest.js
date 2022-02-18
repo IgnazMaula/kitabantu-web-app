@@ -293,28 +293,6 @@ const Orders = (props) => {
                                             </p>
                                         </div>
                                     </div>
-
-                                    <div className='mt-6 sm:flex sm:justify-between'>
-                                        <div className='flex items-center'>
-                                            <CheckIcon className='w-5 h-5 text-green-500' aria-hidden='true' />
-                                            <p className='ml-2 text-sm font-medium text-gray-500'>
-                                                Delivered on <time dateTime={service.deliveredDatetime}>{service.deliveredDate}</time>
-                                            </p>
-                                        </div>
-
-                                        <div className='mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0'>
-                                            <div className='flex-1 flex justify-center'>
-                                                <a href={service.href} className='text-red-600 whitespace-nowrap hover:text-red-500'>
-                                                    View product
-                                                </a>
-                                            </div>
-                                            <div className='flex-1 pl-4 flex justify-center'>
-                                                <a href='#' className='text-red-600 whitespace-nowrap hover:text-red-500'>
-                                                    Buy again
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </li>
                             </ul>
                         </div>

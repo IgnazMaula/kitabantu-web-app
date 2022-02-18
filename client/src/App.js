@@ -73,6 +73,7 @@ const App = () => {
                         <>
                             <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
                             <Route path='/manage-request' element={<AdminDashboard active='Manage Service Request' />}></Route>
+                            <Route path='/manage-users' element={<AdminDashboard active='Manage Users' />}></Route>
                         </>
                     )}
                     <Route path='/browse' element={<Browse />}></Route>

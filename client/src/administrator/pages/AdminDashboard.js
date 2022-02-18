@@ -53,8 +53,8 @@ const userNavigation = [
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
     { name: 'Manage Service Request', href: '/manage-request', icon: ClipboardCheckIcon },
-    { name: 'Manage Users', href: '/profile', icon: UsersIcon },
-    { name: 'Manage Services', href: '/profile', icon: CollectionIcon },
+    { name: 'Manage Users', href: '/manage-users', icon: UsersIcon },
+    { name: 'Manage Services', href: '/manage-services', icon: CollectionIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },
     // { name: 'Integrations', href: '#', icon: ViewGridAddIcon, current: false },
 ];
@@ -90,9 +90,9 @@ export default function AdminDashboard(props) {
         <>
             <Navbar />
             <div className='h-full'>
-                <main className='max-w-7xl mx-auto pb-10 lg:py-12 lg:px-8'>
+                <main className=' mx-auto pb-10 lg:py-12 lg:px-8'>
                     <div className='lg:grid lg:grid-cols-12 lg:gap-x-5'>
-                        <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3'>
+                        <aside className='py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-2'>
                             <nav className='space-y-1'>
                                 {subNavigation.map((item) => (
                                     <div onClick={() => setActiveMenuHandler(item.name, item.current)}>
