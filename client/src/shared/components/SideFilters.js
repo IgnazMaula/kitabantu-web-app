@@ -60,16 +60,16 @@ const category = {
     options: [
         { value: 'All', label: 'All', checked: true },
         { value: 'House Chores', label: 'House Chores', checked: false },
-        { value: 'House Cleaning', label: 'House Cleaning', checked: false },
-        { value: 'House Maintenance', label: 'House Maintenance', checked: false },
-        { value: 'Home Décor', label: 'Home Décor', checked: false },
+        { value: 'House Cleaning & Organizing', label: 'House Cleaning & Organizing', checked: false },
+        { value: 'House Maintenance & Repair', label: 'House Maintenance & Repair', checked: false },
+        { value: 'Home Décor & Furnitures', label: 'Home Décor & Furnitures', checked: false },
         { value: 'Home Appliances', label: 'Home Appliances', checked: false },
         { value: 'IT Support & Security', label: 'IT Support & Security', checked: false },
         { value: 'Day Care', label: 'Day Care', checked: false },
         { value: 'Student Needs', label: 'Student Needs', checked: false },
         { value: 'Health & Well-Being', label: 'Health & Well-Being', checked: false },
         { value: 'Pets & Animal', label: 'Pets & Animal', checked: false },
-        { value: 'Vehicle Service', label: 'Vehicle Service', checked: false },
+        { value: 'Vehicle Service & Maintenance', label: 'Vehicle Service & Maintenance', checked: false },
         { value: 'Cargo & Moving House', label: 'Cargo & Moving House', checked: false },
     ],
 };
@@ -96,7 +96,11 @@ export default function SideFilters(props) {
     const sortTypeHandler = (e) => {
         console.log(e.target.value);
         props.setSortType(e.target.value);
-        console.log('aa');
+    };
+
+    const categoryHandler = (e) => {
+        console.log(e.target.value);
+        props.setCategory(e.target.value);
     };
 
     return (
@@ -278,7 +282,7 @@ export default function SideFilters(props) {
                                                             name={category.name}
                                                             defaultValue={option.value}
                                                             defaultChecked={option.checked}
-                                                            onChange={locationHandler}
+                                                            onChange={categoryHandler}
                                                             type='radio'
                                                             className='h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500'
                                                         />

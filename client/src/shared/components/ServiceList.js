@@ -21,6 +21,7 @@ export default function ServiceList() {
     const [sortType, setSortType] = useState('Default');
     const [location, setLocation] = useState('All');
     const [providerType, setProviderType] = useState('All');
+    const [category, setCategory] = useState('All');
 
     useEffect(() => {
         const getService = async () => {
@@ -83,6 +84,13 @@ export default function ServiceList() {
             return getProviderType === providerType;
         }
     };
+    const filterCategory = (getCategory, category) => {
+        if (category === 'All') {
+            return true;
+        } else {
+            return getCategory === category;
+        }
+    };
 
     const sortList = (a, b) => {
         if (sortType === 'Default') {
@@ -114,6 +122,7 @@ export default function ServiceList() {
         )
         .filter((ss) => filterLocation(getLocation(ss.serviceProvider), location))
         .filter((ss) => filterProviderType(getProviderType(ss.serviceProvider), providerType))
+        .filter((ss) => filterCategory(ss.category, category))
         .sort((a, b) => sortList(a, b))
         .map((s) => {
             const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
@@ -159,7 +168,7 @@ export default function ServiceList() {
             <NavSearchMenu setKeyWord={setKeyWord} />
             <div className='container mx-auto px-0'>
                 <div className='w-full flex flex-col lg:flex-row lg:px-6'>
-                    <SideFilters setLocation={setLocation} setProviderType={setProviderType} setSortType={setSortType} />
+                    <SideFilters setLocation={setLocation} setProviderType={setProviderType} setSortType={setSortType} setCategory={setCategory} />
                     <div className='flex-1 lg:pl-12 py-6 px-6 lg:px-0'>
                         <div className='mt-12'>
                             {keyWord === '' ? (
