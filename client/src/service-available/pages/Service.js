@@ -175,7 +175,7 @@ export default function Service() {
                                     <Badge name={p} className='ml-1 mb-2' />
                                 ))}
                                 <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2'>
-                                    {auth.loggedUser.role === 'Client' ? (
+                                    {auth.loggedUser !== undefined && auth.loggedUser.role === 'Client' ? (
                                         <>
                                             <button
                                                 type='button'
