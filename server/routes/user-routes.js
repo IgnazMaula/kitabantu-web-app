@@ -25,6 +25,10 @@ router.patch('/update/profile-picture/:uid', fileUpload.single('image'), userCon
 
 router.patch('/update/client-status/:uid', userController.updateUserActive);
 
+router.patch('/update/add-bookmarks/:uid', userController.addBookmark);
+
+router.patch('/update/remove-bookmarks/:uid', userController.removeBookmark);
+
 // router.delete('/:uid', userController.deleteUser);
 
 module.exports = router;

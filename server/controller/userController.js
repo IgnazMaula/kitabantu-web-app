@@ -2,6 +2,7 @@ const { v4: uuid } = require('uuid');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/User');
+const Service = require('../models/Service');
 
 const getAllUser = async (req, res, next) => {
     let users;
@@ -234,6 +235,64 @@ const updateUserActive = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const addBookmark = async (req, res, next) => {
+    const { serviceId } = req.body;
+    const userId = req.params.uid;
+
+    let user;
+    let service;
+
+    try {
+        user = await User.findById(userId);
+    } catch {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+
+    try {
+        service = await Service.findById(serviceId);
+    } catch {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+    user.bookmarks.push(service);
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+};
+
+const removeBookmark = async (req, res, next) => {
+    const { serviceId } = req.body;
+    const userId = req.params.uid;
+    let user;
+    let service;
+
+    try {
+        user = await User.findById(userId);
+    } catch {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+
+    try {
+        service = await Service.findById(serviceId);
+    } catch {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+
+    for (var i = 0; i < user.bookmarks.length; i++) {
+        if (user.bookmarks[i].toString() === service.id) {
+            user.bookmarks.splice(i, 1);
+        }
+    }
+
+    try {
+        await user.save();
+    } catch (error) {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+};
+
 // const deleteUser = (req, res, next) => {
 //     const userId = req.params.uid;
 //     users = users.filter((u) => u.id !== userId);
@@ -251,4 +310,6 @@ module.exports = {
     updateClient,
     updateProfilePicture,
     updateUserActive,
+    addBookmark,
+    removeBookmark,
 };

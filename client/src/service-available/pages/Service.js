@@ -89,8 +89,8 @@ function classNames(...classes) {
 export default function Service() {
     const auth = useContext(AuthContext);
     const sid = useParams().sid;
-    console.log(sid);
     const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState([]);
     const [service, setService] = useState([]);
     const [properties, setProperties] = useState([]);
     useEffect(() => {
@@ -99,8 +99,14 @@ export default function Service() {
                 setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/${sid}`);
                 const responseData = await response.json();
+                if (auth.loggedUser !== undefined) {
+                    const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                    const responseDataUser = await responseUser.json();
+                    setUser(responseDataUser.user);
+                }
                 setService(responseData.service);
                 setProperties(responseData.service.properties);
+
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -109,6 +115,60 @@ export default function Service() {
         };
         getService();
     }, []);
+    useEffect(() => {
+        const getService = async () => {
+            try {
+                if (auth.loggedUser !== undefined) {
+                    const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                    const responseDataUser = await responseUser.json();
+                    setUser(responseDataUser.user);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getService();
+    }, [user]);
+
+    const addBookmarkHandler = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/users/update/add-bookmarks/${auth.loggedUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    serviceId: sid,
+                }),
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const removeBookmarkHandler = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    serviceId: sid,
+                }),
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -170,12 +230,18 @@ export default function Service() {
                                     </div>
                                 </div>
                                 {/* <p className='text-gray-500 mt-6'>{product.description}</p> */}
-                                <p className='mt-10 mb-5 text-sm font-medium text-gray-500 hover:text-gray-700'>{service.label}: </p>
+                                <div>
+                                    <h1 className='mt-8 text-sm font-medium text-gray-500'>
+                                        Starting at Rp. <span className='text-4xl font-bold text-black'>{service.price}</span>
+                                        {service.unit}
+                                    </h1>
+                                </div>
+                                <p className='mt-8 mb-5 text-sm font-medium text-gray-500 hover:text-gray-700'>{service.label}: </p>
                                 {properties.map((p) => (
                                     <Badge name={p} className='ml-1 mb-2' />
                                 ))}
                                 <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2'>
-                                    {auth.loggedUser !== undefined && auth.loggedUser.role === 'Client' ? (
+                                    {user !== undefined && auth.loggedUser !== undefined && auth.loggedUser.role === 'Client' ? (
                                         <>
                                             <button
                                                 type='button'
@@ -184,13 +250,25 @@ export default function Service() {
                                                 <InboxInIcon className='h-6 w-6 text-green-100' aria-hidden='true' />
                                                 Order Now
                                             </button>
-                                            <button
-                                                type='button'
-                                                className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100'
-                                            >
-                                                <BookmarkIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
-                                                Bookmark Services
-                                            </button>
+                                            {user.bookmarks !== undefined && auth.loggedUser !== undefined && user.bookmarks.includes(sid) ? (
+                                                <button
+                                                    onClick={() => removeBookmarkHandler()}
+                                                    type='button'
+                                                    className='w-full bg-yellow-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-yellow-700 hover:bg-yellow-100'
+                                                >
+                                                    <BookmarkIcon className='h-6 w-6 text-yellow-600' aria-hidden='true' />
+                                                    Remove Services
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => addBookmarkHandler()}
+                                                    type='button'
+                                                    className='w-full bg-green-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-green-700 hover:bg-green-100'
+                                                >
+                                                    <BookmarkIcon className='h-6 w-6 text-green-600' aria-hidden='true' />
+                                                    Bookmark Services
+                                                </button>
+                                            )}
                                         </>
                                     ) : (
                                         <>

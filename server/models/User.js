@@ -27,7 +27,7 @@ const userSchema = new Schema({
     vaccinated: { type: Boolean, required: false, default: undefined },
     // Collections of Service Client
     orders: [{ type: String, required: false }],
-    bookmarks: [{ type: String, required: false }],
+    bookmarks: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],
     // Collections of Service Provider
     services: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],
     ordersReceived: [{ type: String, required: false }],
