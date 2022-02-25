@@ -71,7 +71,7 @@ export default function ClientBookmarks() {
             }
         };
         getService();
-    }, [bookmarks]);
+    }, []);
 
     const removeBookmarkHandler = async (sid) => {
         try {
@@ -88,6 +88,9 @@ export default function ClientBookmarks() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
+            const response2 = await fetch(`http://localhost:5000/api/users/bookmarks/${auth.loggedUser.id}`);
+            const responseData2 = await response2.json();
+            setBookmarks(responseData2.services);
         } catch (error) {
             console.log(error);
         }
