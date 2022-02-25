@@ -92,7 +92,6 @@ export default function AdminManageRequest() {
                         </div>
                     ) : (
                         <div>
-                            {' '}
                             {services.length === 0 ? (
                                 <NoOrders open={open} setOpen={setOpen} message={message} />
                             ) : (
