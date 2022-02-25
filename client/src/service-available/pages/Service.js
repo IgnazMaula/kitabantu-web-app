@@ -99,11 +99,11 @@ export default function Service() {
                 setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/api/services/${sid}`);
                 const responseData = await response.json();
-                if (auth.loggedUser !== undefined) {
-                    const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
-                    const responseDataUser = await responseUser.json();
-                    setUser(responseDataUser.user);
-                }
+                // if (auth.loggedUser !== undefined) {
+                //     const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                //     const responseDataUser = await responseUser.json();
+                //     setUser(responseDataUser.user);
+                // }
                 setService(responseData.service);
                 setProperties(responseData.service.properties);
 

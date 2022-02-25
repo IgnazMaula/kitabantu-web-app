@@ -11,6 +11,8 @@ router.get('/provider-and-client', userController.getProviderAndClient);
 
 router.get('/:uid', userController.getUserById);
 
+router.get('/bookmarks/:uid', userController.getBookmark);
+
 router.post('/signup', userController.signup);
 
 router.post('/register', userController.register);

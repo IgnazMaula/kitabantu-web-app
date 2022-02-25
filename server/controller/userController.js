@@ -235,6 +235,27 @@ const updateUserActive = async (req, res, next) => {
     res.status(200).json({ user: user.toObject({ getters: true }) });
 };
 
+const getBookmark = async (req, res, next) => {
+    const userId = req.params.uid;
+    let user;
+    let services;
+    try {
+        user = await User.findById(userId);
+    } catch (error) {
+        return next(new HttpError('Could not find user with that id', 500));
+    }
+
+    try {
+        services = await Service.find().where('_id').in(user.bookmarks);
+    } catch {
+        return next('Something went wrong, could not update bookmark', 500);
+    }
+
+    console.log(services);
+
+    res.json({ services: services.map((u) => u.toObject({ getters: true })) });
+};
+
 const addBookmark = async (req, res, next) => {
     const { serviceId } = req.body;
     const userId = req.params.uid;
@@ -310,6 +331,7 @@ module.exports = {
     updateClient,
     updateProfilePicture,
     updateUserActive,
+    getBookmark,
     addBookmark,
     removeBookmark,
 };

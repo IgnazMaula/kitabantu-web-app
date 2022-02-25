@@ -1,5 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
+import { useState, useEffect, useContext } from 'react';
 import { CheckIcon } from '@heroicons/react/outline';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../shared/context/auth-context';
+import LoadingSpinner from '../../shared/components/LoadingSpinner';
+import { services } from '../../services';
 
 const orders = [
     {
@@ -50,6 +55,45 @@ const orders = [
 ];
 
 export default function ClientBookmarks() {
+    const auth = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(true);
+    const [bookmarks, setBookmarks] = useState([]);
+    useEffect(() => {
+        const getService = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/users/bookmarks/${auth.loggedUser.id}`);
+                const responseData = await response.json();
+                setBookmarks(responseData.services);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error);
+            }
+        };
+        getService();
+    }, [bookmarks]);
+
+    const removeBookmarkHandler = async (sid) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    serviceId: sid,
+                }),
+            });
+            console.log(sid);
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div className='bg-white'>
             <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
@@ -59,62 +103,56 @@ export default function ClientBookmarks() {
                 </div>
 
                 <div className='mt-16'>
-                    <h2 className='sr-only'>Recent orders</h2>
-
-                    <div className='space-y-16 sm:space-y-24'>
-                        {orders.map((order) => (
-                            <div key={order.number}>
-                                <h3 className='sr-only'>
-                                    Order placed on <time dateTime={order.datetime}>{order.date}</time>
-                                </h3>
-
+                    {isLoading ? (
+                        <div className='text-center p-24'>
+                            <LoadingSpinner />
+                        </div>
+                    ) : (
+                        <div className='space-y-16 sm:space-y-24'>
+                            <div>
                                 <div className='mt-6 flow-root px-4 sm:mt-10 sm:px-0'>
                                     <div className='-my-6 divide-y divide-gray-200 sm:-my-10'>
-                                        {order.products.map((product) => (
-                                            <div key={product.id} className='flex py-6 sm:py-10'>
+                                        {bookmarks.map((bookmark) => (
+                                            <div key={bookmark.id} className='flex py-6 sm:py-10'>
                                                 <div className='min-w-0 flex-1 lg:flex lg:flex-col'>
                                                     <div className='lg:flex-1'>
                                                         <div className='flex'>
-                                                            <div>
-                                                                <h4 className='font-medium text-gray-900'>{product.name}</h4>
-                                                                <p className='hidden mt-2 text-sm text-gray-500 sm:block'>{product.description}</p>
-                                                            </div>
-                                                            {/* <p className='mt-1 font-medium text-gray-900 sm:mt-0 sm:ml-6'>{product.price}</p> */}
-                                                        </div>
-                                                        <div className='mt-2 flex text-sm font-medium sm:mt-4'>
-                                                            <a href={product.href} className='text-indigo-600 hover:text-indigo-500'>
-                                                                View Product
-                                                            </a>
-                                                            <div className='border-l border-gray-200 ml-4 pl-4 sm:ml-6 sm:pl-6'>
-                                                                <a href='#' className='text-indigo-600 hover:text-indigo-500'>
-                                                                    Buy Again
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='mt-6 font-medium'>
-                                                        {product.status === 'delivered' ? (
-                                                            <div className='flex space-x-2'>
-                                                                <CheckIcon className='flex-none w-6 h-6 text-green-500' aria-hidden='true' />
-                                                                <p>
-                                                                    Delivered
-                                                                    <span className='hidden sm:inline'>
-                                                                        {' '}
-                                                                        on <time dateTime={product.datetime}>{product.date}</time>
-                                                                    </span>
+                                                            <div className='flex-1 text-sm'>
+                                                                <div className='font-medium text-gray-900 sm:flex sm:justify-between'>
+                                                                    <h3 className='text-base'>{bookmark.name}</h3>
+                                                                </div>
+                                                                <h3 className='text-gray-500 mb-8'>
+                                                                    {bookmark.category}, {bookmark.subCategory}
+                                                                </h3>
+
+                                                                <p className='hidden sm:block sm:mt-2'>{bookmark.description}</p>
+                                                                <p className='hidden sm:block sm:mt-2'>
+                                                                    <b>Tags:</b> {bookmark.properties.join(', ')}
                                                                 </p>
                                                             </div>
-                                                        ) : product.status === 'out-for-delivery' ? (
-                                                            <p>Out for delivery</p>
-                                                        ) : product.status === 'cancelled' ? (
-                                                            <p className='text-gray-500'>Cancelled</p>
-                                                        ) : null}
+                                                            {/* <p className='mt-1 font-medium text-gray-900 sm:mt-0 sm:ml-6'>{bookmark.price}</p> */}
+                                                        </div>
+                                                        <div className='mt-8 flex text-sm font-medium sm:mt-8'>
+                                                            <Link to={`/service/${bookmark.id}`}>
+                                                                <button className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'>
+                                                                    Visit Service Page
+                                                                </button>
+                                                            </Link>
+                                                            <div className='border-l border-gray-200 ml-4 pl-4 sm:ml-6 sm:pl-6'>
+                                                                <button
+                                                                    onClick={() => removeBookmarkHandler(bookmark.id)}
+                                                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none'
+                                                                >
+                                                                    Remove Bookmark
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className='ml-4 flex-shrink-0 sm:m-0 sm:mr-6 sm:order-first'>
                                                     <img
-                                                        src={product.imageSrc}
-                                                        alt={product.imageAlt}
+                                                        src={`http://localhost:5000/${bookmark.image}`}
+                                                        alt={`http://localhost:5000/${bookmark.image}`}
                                                         className='col-start-2 col-end-3 sm:col-start-1 sm:row-start-1 sm:row-span-2 w-20 h-20 rounded-lg object-center object-cover sm:w-40 sm:h-40 lg:w-52 lg:h-52'
                                                     />
                                                 </div>
@@ -123,8 +161,8 @@ export default function ClientBookmarks() {
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
