@@ -251,8 +251,6 @@ const getBookmark = async (req, res, next) => {
         return next('Something went wrong, could not update bookmark', 500);
     }
 
-    console.log(services);
-
     res.json({ services: services.map((u) => u.toObject({ getters: true })) });
 };
 
@@ -281,6 +279,8 @@ const addBookmark = async (req, res, next) => {
     } catch (error) {
         return next('Something went wrong, could not update bookmark', 500);
     }
+
+    res.status(200).json({ service: service.toObject({ getters: true }) });
 };
 
 const removeBookmark = async (req, res, next) => {
@@ -312,6 +312,8 @@ const removeBookmark = async (req, res, next) => {
     } catch (error) {
         return next('Something went wrong, could not update bookmark', 500);
     }
+
+    res.status(200).json({ service: service.toObject({ getters: true }) });
 };
 
 // const deleteUser = (req, res, next) => {

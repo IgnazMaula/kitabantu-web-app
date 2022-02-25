@@ -128,7 +128,7 @@ export default function Service() {
             }
         };
         getService();
-    }, [user]);
+    }, []);
 
     const addBookmarkHandler = async () => {
         try {
@@ -145,6 +145,9 @@ export default function Service() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
+            const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+            const responseDataUser = await responseUser.json();
+            setUser(responseDataUser.user);
         } catch (error) {
             console.log(error);
         }
@@ -165,6 +168,9 @@ export default function Service() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
+            const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+            const responseDataUser = await responseUser.json();
+            setUser(responseDataUser.user);
         } catch (error) {
             console.log(error);
         }

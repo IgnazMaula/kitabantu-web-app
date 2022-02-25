@@ -84,7 +84,6 @@ export default function ClientBookmarks() {
                     serviceId: sid,
                 }),
             });
-            console.log(sid);
             const responseData = await response.json();
             if (!response.ok) {
                 throw new Error(responseData.message);
