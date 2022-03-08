@@ -1,5 +1,5 @@
 const { v4: uuid } = require('uuid');
-
+const bcrypt = require('bcryptjs');
 const HttpError = require('../models/http-error');
 const User = require('../models/User');
 const Service = require('../models/Service');
@@ -41,10 +41,6 @@ const getUserById = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     throw new HttpError('Invalid inputs passed, please check your data.', 422);
-    // }
     const { email, password, name, location, identityNumber, phoneNumber, address, gender, occupation } = req.body;
     let existingUser;
     try {
@@ -57,9 +53,17 @@ const signup = async (req, res, next) => {
         return next(new HttpError('The user email that you tried to register already exist, please login to your account!', 422));
     }
 
+    let hashedPassword;
+
+    try {
+        hashedPassword = await bcrypt.hash(password, 12);
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
     const createdUser = new User({
         email,
-        password,
+        password: hashedPassword,
         name,
         role: 'Client',
         location,
@@ -95,9 +99,17 @@ const register = async (req, res, next) => {
         return next(new HttpError('The user email that you tried to register already exist, please login to your account!', 422));
     }
 
+    let hashedPassword;
+
+    try {
+        hashedPassword = await bcrypt.hash(password, 12);
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
     const createdUser = new User({
         email,
-        password,
+        password: hashedPassword,
         name,
         role: 'Provider',
         location,
@@ -128,7 +140,19 @@ const login = async (req, res, next) => {
         return next(new HttpError('Login failed, please try again later', 500));
     }
 
-    if (!existingUser || existingUser.password !== password) {
+    if (!existingUser) {
+        return next(new HttpError('Failed to login, invalid credential', 401));
+    }
+
+    let isValidPassword = false;
+
+    try {
+        isValidPassword = await bcrypt.compare(password, existingUser.password);
+    } catch (error) {
+        return next(new HttpError('Failed to login, invalid credential', 500));
+    }
+
+    if (!isValidPassword) {
         return next(new HttpError('Failed to login, invalid credential', 401));
     }
 
