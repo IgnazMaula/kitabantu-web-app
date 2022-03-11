@@ -1,6 +1,7 @@
 const express = require('express');
 
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 const serviceController = require('../controller/serviceController');
 
 const router = express.Router();
@@ -18,6 +19,8 @@ router.post('/create-service', fileUpload.single('image'), serviceController.cre
 router.patch('/edit-service/:sid', fileUpload.single('image'), serviceController.updateService);
 
 router.patch('/manage-status/:sid', serviceController.updateServiceStatus);
+
+//router.use(checkAuth);
 
 // router.delete('/:sid', serviceController.deleteService);
 

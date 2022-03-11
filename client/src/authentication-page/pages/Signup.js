@@ -62,7 +62,7 @@ export default function Signin() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            auth.login(responseData.user);
+            auth.login(responseData.user, responseData.token);
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');

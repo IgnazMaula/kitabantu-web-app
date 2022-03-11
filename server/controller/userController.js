@@ -1,5 +1,6 @@
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const HttpError = require('../models/http-error');
 const User = require('../models/User');
 const Service = require('../models/Service');
@@ -83,7 +84,14 @@ const signup = async (req, res, next) => {
         return next(new HttpError('Signing up failed, please try again later', 500));
     }
 
-    res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+    let token;
+    try {
+        token = jwt.sign({ user: createdUser }, 'supersecret', { expiresIn: '1h' });
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
+    res.status(201).json({ user: createdUser.toObject({ getters: true }), token: token });
 };
 
 const register = async (req, res, next) => {
@@ -128,7 +136,13 @@ const register = async (req, res, next) => {
         return next(new HttpError('Signing up failed, please try again later', 500));
     }
 
-    res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+    let token;
+    try {
+        token = jwt.sign({ user: createdUser }, 'supersecret', { expiresIn: '1h' });
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+    res.status(201).json({ user: createdUser.toObject({ getters: true }), token: token });
 };
 
 const login = async (req, res, next) => {
@@ -139,7 +153,6 @@ const login = async (req, res, next) => {
     } catch (error) {
         return next(new HttpError('Login failed, please try again later', 500));
     }
-
     if (!existingUser) {
         return next(new HttpError('Failed to login, invalid credential', 401));
     }
@@ -156,7 +169,14 @@ const login = async (req, res, next) => {
         return next(new HttpError('Failed to login, invalid credential', 401));
     }
 
-    res.json({ message: 'Logged in!', user: existingUser.toObject({ getters: true }) });
+    let token;
+    try {
+        token = jwt.sign({ user: existingUser }, 'supersecret', { expiresIn: '1h' });
+    } catch (error) {
+        return next(new HttpError('Signing up failed, please try again later', 500));
+    }
+
+    res.status(201).json({ message: 'Logged in!', user: existingUser.toObject({ getters: true }), token: token });
 };
 
 const updateProvider = async (req, res, next) => {

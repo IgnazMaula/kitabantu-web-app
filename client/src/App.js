@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import Main from './Main';
@@ -24,34 +24,45 @@ import ClientProfilePage from './service-available/pages/ClientProfilePage';
 
 const App = () => {
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [token, setToken] = useState(false);
     const [loggedUser, setLoggedUser] = useState();
-    const login = useCallback((user) => {
+
+    const login = useCallback((user, token) => {
         setLoggedUser(user);
-        setIsLoggedIn(true);
+        setToken(token);
+        localStorage.setItem('userData', JSON.stringify({ user: user, token: token }));
     }, []);
+
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        if (storedData && storedData.token) {
+            login(storedData.user, storedData.token);
+        }
+    }, [login]);
+
     const logout = useCallback(() => {
         setLoggedUser(null);
-        setIsLoggedIn(false);
+        setToken(null);
+        localStorage.removeItem('userData');
         navigate('/');
     }, []);
 
     return (
         <>
-            <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, loggedUser: loggedUser, login: login, logout: logout }}>
+            <AuthContext.Provider value={{ isLoggedIn: !!token, token: token, loggedUser: loggedUser, login: login, logout: logout }}>
                 <Routes>
                     {/* General routes */}
                     <Route path='/' element={<Main />}></Route>
                     <Route path='/aboutus' element={<AboutUs />}></Route>
 
                     {/* Routes for authorized user */}
-                    {!isLoggedIn && <Route path='/login' element={<Login />}></Route>}
-                    {!isLoggedIn && <Route path='/register' element={<RegisterMenu />}></Route>}
-                    {!isLoggedIn && <Route path='/register-as-client' element={<Signup />}></Route>}
-                    {!isLoggedIn && <Route path='/register-as-provider' element={<Register />}></Route>}
+                    {!token && <Route path='/login' element={<Login />}></Route>}
+                    {!token && <Route path='/register' element={<RegisterMenu />}></Route>}
+                    {!token && <Route path='/register-as-client' element={<Signup />}></Route>}
+                    {!token && <Route path='/register-as-provider' element={<Register />}></Route>}
 
                     {/* Routes for client */}
-                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Client' && (
+                    {token && loggedUser !== null && loggedUser.role === 'Client' && (
                         <>
                             <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
                             <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
@@ -60,7 +71,7 @@ const App = () => {
                         </>
                     )}
                     {/* Routes for provider */}
-                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Provider' && (
+                    {token && loggedUser !== null && loggedUser.role === 'Provider' && (
                         <>
                             <Route path='/profile' element={<ProviderDashboard active='My Profile' />}></Route>
                             <Route path='/manage-order' element={<ProviderDashboard active='Manage Incoming Order' />}></Route>
@@ -70,7 +81,7 @@ const App = () => {
                         </>
                     )}
                     {/* Routes for admin */}
-                    {isLoggedIn && loggedUser !== null && loggedUser.role === 'Admin' && (
+                    {token && loggedUser !== null && loggedUser.role === 'Admin' && (
                         <>
                             <Route path='/profile' element={<AdminDashboard active='My Profile' />}></Route>
                             <Route path='/manage-request' element={<AdminDashboard active='Manage Service Request' />}></Route>

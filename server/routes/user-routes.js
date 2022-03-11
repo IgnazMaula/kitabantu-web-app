@@ -1,6 +1,7 @@
 const express = require('express');
 
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 const userController = require('../controller/userController');
 
 const router = express.Router();
@@ -30,6 +31,8 @@ router.patch('/update/client-status/:uid', userController.updateUserActive);
 router.patch('/update/add-bookmarks/:uid', userController.addBookmark);
 
 router.patch('/update/remove-bookmarks/:uid', userController.removeBookmark);
+
+//router.use(checkAuth);
 
 // router.delete('/:uid', userController.deleteUser);
 

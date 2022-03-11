@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const userRoutes = require('./routes/user-routes');
-const serviceRoutes = require('./routes/service-router');
+const serviceRoutes = require('./routes/service-routes');
 const HttpError = require('./models/http-error');
 
 const app = express();

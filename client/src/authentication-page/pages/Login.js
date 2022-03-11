@@ -44,8 +44,8 @@ export default function Login() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            console.log(responseData.user);
-            auth.login(responseData.user);
+            console.log(responseData.token);
+            auth.login(responseData.user, responseData.token);
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');
