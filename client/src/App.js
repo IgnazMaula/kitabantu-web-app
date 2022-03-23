@@ -14,13 +14,13 @@ import ClientDashboard from './service-client/pages/ClientDashboard';
 import ProviderDashboard from './service-provider/pages/ProviderDashboard';
 import AdminDashboard from './administrator/pages/AdminDashboard';
 import Browse from './shared/pages/Browse';
-
-import { AuthContext } from './shared/context/auth-context';
 import RegisterMenu from './authentication-page/pages/RegisterMenu';
 import AddNewService from './service-provider/components/AddNewService';
 import EditService from './service-provider/components/EditService';
 import ProviderProfilePage from './service-available/pages/ProviderProfilePage';
 import ClientProfilePage from './service-available/pages/ClientProfilePage';
+
+import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
     const navigate = useNavigate();
