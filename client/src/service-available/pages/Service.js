@@ -97,10 +97,10 @@ export default function Service() {
         const getService = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/services/${sid}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/${sid}`);
                 const responseData = await response.json();
                 // if (auth.loggedUser !== undefined) {
-                //     const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                //     const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
                 //     const responseDataUser = await responseUser.json();
                 //     setUser(responseDataUser.user);
                 // }
@@ -119,7 +119,7 @@ export default function Service() {
         const getService = async () => {
             try {
                 if (auth.loggedUser !== undefined) {
-                    const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                    const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
                     const responseDataUser = await responseUser.json();
                     setUser(responseDataUser.user);
                 }
@@ -132,7 +132,7 @@ export default function Service() {
 
     const addBookmarkHandler = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/add-bookmarks/${auth.loggedUser.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/add-bookmarks/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export default function Service() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+            const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
             const responseDataUser = await responseUser.json();
             setUser(responseDataUser.user);
         } catch (error) {
@@ -155,7 +155,7 @@ export default function Service() {
 
     const removeBookmarkHandler = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ export default function Service() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            const responseUser = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+            const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
             const responseDataUser = await responseUser.json();
             setUser(responseDataUser.user);
         } catch (error) {
@@ -195,7 +195,7 @@ export default function Service() {
                             <div className='lg:row-end-1 lg:col-span-4'>
                                 <div className='aspect-w-4 aspect-h-3 w-full h-96 rounded-lg bg-gray-100 overflow-hidden'>
                                     <img
-                                        src={`http://localhost:5000/${service.image}`}
+                                        src={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
                                         alt={service.name}
                                         className='object-right object-cover h-full w-full'
                                     />

@@ -86,7 +86,7 @@ const signup = async (req, res, next) => {
 
     let token;
     try {
-        token = jwt.sign({ user: createdUser }, 'supersecret', { expiresIn: '1h' });
+        token = jwt.sign({ user: createdUser }, process.env.JWT_KEY, { expiresIn: '1h' });
     } catch (error) {
         return next(new HttpError('Signing up failed, please try again later', 500));
     }
@@ -138,7 +138,7 @@ const register = async (req, res, next) => {
 
     let token;
     try {
-        token = jwt.sign({ user: createdUser }, 'supersecret', { expiresIn: '1h' });
+        token = jwt.sign({ user: createdUser }, process.env.JWT_KEY, { expiresIn: '1h' });
     } catch (error) {
         return next(new HttpError('Signing up failed, please try again later', 500));
     }
@@ -180,7 +180,7 @@ const login = async (req, res, next) => {
 
     let token;
     try {
-        token = jwt.sign({ user: existingUser }, 'supersecret', { expiresIn: '1h' });
+        token = jwt.sign({ user: existingUser }, process.env.JWT_KEY, { expiresIn: '1h' });
     } catch (error) {
         return next(new HttpError('Signing up failed, please try again later', 500));
     }

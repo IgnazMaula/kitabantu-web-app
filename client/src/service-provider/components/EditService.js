@@ -24,7 +24,7 @@ export default function EditService() {
         const getService = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/services/${sid}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/${sid}`);
                 const responseData = await response.json();
                 setService(responseData.service);
                 setProperties(properties.concat(responseData.service.properties));
@@ -51,7 +51,7 @@ export default function EditService() {
         formData.append('properties', JSON.stringify(properties));
         formData.append('description', formState.inputs.description.value);
         try {
-            const response = await fetch(`http://localhost:5000/api/services/edit-service/${sid}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/edit-service/${sid}`, {
                 method: 'PATCH',
                 body: formData,
             });

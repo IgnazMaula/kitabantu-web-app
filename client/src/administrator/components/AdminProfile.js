@@ -77,7 +77,7 @@ export default function AdminProfile() {
                                                     <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
                                                         <div className='w-32 h-32 rounded-lg overflow-hidden flex-shrink-0'>
                                                             <img
-                                                                src={`http://localhost:5000/${auth.loggedUser.image}`}
+                                                                src={`${process.env.REACT_APP_BACKEND_URL}${auth.loggedUser.image}`}
                                                                 alt={auth.loggedUser.name}
                                                                 className='object-right object-cover h-full w-full rounded-full '
                                                             />

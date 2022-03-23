@@ -7,7 +7,7 @@ function ServiceCard({ className = '', image = '', title = '', text = '', button
         <div className={finalClass}>
             {image && (
                 <div className='w-full h-48'>
-                    <img src={`http://localhost:5000/${image}`} className='w-full h-full object-cover' />
+                    <img src={`${process.env.REACT_APP_BACKEND_URL}${image}`} className='w-full h-full object-cover' />
                 </div>
             )}
             <div className='p-6'>

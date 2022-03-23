@@ -56,7 +56,7 @@ const ImageUpload = (props) => {
                 {!previewUrl && (
                     <div className='w-32 h-32 rounded-lg overflow-hidden flex-shrink-0'>
                         <img
-                            src={`http://localhost:5000/${props.image}`}
+                            src={`${process.env.REACT_APP_BACKEND_URL}${props.image}`}
                             alt={props.name}
                             className='object-right object-cover h-full w-full rounded-full '
                         />

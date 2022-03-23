@@ -23,8 +23,8 @@ export default function AdminManageRequest() {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/services/pending`);
-                const responseUser = await fetch(`http://localhost:5000/api/users/`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/pending`);
+                const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/`);
                 const responseData = await response.json();
                 const responseDataUser = await responseUser.json();
                 setServices(responseData.services);
@@ -53,7 +53,7 @@ export default function AdminManageRequest() {
         newStatus === 'Active' ? setMessage('Approved') : setMessage('Declined');
         setOpen(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/services/manage-status/${serviceId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/manage-status/${serviceId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,8 +66,8 @@ export default function AdminManageRequest() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            const responsePending = await fetch(`http://localhost:5000/api/services/pending`);
-            const responseUser = await fetch(`http://localhost:5000/api/users/`);
+            const responsePending = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/pending`);
+            const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/`);
             const responseDataPending = await responsePending.json();
             const responseDataUser = await responseUser.json();
             setServices(responseDataPending.services);
@@ -274,7 +274,7 @@ const Orders = (props) => {
                                     <div className='flex items-center sm:items-start'>
                                         <div className='flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40'>
                                             <img
-                                                src={`http://localhost:5000/${service.image}`}
+                                                src={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
                                                 alt={service.name}
                                                 className='w-full h-full object-center object-cover'
                                             />

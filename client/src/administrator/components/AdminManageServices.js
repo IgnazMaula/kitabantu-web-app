@@ -59,8 +59,8 @@ export default function AdminManageServices() {
         const getService = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/services');
-                const responseUser = await fetch(`http://localhost:5000/api/users/`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services`);
+                const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/`);
                 const responseData = await response.json();
                 const responseDataUser = await responseUser.json();
                 setServices(responseData.services);
@@ -95,7 +95,7 @@ export default function AdminManageServices() {
 
     const removeService = async (userId, newStatus) => {
         // try {
-        //     const response = await fetch(`http://localhost:5000/api/users/update/client-status/${userId}`, {
+        //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/client-status/${userId}`, {
         //         method: 'PATCH',
         //         headers: {
         //             'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ export default function AdminManageServices() {
                                                                                         <div className='flex-shrink-0 h-10 w-10'>
                                                                                             <img
                                                                                                 className='object-right object-cover h-full w-full'
-                                                                                                src={`http://localhost:5000/${service.image}`}
+                                                                                                src={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
                                                                                                 alt=''
                                                                                             />
                                                                                         </div>

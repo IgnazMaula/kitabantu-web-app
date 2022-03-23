@@ -166,7 +166,7 @@ export default function ProviderProfilePage(props) {
         const getProvider = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/users/${providerId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${providerId}`);
                 const responseData = await response.json();
                 setProvider(responseData.user);
                 setServiceOwned(responseData.user.services.length);
@@ -206,7 +206,7 @@ export default function ProviderProfilePage(props) {
                                                     <div className='sm:flex sm:space-x-5'>
                                                         <div className='w-32 h-32 rounded-lg overflow-hidden mx-auto flex-shrink-0'>
                                                             <img
-                                                                src={`http://localhost:5000/${provider.image}`}
+                                                                src={`${process.env.REACT_APP_BACKEND_URL}${provider.image}`}
                                                                 alt={provider.name}
                                                                 className='object-right object-cover h-full w-full rounded-full '
                                                             />

@@ -37,7 +37,7 @@ export default function AddNewService() {
         formData.append('description', formState.inputs.description.value);
         formData.append('serviceProvider', JSON.stringify(auth.loggedUser));
         try {
-            const response = await fetch('http://localhost:5000/api/services/create-service', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/create-service`, {
                 method: 'POST',
                 body: formData,
             });
@@ -139,7 +139,7 @@ export default function AddNewService() {
         const formData = new FormData();
         formData.append('image', formState.inputs.image.value);
         try {
-            await fetch(`http://localhost:5000/api/users/update/profile-picture/${auth.loggedUser.id}`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/profile-picture/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 body: formData,
             });

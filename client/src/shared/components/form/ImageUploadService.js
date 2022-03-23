@@ -55,7 +55,7 @@ const ImageUploadService = (props) => {
         //         )}
         //         {!previewUrl && (
         //             <span className='flex-grow'>
-        //                 <img className='h-32 w-32 rounded-full' src={`http://localhost:5000/${props.image}`} alt='' />
+        //                 <img className='h-32 w-32 rounded-full' src={`${process.env.REACT_APP_BACKEND_URL}${props.image}`} alt='' />
         //             </span>
         //         )}
         //     </span>
@@ -108,7 +108,7 @@ const ImageUploadService = (props) => {
                                 </svg>
                             ) : (
                                 <span className='flex-grow'>
-                                    <img className='max-h-64 max-w-128' src={`http://localhost:5000/${props.image}`} alt='' />
+                                    <img className='max-h-64 max-w-128' src={`${process.env.REACT_APP_BACKEND_URL}${props.image}`} alt='' />
                                 </span>
                             )}
                         </div>

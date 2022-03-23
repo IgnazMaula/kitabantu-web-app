@@ -45,7 +45,7 @@ export default function ProviderProfile() {
         const getProvider = async () => {
             try {
                 edit === false && setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
                 const responseData = await response.json();
                 if (!response.ok) {
                     throw new Error(responseData.message);
@@ -68,7 +68,7 @@ export default function ProviderProfile() {
         formState.inputs.userType.value === '' ? (userValue = provider.userType) : (userValue = formState.inputs.userType.value);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/provider/${auth.loggedUser.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/provider/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function ProviderProfile() {
         const formData = new FormData();
         formData.append('image', formState.inputs.image.value);
         try {
-            await fetch(`http://localhost:5000/api/users/update/profile-picture/${auth.loggedUser.id}`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/profile-picture/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 body: formData,
             });

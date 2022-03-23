@@ -62,7 +62,7 @@ export default function ClientBookmarks() {
     useEffect(() => {
         const getService = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/users/bookmarks/${auth.loggedUser.id}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/bookmarks/${auth.loggedUser.id}`);
                 const responseData = await response.json();
                 setBookmarks(responseData.services);
                 setIsLoading(false);
@@ -76,7 +76,7 @@ export default function ClientBookmarks() {
 
     const removeBookmarkHandler = async (sid) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/remove-bookmarks/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export default function ClientBookmarks() {
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            const response2 = await fetch(`http://localhost:5000/api/users/bookmarks/${auth.loggedUser.id}`);
+            const response2 = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/bookmarks/${auth.loggedUser.id}`);
             const responseData2 = await response2.json();
             setBookmarks(responseData2.services);
         } catch (error) {
@@ -176,8 +176,8 @@ export default function ClientBookmarks() {
                                                         </div>
                                                         <div className='ml-4 flex-shrink-0 sm:m-0 sm:mr-6 sm:order-first'>
                                                             <img
-                                                                src={`http://localhost:5000/${bookmark.image}`}
-                                                                alt={`http://localhost:5000/${bookmark.image}`}
+                                                                src={`${process.env.REACT_APP_BACKEND_URL}${bookmark.image}`}
+                                                                alt={`${process.env.REACT_APP_BACKEND_URL}${bookmark.image}`}
                                                                 className='col-start-2 col-end-3 sm:col-start-1 sm:row-start-1 sm:row-span-2 w-20 h-20 rounded-lg object-center object-cover sm:w-40 sm:h-40 lg:w-52 lg:h-52'
                                                             />
                                                         </div>

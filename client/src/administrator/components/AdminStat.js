@@ -16,8 +16,8 @@ export default function AdminStat() {
         const getService = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/services');
-                const responseUser = await fetch(`http://localhost:5000/api/users/provider-and-client`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services`);
+                const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/provider-and-client`);
                 const responseData = await response.json();
                 const responseDataUser = await responseUser.json();
                 setServices(responseData.services);

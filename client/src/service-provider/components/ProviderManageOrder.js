@@ -21,7 +21,7 @@ export default function ProviderManageOrder() {
         const getUsers = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/services/user/${loggedUserId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/user/${loggedUserId}`);
                 const responseData = await response.json();
                 setServices(responseData.services);
                 setIsLoading(false);
@@ -183,8 +183,8 @@ const Orders = (props) => {
                                 <div className='flex items-center sm:items-start'>
                                     <div className='flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40'>
                                         <img
-                                            src={`http://localhost:5000/${service.image}`}
-                                            alt={`http://localhost:5000/${service.image}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
+                                            alt={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
                                             className='w-full h-full object-center object-cover'
                                         />
                                     </div>

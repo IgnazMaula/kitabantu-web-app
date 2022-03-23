@@ -1,0 +1,8 @@
+{
+    "env": {
+        "DB_USER": "ignazmaula",
+        "DB_PASSWORD": "sAnfUUO9J473iz4J",
+        "DB_NAME": "KitaBantu",
+        "JWT_KEY": "supersecret"
+    }
+}

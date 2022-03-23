@@ -59,7 +59,7 @@ export default function AdminManageUsers() {
         const getUsers = async () => {
             try {
                 // setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/users/provider-and-client');
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/provider-and-client`);
                 const responseData = await response.json();
                 setUsers(responseData.users);
                 setIsLoading(false);
@@ -73,7 +73,7 @@ export default function AdminManageUsers() {
 
     const manageUserHandler = async (userId, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/client-status/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/client-status/${userId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ export default function AdminManageUsers() {
                                                                                         <div className='flex-shrink-0 h-10 w-10'>
                                                                                             <img
                                                                                                 className='object-right object-cover h-full w-full rounded-full '
-                                                                                                src={`http://localhost:5000/${user.image}`}
+                                                                                                src={`${process.env.REACT_APP_BACKEND_URL}${user.image}`}
                                                                                                 alt=''
                                                                                             />
                                                                                         </div>

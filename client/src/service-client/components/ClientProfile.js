@@ -45,7 +45,7 @@ export default function ClientProfile() {
         const getClient = async () => {
             try {
                 edit === false && setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/users/${auth.loggedUser.id}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/${auth.loggedUser.id}`);
                 const responseData = await response.json();
                 setClient(responseData.user);
                 setIsLoading(false);
@@ -67,7 +67,7 @@ export default function ClientProfile() {
         formState.inputs.occupation.value === '' ? (occupationValue = client.occupation) : (occupationValue = formState.inputs.occupation.value);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users/update/client/${auth.loggedUser.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/client/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function ClientProfile() {
         const formData = new FormData();
         formData.append('image', formState.inputs.image.value);
         try {
-            await fetch(`http://localhost:5000/api/users/update/profile-picture/${auth.loggedUser.id}`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/profile-picture/${auth.loggedUser.id}`, {
                 method: 'PATCH',
                 body: formData,
             });

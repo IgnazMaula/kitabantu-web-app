@@ -22,7 +22,7 @@ export default function ProviderManageService() {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/services/user/${loggedUserId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/user/${loggedUserId}`);
                 const responseData = await response.json();
                 setServices(responseData.services);
                 setIsLoading(false);
@@ -37,7 +37,7 @@ export default function ProviderManageService() {
         newStatus === 'Active' ? setMessage('Approved') : setMessage('Declined');
         setOpen(true);
         try {
-            const response = await fetch(`http://localhost:5000/api/services/manage-status/${serviceId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/manage-status/${serviceId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ const Orders = (props) => {
                                     </div>
                                     <div className='ml-4 flex-shrink-0 sm:m-0 sm:mr-6 sm:order-first'>
                                         <img
-                                            src={`http://localhost:5000/${service.image}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}${service.image}`}
                                             alt={service.name}
                                             className='col-start-2 col-end-3 sm:col-start-1 sm:row-start-1 sm:row-span-2 w-20 h-20 rounded-lg object-center object-cover sm:w-40 sm:h-40 lg:w-52 lg:h-52'
                                         />

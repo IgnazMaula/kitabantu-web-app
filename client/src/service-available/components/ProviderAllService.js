@@ -17,8 +17,8 @@ export default function ProviderAllService(props) {
         const getService = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:5000/api/services/user/${providerId}`);
-                const responseUser = await fetch(`http://localhost:5000/api/users/`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/user/${providerId}`);
+                const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/`);
                 const responseData = await response.json();
                 const responseDataUser = await responseUser.json();
                 setServices(responseData.services);
