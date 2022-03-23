@@ -103,7 +103,7 @@ export default function AdminManageUsers() {
                                 <div>
                                     <div className='px-4 sm:px-6 md:px-0'>
                                         <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Manage Users</h1>
-                                        <p className='mt-2 text-sm text-gray-500'>Manage all user that registed in KitaBantu.</p>
+                                        <p className='mt-2 text-sm text-gray-500'>Manage all user that registered in KitaBantu.</p>
                                     </div>
                                     {isLoading ? (
                                         <div className='text-center p-24'>

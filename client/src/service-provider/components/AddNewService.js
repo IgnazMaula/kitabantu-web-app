@@ -153,7 +153,7 @@ export default function AddNewService() {
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
             <div className='px-4 sm:px-6 md:px-0'>
                 <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Add New Service</h1>
-                <p className='mt-2 text-sm text-gray-500'>View and update information related to your account.</p>
+                <p className='mt-2 text-sm text-gray-500'>Add new service to be offer to your customer.</p>
             </div>
             <form className='space-y-8 divide-y divide-gray-200' onSubmit={authSubmitHandler}>
                 <div className='space-y-8 divide-y divide-gray-200 sm:space-y-5'>

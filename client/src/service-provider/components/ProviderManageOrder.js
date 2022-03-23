@@ -38,9 +38,7 @@ export default function ProviderManageOrder() {
                 <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                     <div className='max-w-2xl mx-auto px-4 lg:max-w-4xl lg:px-0'>
                         <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Manage my Service</h1>
-                        <p className='mt-2 text-sm text-gray-500'>
-                            Check the status of recent orders, manage returns, and discover similar products.
-                        </p>
+                        <p className='mt-2 text-sm text-gray-500'>Manage incoming order from client.</p>
                     </div>
                 </div>
 

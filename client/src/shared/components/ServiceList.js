@@ -101,6 +101,9 @@ export default function ServiceList() {
             return getCategory === category;
         }
     };
+    const filterStatus = (getStatus, status) => {
+        return getStatus === status;
+    };
 
     const sortList = (a, b) => {
         if (sortType === 'Default') {
@@ -200,7 +203,7 @@ export default function ServiceList() {
                         <div className='pt-16'>
                             <Pagination
                                 postPerPage={postPerPage}
-                                totalPost={services.length}
+                                totalPost={services.filter((ss) => filterStatus(ss.status, 'Active')).length}
                                 currentPage={currentPage}
                                 paginate={paginate}
                             ></Pagination>

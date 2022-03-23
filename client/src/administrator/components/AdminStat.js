@@ -30,6 +30,11 @@ export default function AdminStat() {
         };
         getService();
     }, []);
+
+    const filterRole = (getRole, role) => {
+        return getRole === role;
+    };
+
     return (
         <div>
             <h3 className='text-lg leading-6 font-medium text-gray-900'>Manage Service</h3>
@@ -64,7 +69,7 @@ export default function AdminStat() {
                         <p className='text-sm font-medium text-gray-500 truncate'>Service Provider</p>
                     </dt>
 
-                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{users.length}</dd>
+                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{users.filter((r) => filterRole(r.role, 'Provider')).length}</dd>
                 </div>
                 <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
                     <dt>
@@ -72,12 +77,12 @@ export default function AdminStat() {
                         <p className='text-sm font-medium text-gray-500 truncate'>Service Client</p>
                     </dt>
 
-                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{services.length}</dd>
+                    <dd className='mt-1 text-3xl font-semibold text-gray-900'>{users.filter((r) => filterRole(r.role, 'Client')).length}</dd>
                 </div>
                 <div className='px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6'>
                     <dt>
                         <UserIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
-                        <p className='text-sm font-medium text-gray-500 truncate'>Incoming Request</p>
+                        <p className='text-sm font-medium text-gray-500 truncate'>Order Completed</p>
                     </dt>
 
                     <dd className='mt-1 text-3xl font-semibold text-gray-900'>{0}</dd>

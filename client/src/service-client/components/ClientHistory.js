@@ -17,29 +17,6 @@ const orders = [
         products: [
             {
                 id: 1,
-                name: 'Jasa Cleaning Handal',
-                description:
-                    'Are you a minimalist looking for a compact carry option? The Micro Backpack is the perfect size for your essential everyday carry items. Wear it like a backpack or carry it like a satchel for all-day use.',
-                href: '#',
-                price: '$70.00',
-                imageSrc: 'https://www.portdevco.com/wp-content/uploads/2020/06/1-PPI-Group-Bagikan-Support-Package-min.jpg',
-                imageAlt:
-                    'Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.',
-            },
-        ],
-    },
-    {
-        number: 'WU88191111',
-        href: '#',
-        invoiceHref: '#',
-        createdDate: 'Jul 6, 2021',
-        createdDatetime: '2021-07-06',
-        deliveredDate: 'July 12, 2021',
-        deliveredDatetime: '2021-07-12',
-        total: '$160.00',
-        products: [
-            {
-                id: 1,
                 name: 'Mekanik Untuk Segala Jenis Masalah Kendaraan Anda',
                 description:
                     'Are you a minimalist looking for a compact carry option? The Micro Backpack is the perfect size for your essential everyday carry items. Wear it like a backpack or carry it like a satchel for all-day use.',
@@ -59,16 +36,14 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function ServiceHistory() {
+export default function ClientHistory() {
     return (
         <div className='bg-white'>
             <div>
                 <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                     <div className='max-w-2xl mx-auto px-4 lg:max-w-4xl lg:px-0'>
-                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order history</h1>
-                        <p className='mt-2 text-sm text-gray-500'>
-                            Check the status of recent orders, manage returns, and discover similar products.
-                        </p>
+                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order History</h1>
+                        <p className='mt-2 text-sm text-gray-500'>Check all the service that you have ordered.</p>
                     </div>
                 </div>
 

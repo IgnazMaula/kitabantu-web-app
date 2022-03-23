@@ -39,7 +39,7 @@ export default function ClientReviews() {
             <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                 <div className='px-4 sm:px-0'>
                     <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>My Reviews</h1>
-                    <p className='mt-2 text-sm text-gray-500'>Check the status of recent orders, manage returns, and download invoices.</p>
+                    <p className='mt-2 text-sm text-gray-500'>Check all the service that you have reviewed.</p>
                 </div>
 
                 <div className='mt-16 pb-10 border-t border-b border-gray-200 divide-y divide-gray-200 space-y-10'>
