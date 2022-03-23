@@ -157,6 +157,15 @@ const login = async (req, res, next) => {
         return next(new HttpError('Failed to login, invalid credential', 401));
     }
 
+    try {
+        existingUser = await User.findOne({ email: email, isActive: true });
+    } catch (error) {
+        return next(new HttpError('Login failed, please try again later', 500));
+    }
+    if (!existingUser) {
+        return next(new HttpError('Failed to login, account has been deactivated by admin', 401));
+    }
+
     let isValidPassword = false;
 
     try {
