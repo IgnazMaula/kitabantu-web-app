@@ -23,6 +23,17 @@ export default function ServiceList() {
     const [providerType, setProviderType] = useState('All');
     const [category, setCategory] = useState('All');
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postPerPage] = useState(12);
+
+    const indexOfLastPost = currentPage * postPerPage;
+    const indexOfFirstPost = indexOfLastPost - postPerPage;
+    const currentPost = services.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (number) => {
+        setCurrentPage(number);
+    };
+
     useEffect(() => {
         const getService = async () => {
             try {
@@ -110,7 +121,7 @@ export default function ServiceList() {
         }
     };
 
-    const serviceList = services
+    const serviceList = currentPost
         .filter(
             (ss) =>
                 ss.name.toLowerCase().includes(keyWord.toLowerCase()) ||
@@ -186,7 +197,14 @@ export default function ServiceList() {
                                 <h1 className='text-center text-lg p-24'>Service that you search is not available</h1>
                             )}
                         </div>
-                        <div className='pt-16'>{/* <Pagination></Pagination> */}</div>
+                        <div className='pt-16'>
+                            <Pagination
+                                postPerPage={postPerPage}
+                                totalPost={services.length}
+                                currentPage={currentPage}
+                                paginate={paginate}
+                            ></Pagination>
+                        </div>
                     </div>
                 </div>
             </div>
