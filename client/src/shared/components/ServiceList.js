@@ -28,7 +28,6 @@ export default function ServiceList() {
 
     const indexOfLastPost = currentPage * postPerPage;
     const indexOfFirstPost = indexOfLastPost - postPerPage;
-    const currentPost = services.slice(indexOfFirstPost, indexOfLastPost);
 
     const paginate = (number) => {
         setCurrentPage(number);
@@ -121,7 +120,7 @@ export default function ServiceList() {
         }
     };
 
-    const serviceList = currentPost
+    const serviceList = services
         .filter(
             (ss) =>
                 ss.name.toLowerCase().includes(keyWord.toLowerCase()) ||
@@ -135,6 +134,7 @@ export default function ServiceList() {
         .filter((ss) => filterProviderType(getProviderType(ss.serviceProvider), providerType))
         .filter((ss) => filterCategory(ss.category, category))
         .sort((a, b) => sortList(a, b))
+        .slice(indexOfFirstPost, indexOfLastPost)
         .map((s) => {
             const { id, image, name, rating, serviceProvider, location, category, subCategory, price, unit, status } = s;
             if (status === 'Active') {
