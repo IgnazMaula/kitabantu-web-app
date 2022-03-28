@@ -12,6 +12,8 @@ router.get('/pending', serviceController.getPendingService);
 
 router.get('/:sid', serviceController.getServiceById);
 
+router.delete('/:sid', serviceController.deleteService);
+
 router.get('/user/:uid', serviceController.getServiceByUserId);
 
 router.post('/create-service', fileUpload.single('image'), serviceController.createService);
@@ -21,7 +23,5 @@ router.patch('/edit-service/:sid', fileUpload.single('image'), serviceController
 router.patch('/manage-status/:sid', serviceController.updateServiceStatus);
 
 //router.use(checkAuth);
-
-// router.delete('/:sid', serviceController.deleteService);
 
 module.exports = router;

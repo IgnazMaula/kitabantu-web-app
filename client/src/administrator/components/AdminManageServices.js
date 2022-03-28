@@ -18,34 +18,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import AdminStat from './AdminStat';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 import { NavLink } from 'react-router-dom';
-
-const people = [
-    {
-        name: 'Jane Cooper',
-        title: 'Regional Paradigm Technician',
-        department: 'Optimization',
-        role: 'Admin',
-        email: 'jane.cooper@example.com',
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-    },
-    {
-        name: 'Jane Cooper',
-        title: 'Regional Paradigm Technician',
-        department: 'Optimization',
-        role: 'Admin',
-        email: 'jane.cooper@example.com',
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-    },
-    {
-        name: 'Jane Cooper',
-        title: 'Regional Paradigm Technician',
-        department: 'Optimization',
-        role: 'Admin',
-        email: 'jane.cooper@example.com',
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-    },
-    // More people...
-];
+import InformModal from '../../shared/components/modal/InformModal';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -53,6 +26,7 @@ function classNames(...classes) {
 
 export default function AdminManageServices() {
     const [isLoading, setIsLoading] = useState(true);
+    const [open, setOpen] = useState(false);
     const [services, setServices] = useState([]);
     const [users, setUsers] = useState([]);
     useEffect(() => {
@@ -93,31 +67,34 @@ export default function AdminManageServices() {
         return userType;
     };
 
-    const removeService = async (userId, newStatus) => {
-        // try {
-        //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/client-status/${userId}`, {
-        //         method: 'PATCH',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             isActive: newStatus,
-        //         }),
-        //     });
-        //     const responseData = await response.json();
-        //     if (!response.ok) {
-        //         throw new Error(responseData.message);
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
+    const removeService = async (serviceId) => {
+        setOpen(true);
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/${serviceId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.message);
+            }
+            const responseService = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services`);
+            const responseDataService = await responseService.json();
+            setServices(responseDataService.services);
+        } catch (error) {
+            console.log(error);
+        }
         console.log('Removed');
     };
 
     return (
         <>
             <div>
-                {/* Content area */}
+                <InformModal open={open} setOpen={setOpen} title={`Service Removed`} buttonText='Okay' color={'red'}>
+                    <XIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
+                </InformModal>
                 <div>
                     <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                         <main className='flex-1'>
@@ -239,7 +216,7 @@ export default function AdminManageServices() {
                                                                                             </button>
                                                                                         </NavLink>
                                                                                         <button
-                                                                                            onClick={() => removeService(service.id, false)}
+                                                                                            onClick={() => removeService(service.id)}
                                                                                             className='flex w-36 cursor-pointer items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50'
                                                                                         >
                                                                                             <span>Remove Service</span>

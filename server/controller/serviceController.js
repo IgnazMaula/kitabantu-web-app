@@ -161,14 +161,36 @@ const updateServiceStatus = async (req, res, next) => {
     res.status(200).json({ service: service.toObject({ getters: true }) });
 };
 
-// const deleteService = (req, res, next) => {
-//     const serviceId = req.params.sid;
-//     if (!services.find((s) => s.id === serviceId)) {
-//         throw new HttpError('Could not find a service for that id.', 404);
-//     }
-//     services = services.filter((s) => s.id !== serviceId);
-//     res.status(200).json({ message: 'Service Deleted' });
-// };
+const deleteService = async (req, res, next) => {
+    const serviceId = req.params.sid;
+
+    let service;
+    try {
+        service = await Service.findById(serviceId).populate('serviceProvider');
+    } catch (error) {
+        return next('Something went wrong, could not delete service', 500);
+    }
+
+    if (!service) {
+        return next('Something went wrong, could not delete service', 404);
+    }
+
+    console.log(service);
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await service.remove({ session: sess });
+        service.serviceProvider.services.pull(service);
+        service.serviceProvider.bookmarks.pull(service);
+        await service.serviceProvider.save({ session: sess });
+        await sess.commitTransaction();
+    } catch (error) {
+        return next('Something went wrong, could not delete service', 500);
+    }
+
+    res.status(200).json({ message: 'Service deleted' });
+};
 
 module.exports = {
     getAllService,
@@ -178,5 +200,5 @@ module.exports = {
     createService,
     updateService,
     updateServiceStatus,
-    // deleteService,
+    deleteService,
 };

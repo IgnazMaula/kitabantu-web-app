@@ -89,7 +89,6 @@ export default function AdminManageUsers() {
         } catch (error) {
             console.log(error);
         }
-        console.log('terganti');
     };
 
     return (
