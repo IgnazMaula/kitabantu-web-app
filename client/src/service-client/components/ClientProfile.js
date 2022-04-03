@@ -23,7 +23,7 @@ import LoadingSpinner from '../../shared/components/LoadingSpinner';
 import ImageUpload from '../../shared/components/form/ImageUpload';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
-const occupations = ['Students', 'Worker', 'Housewife/Husband'];
+const occupations = ['Employee', 'Entrepreneur', 'Freelancer', 'Housewife/Husband', 'Social Worker', 'Professionals', 'Students'];
 const genders = [
     { option: 'Male', value: 'Male' },
     { option: 'Female', value: 'Female' },

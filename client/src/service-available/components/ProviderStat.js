@@ -3,7 +3,7 @@ import { CursorClickIcon, MailOpenIcon, UsersIcon } from '@heroicons/react/outli
 export default function ProviderStat(props) {
     const { serviceOwned, orderReceived, averageRating } = props;
     const stats = [
-        { name: 'Service Owned', stat: `${serviceOwned}`, icon: UsersIcon },
+        { name: 'Service Owned', stat: `${1}`, icon: UsersIcon },
         { name: 'Order Received', stat: `${orderReceived}`, icon: UsersIcon },
         { name: 'Average Rating', stat: `${averageRating}`, icon: UsersIcon },
     ];
