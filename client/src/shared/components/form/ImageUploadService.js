@@ -130,7 +130,6 @@ const ImageUploadService = (props) => {
                                 onChange={pickedHandler}
                             />
                         </label>
-                        <p className='pl-1'>for your service</p>
                     </div>
                     <p className='text-xs text-gray-500'>PNG, JPG, JPEG up to 5MB</p>
                     <br />

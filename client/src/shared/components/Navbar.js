@@ -265,11 +265,7 @@ export default function Navbar(props) {
 
                                 <div className='border-t border-gray-200 py-6 px-4'>
                                     <a href='#' className='-m-2 p-2 flex items-center'>
-                                        <img
-                                            src='https://tailwindui.com/img/flags/flag-canada.svg'
-                                            alt=''
-                                            className='w-5 h-auto block flex-shrink-0'
-                                        />
+                                        <img src='/../images/indonesia.png' alt='' className='w-5 h-auto block flex-shrink-0' />
                                         <span className='ml-3 block text-base font-medium text-gray-900'>IDR</span>
                                         <span className='sr-only'>, change currency</span>
                                     </a>
@@ -293,7 +289,7 @@ export default function Navbar(props) {
                                 <div className='ml-4 flex lg:ml-0'>
                                     <NavLink to='/'>
                                         <span className='sr-only'>Workflow</span>
-                                        <img className='h-8 w-auto' src='../images/icon.png' alt='Kita Bantu' />
+                                        <img className='h-8 w-auto' src='/../images/icon.png' alt='Kita Bantu' />
                                     </NavLink>
                                 </div>
 
@@ -408,7 +404,7 @@ export default function Navbar(props) {
 
                                     <div className='hidden lg:ml-8 lg:flex'>
                                         <a href='#' className='text-gray-700 hover:text-gray-800 flex items-center'>
-                                            <img src='../images/indonesia.png' alt='' className='w-5 h-auto block flex-shrink-0' />
+                                            <img src='/../images/indonesia.png' alt='' className='w-5 h-auto block flex-shrink-0' />
                                             <span className='ml-3 block text-sm font-medium'>IDR</span>
                                             <span className='sr-only'>, change currency</span>
                                         </a>

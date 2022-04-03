@@ -32,6 +32,10 @@ const Input = (props) => {
     const { id, onInput } = props;
     const { value, isValid } = inputState;
 
+    const valueHandler = (e) => {
+        props.setCurrentValue(e);
+    };
+
     useEffect(() => {
         onInput(id, value, isValid);
     }, [id, value, isValid, onInput]);
@@ -42,6 +46,9 @@ const Input = (props) => {
             val: event.target.value,
             validators: props.validators,
         });
+        if (props.setCurrentValue) {
+            valueHandler(event.target.value);
+        }
     };
 
     const touchHandler = () => {
@@ -63,6 +70,8 @@ const Input = (props) => {
                     onBlur={touchHandler}
                     value={inputState.value}
                     className={!inputState.isValid && inputState.isTouched ? 'inputPriceError' : 'inputPrice'}
+                    disabled={props.isDisable}
+                    min={0}
                 />
             );
         } else {
@@ -75,6 +84,7 @@ const Input = (props) => {
                     onBlur={touchHandler}
                     value={inputState.value}
                     className={!inputState.isValid && inputState.isTouched ? 'inputError' : 'input'}
+                    disabled={props.isDisable}
                 />
             );
         }
