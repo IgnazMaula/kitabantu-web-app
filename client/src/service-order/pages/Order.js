@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
+import { DatePicker, TimePicker } from 'antd';
+import moment from 'moment';
 
 import Input from '../../shared/components/form/Input';
 import { useForm } from '../../shared/hooks/form-hook';
@@ -21,6 +23,7 @@ export default function Order() {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState([]);
     const [service, setService] = useState([]);
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState(false);
     const [properties, setProperties] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
@@ -37,9 +40,12 @@ export default function Order() {
             try {
                 setIsLoading(true);
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/${sid}`);
+                const responseUser = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users`);
                 const responseData = await response.json();
+                const responseDataUser = await responseUser.json();
                 setService(responseData.service);
                 setProperties(responseData.service.properties);
+                setUsers(responseDataUser.users);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -48,6 +54,16 @@ export default function Order() {
         };
         getService();
     }, []);
+
+    const getUserName = (userId) => {
+        let name = '';
+        users.forEach((user) => {
+            if (userId === user.id) {
+                name = user.name;
+            }
+        });
+        return name;
+    };
 
     const authSubmitHandler = async (event) => {
         event.preventDefault();
@@ -131,6 +147,14 @@ export default function Order() {
         });
     };
 
+    const dateHandler = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
+    const timeHandler = (time, timeString) => {
+        console.log(time, timeString);
+    };
+
     const uploadProfileHandler = async (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -154,7 +178,7 @@ export default function Order() {
                     <LoadingSpinner />
                 </div>
             ) : (
-                <div className='max-w-5xl mx-auto sm:px-2 lg:px-8 pt-10'>
+                <div className='max-w-5xl mx-auto sm:px-2 lg:px-8 p-10'>
                     <div className='px-4 sm:px-6 md:px-0'>
                         <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order Service</h1>
                     </div>
@@ -174,6 +198,12 @@ export default function Order() {
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <p className='text-sm text-gray-500 sm:mt-px sm:pt-2'>{service.name}</p>
+                                        </div>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            Provider Name
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <p className='text-sm text-gray-500 sm:mt-px sm:pt-2'>{getUserName(service.serviceProvider)}</p>
                                         </div>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
                                             Starting Price
@@ -262,15 +292,15 @@ export default function Order() {
                                             Date
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
-                                            <Input
-                                                element='input'
-                                                id='name'
-                                                type='text'
-                                                placeholder='Unit'
-                                                validators={[VALIDATOR_REQUIRE()]}
-                                                errorText='Please enter valid date.'
-                                                onInput={inputHandler}
-                                            />
+                                            <DatePicker onChange={dateHandler} />
+                                        </div>
+                                    </div>
+                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            Time
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <TimePicker onChange={timeHandler} defaultOpenValue={moment('00:00:00', 'HH:mm:ss')} />
                                         </div>
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>

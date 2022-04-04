@@ -85,6 +85,7 @@ const Input = (props) => {
                     value={inputState.value}
                     className={!inputState.isValid && inputState.isTouched ? 'inputError' : 'input'}
                     disabled={props.isDisable}
+                    min={0}
                 />
             );
         }
