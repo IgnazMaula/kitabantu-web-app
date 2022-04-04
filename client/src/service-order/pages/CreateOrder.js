@@ -16,7 +16,7 @@ import Navbar from '../../shared/components/Navbar';
 import { services } from '../../services';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
-export default function Order() {
+export default function CreateOrder() {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
     const sid = useParams().sid;
@@ -26,12 +26,19 @@ export default function Order() {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState(false);
     const [properties, setProperties] = useState([]);
+    const [selectedServices, setSelectedServices] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
     const [currentValue, setCurrentValue] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
 
     const contactType = [
         { option: 'Current', value: 'current' },
         { option: 'Custom', value: 'custom' },
+    ];
+    const paymentType = [
+        { option: 'Full', value: 'full' },
+        { option: 'Down Payment', value: 'dp' },
     ];
     const locations = ['Jakarta', 'Bali', 'Surabaya'];
 
@@ -65,7 +72,7 @@ export default function Order() {
         return name;
     };
 
-    const authSubmitHandler = async (event) => {
+    const orderSubmitHandler = async (event) => {
         event.preventDefault();
         let imageUpload;
         if (formState.inputs.image === undefined) {
@@ -73,37 +80,45 @@ export default function Order() {
         } else {
             imageUpload = formState.inputs.image.value;
         }
+        let totalPrice;
+        if (formState.inputs.paymentType.value === 'full') {
+            totalPrice = currentValue * service.price;
+        } else {
+            totalPrice = currentValue * service.price * (40 / 100);
+        }
         const formData = new FormData();
+        formData.append('service', service.id);
+        formData.append('client', auth.loggedUser.id);
+        formData.append('provider', service.serviceProvider);
+        formData.append('totalPrice', totalPrice);
+        formData.append('paymentType', formState.inputs.paymentType.value);
+        formData.append('unit', formState.inputs.unit.value);
+        formData.append('date', date);
+        formData.append('time', time);
+        formData.append('details', formState.inputs.details.value);
+        formData.append('selectedService', JSON.stringify(selectedServices));
+        formData.append('clientLocation', formState.inputs.clientLocation.value);
+        formData.append('clientAddress', formState.inputs.clientAddress.value);
+        formData.append('clientNumber', formState.inputs.clientNumber.value);
         formData.append('image', imageUpload);
-        formData.append('name', formState.inputs.name.value);
-        formData.append('category', selectedCategory);
-        formData.append('subCategory', selectedSubCategory);
-        formData.append('price', formState.inputs.price.value);
-        formData.append('unit', unit);
-        formData.append('label', label);
-        formData.append('properties', JSON.stringify(properties));
-        formData.append('description', formState.inputs.description.value);
-        formData.append('serviceProvider', JSON.stringify(auth.loggedUser));
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services/create-service`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/create-order`, {
                 method: 'POST',
                 body: formData,
             });
 
             const responseData = await response.json();
             if (!response.ok) {
-                console.log(formState.inputs.category.value);
                 throw new Error(responseData.message);
             }
-            navigate('/manage-service');
+            navigate('/');
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');
         }
     };
 
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedSubCategory, setSubSelectedCategory] = useState(null);
+    const [selectedService, setSelectedService] = useState(null);
 
     const subCategoriesList = [];
     const categoriesList = [];
@@ -111,23 +126,9 @@ export default function Order() {
     let unit;
     let element;
 
-    const handleSelectedCategory = (e) => {
-        setSelectedCategory(e.target.value);
-        console.log(selectedCategory);
-        setProperties([]);
-        document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
-        categories.forEach((c) => {
-            if (c.name === e.target.value) {
-                console.log('new sub is' + c.sub[0].name);
-                setSubSelectedCategory(c.sub[0].name);
-            }
-        });
-
-        // setSubSelectedCategory('House Cleaning');
-    };
-    const handleSelectedSubCategory = (e) => {
-        console.log(selectedSubCategory);
-        setSubSelectedCategory(e.target.value);
+    const handleSelectedService = (e) => {
+        console.log(selectedService);
+        setSelectedService(e.target.value);
         setProperties([]);
         document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
     };
@@ -136,23 +137,23 @@ export default function Order() {
         const {
             target: { name, value },
         } = e;
-        setProperties((properties) => {
-            if (properties.includes(name)) {
-                // properties.splice(properties.indexOf(name), 1);
-                return [...properties];
+        setSelectedServices((selectedServices) => {
+            if (selectedServices.includes(name)) {
+                selectedServices.splice(selectedServices.indexOf(name), 1);
+                return [...selectedServices];
             } else {
-                console.log('no');
-                return [...properties, name];
+                console.log(selectedServices);
+                return [...selectedServices, name];
             }
         });
     };
 
     const dateHandler = (date, dateString) => {
-        console.log(date, dateString);
+        setDate(dateString);
     };
 
     const timeHandler = (time, timeString) => {
-        console.log(time, timeString);
+        setTime(timeString);
     };
 
     const uploadProfileHandler = async (event) => {
@@ -182,7 +183,7 @@ export default function Order() {
                     <div className='px-4 sm:px-6 md:px-0'>
                         <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order Service</h1>
                     </div>
-                    <form className='space-y-8 divide-y divide-gray-200' onSubmit={authSubmitHandler}>
+                    <form className='space-y-8 divide-y divide-gray-200' onSubmit={orderSubmitHandler}>
                         <div className='space-y-8 divide-y divide-gray-200 sm:space-y-5'>
                             <div>
                                 <div className='mt-6 sm:mt-5 space-y-6 sm:space-y-5'>
@@ -231,7 +232,7 @@ export default function Order() {
                                                         type='checkbox'
                                                         className='focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded'
                                                         onChange={checkBoxHandler}
-                                                        value='1'
+                                                        value={o}
                                                     />
                                                 </div>
                                                 <div className='ml-3 text-sm'>
@@ -252,7 +253,7 @@ export default function Order() {
                                             </p>
                                             <Input
                                                 element='textarea'
-                                                id='description'
+                                                id='details'
                                                 placeholder='Order details'
                                                 validators={[VALIDATOR_MINLENGTH(12)]}
                                                 errorText='Details is too short.'
@@ -267,7 +268,7 @@ export default function Order() {
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <Input
                                                 element='input'
-                                                id='name'
+                                                id='unit'
                                                 type='number'
                                                 placeholder='Unit'
                                                 validators={[VALIDATOR_REQUIRE()]}
@@ -312,8 +313,8 @@ export default function Order() {
                                                 <Input
                                                     element='radio'
                                                     id='contactType'
+                                                    name='contactType'
                                                     type='radio'
-                                                    mode='edit'
                                                     placeholder={'current'}
                                                     initialValue={'current'}
                                                     initialValid={true}
@@ -334,9 +335,10 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='input'
-                                                        id='location'
+                                                        id='clientLocation'
                                                         type='text'
                                                         placeholder={auth.loggedUser.location}
+                                                        initialValue={auth.loggedUser.location}
                                                         validators={[]}
                                                         errorText='Please enter valid location.'
                                                         onInput={inputHandler}
@@ -349,10 +351,12 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='input'
-                                                        id='address'
+                                                        id='clientAddress'
                                                         type='text'
                                                         placeholder={auth.loggedUser.address}
+                                                        initialValue={auth.loggedUser.address}
                                                         validators={[]}
+                                                        initialValid={true}
                                                         errorText='Please enter valid address.'
                                                         onInput={inputHandler}
                                                         isDisable={true}
@@ -364,10 +368,12 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='input'
-                                                        id='name'
-                                                        type='text'
+                                                        id='clientNumber'
+                                                        type='tel'
                                                         placeholder={auth.loggedUser.phoneNumber}
-                                                        validators={[VALIDATOR_REQUIRE()]}
+                                                        initialValue={auth.loggedUser.phoneNumber}
+                                                        validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(20)]}
+                                                        initialValid={true}
                                                         errorText='Please enter valid phone number.'
                                                         onInput={inputHandler}
                                                         isDisable={true}
@@ -383,9 +389,10 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='option'
-                                                        id='location'
-                                                        placeholder='Select Location'
+                                                        id='clientLocation'
+                                                        placeholder={auth.loggedUser.location}
                                                         validators={[VALIDATOR_REQUIRE()]}
+                                                        initialValid={true}
                                                         errorText='Please enter a valid location.'
                                                         onInput={inputHandler}
                                                         option={locations}
@@ -397,9 +404,11 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='input'
-                                                        id='address'
+                                                        id='clientAddress'
                                                         type='text'
-                                                        placeholder='Address'
+                                                        placeholder={auth.loggedUser.address}
+                                                        initialValue={auth.loggedUser.address}
+                                                        initialValid={true}
                                                         validators={[VALIDATOR_MINLENGTH(10)]}
                                                         errorText='Please enter a valid address'
                                                         onInput={inputHandler}
@@ -411,10 +420,12 @@ export default function Order() {
                                                 <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                                     <Input
                                                         element='input'
-                                                        id='phoneNumber'
-                                                        type='text'
-                                                        placeholder='Phone number'
-                                                        validators={[]}
+                                                        id='clientNumber'
+                                                        type='tel'
+                                                        placeholder={auth.loggedUser.phoneNumber}
+                                                        initialValue={auth.loggedUser.phoneNumber}
+                                                        initialValid={true}
+                                                        validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(20)]}
                                                         errorText='Please enter a valid phone number'
                                                         onInput={inputHandler}
                                                     />
@@ -434,20 +445,65 @@ export default function Order() {
                                 </div>
                             </div>
                         </div>
+                        <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                            <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                Payment Type
+                            </label>
+                            <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-8'>
+                                    <div className='w-80'>
+                                        <Input
+                                            element='radio'
+                                            id='paymentType'
+                                            name='paymentType'
+                                            type='radio'
+                                            placeholder={'full'}
+                                            initialValue={'full'}
+                                            initialValid={true}
+                                            defaultChecked={true}
+                                            validators={[VALIDATOR_REQUIRE()]}
+                                            errorText='Please enter a valid vaccination status.'
+                                            onInput={inputHandler}
+                                            option={paymentType}
+                                        />
+                                    </div>
+                                    <p className='text-sm font-sm text-gray-500 mt-4'>
+                                        * Down payment will be 40% of total price, the remaining payment can be done onsite once Provider done the
+                                        service
+                                    </p>
+                                </div>
+                            </div>
+                            <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px'>
+                                Total Price
+                            </label>
+                            {formState.inputs.paymentType !== undefined && formState.inputs.paymentType.value === 'full' && (
+                                <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                    <p className='text-xl font-bold text-green-500 sm:mt-px sm:pt-2'>Rp. {currentValue * service.price}</p>
+                                </div>
+                            )}
+                            {formState.inputs.paymentType !== undefined && formState.inputs.paymentType.value === 'dp' && (
+                                <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                    <p className='text-xl font-bold text-green-500 sm:mt-px sm:pt-2'>
+                                        Rp. {currentValue * service.price * (40 / 100)}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
 
                         <div className='pt-5'>
                             <div className='flex justify-end'>
                                 <button
                                     type='button'
+                                    onClick={() => navigate(-1)}
                                     className='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                 >
-                                    <NavLink to='/manage-service'>Cancel</NavLink>
+                                    Cancel
                                 </button>
                                 <button
                                     type='submit'
                                     className='ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
                                 >
-                                    Save and Request for Approval
+                                    Order Service
                                 </button>
                             </div>
                         </div>

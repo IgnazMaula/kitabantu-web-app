@@ -26,11 +26,11 @@ const userSchema = new Schema({
     description: { type: String, required: false, default: undefined },
     vaccinated: { type: Boolean, required: false, default: undefined },
     // Collections of Service Client
-    orders: [{ type: String, required: false }],
+    orders: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Order' }],
     bookmarks: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],
     // Collections of Service Provider
     services: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],
-    ordersReceived: [{ type: String, required: false }],
+    ordersReceived: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Order' }],
 });
 
 userSchema.plugin(uniqueValidator);

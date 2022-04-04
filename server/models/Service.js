@@ -7,7 +7,7 @@ const ServiceSchema = new Schema({
     name: { type: String, required: true },
     category: { type: String, required: true },
     subCategory: { type: String, required: true },
-    price: { type: String, required: true },
+    price: { type: Number, required: true },
     unit: { type: String, required: true },
     label: { type: String, required: true },
     properties: [{ type: String, required: false }],

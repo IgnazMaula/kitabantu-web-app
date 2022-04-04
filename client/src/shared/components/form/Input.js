@@ -158,7 +158,7 @@ const Input = (props) => {
                                 <input
                                     id={o.option}
                                     onChange={changeHandler}
-                                    name='notification-method'
+                                    name={props.name}
                                     type={props.type}
                                     defaultChecked={true}
                                     value={o.value}
@@ -168,7 +168,7 @@ const Input = (props) => {
                                 <input
                                     id={o.option}
                                     onChange={changeHandler}
-                                    name='notification-method'
+                                    name={props.name}
                                     type={props.type}
                                     defaultChecked={false}
                                     value={o.value}

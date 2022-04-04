@@ -21,7 +21,7 @@ import ProviderProfilePage from './service-available/pages/ProviderProfilePage';
 import ClientProfilePage from './service-available/pages/ClientProfilePage';
 
 import { AuthContext } from './shared/context/auth-context';
-import Order from './service-order/pages/Order';
+import CreateOrder from './service-order/pages/CreateOrder';
 
 const App = () => {
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ const App = () => {
                             <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>
                             <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
                             {/* Service Order */}
-                            <Route path='/service/:sid/order' element={<Order />}></Route>
+                            <Route path='/service/:sid/order' element={<CreateOrder />}></Route>
                         </>
                     )}
                     {/* Routes for provider */}

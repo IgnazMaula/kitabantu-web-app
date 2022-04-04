@@ -175,8 +175,6 @@ const deleteService = async (req, res, next) => {
         return next('Something went wrong, could not delete service', 404);
     }
 
-    console.log(service);
-
     try {
         const sess = await mongoose.startSession();
         sess.startTransaction();
