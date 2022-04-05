@@ -108,10 +108,11 @@ export default function CreateOrder() {
             });
 
             const responseData = await response.json();
+            console.log(responseData.order.id);
             if (!response.ok) {
                 throw new Error(responseData.message);
             }
-            navigate('/');
+            navigate(`/order/${responseData.order.id}`);
         } catch (error) {
             console.log(error);
             setError(error.message || 'Something is wrong, please try again.');
@@ -392,7 +393,8 @@ export default function CreateOrder() {
                                                         id='clientLocation'
                                                         placeholder={auth.loggedUser.location}
                                                         validators={[VALIDATOR_REQUIRE()]}
-                                                        initialValid={true}
+                                                        initialValid={auth.loggedUser.location}
+                                                        isValid={true}
                                                         errorText='Please enter a valid location.'
                                                         onInput={inputHandler}
                                                         option={locations}

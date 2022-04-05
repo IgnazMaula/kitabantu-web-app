@@ -22,6 +22,7 @@ import ClientProfilePage from './service-available/pages/ClientProfilePage';
 
 import { AuthContext } from './shared/context/auth-context';
 import CreateOrder from './service-order/pages/CreateOrder';
+import OrderDetails from './service-order/pages/OrderDetails';
 
 const App = () => {
     const navigate = useNavigate();
@@ -96,6 +97,7 @@ const App = () => {
                     <Route path='/service/:sid' element={<Service />}></Route>
                     <Route path='/provider-profile/:uid' element={<ProviderProfilePage />}></Route>
                     <Route path='/client-profile/:uid' element={<ClientProfilePage />}></Route>
+                    <Route path='/order/:oid' element={<OrderDetails />}></Route>
                     <Route path='*' element={<Navigate to='/' />} />
                 </Routes>
             </AuthContext.Provider>

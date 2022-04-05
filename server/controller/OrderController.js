@@ -125,7 +125,7 @@ const createOrder = async (req, res, next) => {
         return next(new HttpError('Create order failed, please try again later', 500));
     }
 
-    res.status(201).json({ service: createdOrder.toObject({ getters: true }) });
+    res.status(201).json({ order: createdOrder.toObject({ getters: true }) });
 };
 
 module.exports = {

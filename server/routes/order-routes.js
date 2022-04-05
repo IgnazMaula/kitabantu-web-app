@@ -10,7 +10,7 @@ router.get('/', OrderController.getAllOrders);
 
 // router.get('/pending', OrderController.getPendingService);
 
-router.get('/:sid', OrderController.getOrderById);
+router.get('/:oid', OrderController.getOrderById);
 
 // router.delete('/:sid', OrderController.deleteService);
 
