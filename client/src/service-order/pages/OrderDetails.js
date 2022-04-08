@@ -17,49 +17,12 @@ import { SearchIcon } from '@heroicons/react/solid';
 import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
-
-const products = [
-    {
-        id: 1,
-        name: 'Nomad Tumbler',
-        description: 'This durable and portable insulated tumbler will keep your beverage at the perfect temperature during your next adventure.',
-        href: '#',
-        price: '35.00',
-        status: 'Preparing to ship',
-        step: 1,
-        date: 'March 24, 2021',
-        datetime: '2021-03-24',
-        address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-        email: 'f•••@example.com',
-        phone: '1•••••••••40',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-01.jpg',
-        imageAlt: 'Insulated bottle with white base and black snap lid.',
-    },
-    {
-        id: 2,
-        name: 'Minimalist Wristwatch',
-        description: 'This contemporary wristwatch has a clean, minimalist look and high quality components.',
-        href: '#',
-        price: '149.00',
-        status: 'Shipped',
-        step: 0,
-        date: 'March 23, 2021',
-        datetime: '2021-03-23',
-        address: ['Floyd Miles', '7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'],
-        email: 'f•••@example.com',
-        phone: '1•••••••••40',
-        imageSrc: 'https://tailwindui.com/img/ecommerce-images/confirmation-page-03-product-02.jpg',
-        imageAlt: 'Arm modeling wristwatch with black leather band, white watch face, thin watch hands, and fine time markings.',
-    },
-    // More products...
-];
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
+import OrderStep from '../components/OrderStep';
+import { checkSteps } from '../../shared/util/checkSteps';
 
 export default function OrderDetails(props) {
     const orderId = useParams().oid;
+    let steps;
     const [isLoading, setIsLoading] = useState(true);
     const [order, setOrder] = useState([]);
     const [service, setService] = useState([]);
@@ -89,6 +52,9 @@ export default function OrderDetails(props) {
         };
         getOrder();
     }, []);
+
+    steps = checkSteps(order.status);
+
     return (
         <>
             <Navbar />
@@ -100,11 +66,24 @@ export default function OrderDetails(props) {
                         </div>
                     ) : (
                         <div className='bg-gray-50'>
-                            <div className='max-w-2xl mx-auto pt-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8'>
-                                {/* Products */}
-                                <div className='mt-6'>
-                                    <h2 className='sr-only'>Products purchased</h2>
+                            <div className='max-w-2xl mx-auto pt-16 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8'>
+                                <div className='bg-white px-4 py-5 border border-gray-200 sm:px-6 sm:rounded-lg'>
+                                    <div className='-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap'>
+                                        <div className='ml-4 mt-2'>
+                                            <h3 className='text-lg leading-6 font-medium text-gray-900'>{order.status}</h3>
+                                        </div>
+                                        <div className='ml-4 mt-2 flex-shrink-0'>
+                                            <button
+                                                type='button'
+                                                className='relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
+                                            >
+                                                Cancel Order
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div className='mt-6'>
                                     <div className='space-y-8'>
                                         <div key={order.id} className='bg-white border-t border-b border-gray-200 shadow-sm sm:border sm:rounded-lg'>
                                             <div className='py-6 px-4 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8'>
@@ -179,7 +158,8 @@ export default function OrderDetails(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='bg-gray-100 py-6 px-4 sm:px-6 lg:px-8 lg:py-8 lg:grid lg:grid-cols-12 lg:gap-x-8'>
+                                            <OrderStep steps={steps} />
+                                            <div className='bg-white py-6 px-4 sm:px-6 lg:px-8 lg:py-8 lg:grid lg:grid-cols-12 lg:gap-x-8'>
                                                 <dl className='grid grid-cols-3 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7'>
                                                     <div>
                                                         <dt className='font-medium text-gray-900'>Attachment</dt>
@@ -251,28 +231,6 @@ export default function OrderDetails(props) {
                                                         <dd className='font-bold text-green-600'>{order.totalPrice}</dd>
                                                     </div>
                                                 </dl>
-                                            </div>
-                                            <div className='border-t border-gray-200 py-6 px-4 sm:px-6 lg:p-8'>
-                                                <h4 className='sr-only'>Status</h4>
-                                                <p className='text-sm font-medium text-gray-900'>
-                                                    {order.status} on <time dateTime={order.datetime}>{order.date}</time>
-                                                </p>
-                                                <div className='mt-6' aria-hidden='true'>
-                                                    <div className='bg-gray-200 rounded-full overflow-hidden'>
-                                                        <div
-                                                            className='h-2 bg-indigo-600 rounded-full'
-                                                            style={{ width: `calc((${order.step} * 2 + 1) / 8 * 100%)` }}
-                                                        />
-                                                    </div>
-                                                    {/* <div className='hidden sm:grid grid-cols-4 text-sm font-medium text-gray-600 mt-6'>
-                                                    <div className='text-indigo-600'>Order placed</div>
-                                                    <div className={classNames(order.step > 0 ? 'text-indigo-600' : '', 'text-center')}>
-                                                        Processing
-                                                    </div>
-                                                    <div className={classNames(order.step > 1 ? 'text-indigo-600' : '', 'text-center')}>Shipped</div>
-                                                    <div className={classNames(order.step > 2 ? 'text-indigo-600' : '', 'text-right')}>Delivered</div>
-                                                </div> */}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

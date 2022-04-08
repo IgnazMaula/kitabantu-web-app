@@ -32,19 +32,35 @@ const getOrderById = async (req, res, next) => {
     }
 };
 
-const getServiceByUserId = async (req, res, next) => {
-    const userId = req.params.uid;
-    let services;
+const getOrderByProviderId = async (req, res, next) => {
+    const providerId = req.params.uid;
+    let order;
     try {
-        services = await Service.find({ serviceProvider: userId });
+        order = await Order.find({ provider: providerId });
     } catch (error) {
-        return next(new HttpError('Fetching places failed', 500));
+        return next(new HttpError('Could not find order with that provider id', 500));
     }
 
-    if (!services) {
-        return next(new HttpError('Could not find service with that id' + services, 404));
+    if (!order) {
+        return next(new HttpError('Could not find order with that provider id', 404));
     } else {
-        res.json({ services: services.map((service) => service.toObject({ getters: true })) });
+        res.json({ orders: order.map((u) => u.toObject({ getters: true })) });
+    }
+};
+
+const getOrderByClientId = async (req, res, next) => {
+    const clientId = req.params.uid;
+    let order;
+    try {
+        order = await Order.find({ client: clientId });
+    } catch (error) {
+        return next(new HttpError('Could not find order with that client id', 500));
+    }
+
+    if (!order) {
+        return next(new HttpError('Could not find order with that client id', 404));
+    } else {
+        res.json({ orders: order.map((u) => u.toObject({ getters: true })) });
     }
 };
 
@@ -132,4 +148,6 @@ module.exports = {
     getAllOrders,
     getOrderById,
     createOrder,
+    getOrderByProviderId,
+    getOrderByClientId,
 };

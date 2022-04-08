@@ -51,7 +51,7 @@ const userNavigation = [
 ];
 const subNavigation = [
     { name: 'My Profile', href: '/profile', icon: UserCircleIcon },
-    { name: 'Order History', href: '/order-history', icon: ViewGridIcon },
+    { name: 'Manage My Order', href: '/manage-order', icon: ViewGridIcon },
     { name: 'My Bookmarks', href: '/my-bookmarks', icon: HeartIcon },
     { name: 'My Reviews', href: '/my-reviews', icon: StarIcon },
     // { name: 'Plan & Billing', href: '#', icon: CreditCardIcon, current: true },

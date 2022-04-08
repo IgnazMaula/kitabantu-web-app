@@ -1,56 +1,67 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect, useContext } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { DotsVerticalIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-
-const orders = [
-    {
-        number: 'WU88191111',
-        href: '#',
-        invoiceHref: '#',
-        createdDate: 'Jul 6, 2021',
-        createdDatetime: '2021-07-06',
-        deliveredDate: 'July 12, 2021',
-        deliveredDatetime: '2021-07-12',
-        total: '$160.00',
-        products: [
-            {
-                id: 1,
-                name: 'Mekanik Untuk Segala Jenis Masalah Kendaraan Anda',
-                description:
-                    'Are you a minimalist looking for a compact carry option? The Micro Backpack is the perfect size for your essential everyday carry items. Wear it like a backpack or carry it like a satchel for all-day use.',
-                href: '#',
-                price: '$70.00',
-                imageSrc: 'https://cms.daihatsu.co.id/uploads/tipsandtrick/1606925279427.jpeg',
-                imageAlt:
-                    'Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.',
-            },
-        ],
-    },
-
-    // More orders...
-];
+import { AuthContext } from '../../shared/context/auth-context';
+import LoadingSpinner from '../../shared/components/LoadingSpinner';
+import { NavLink } from 'react-router-dom';
+import { checkSteps } from '../../shared/util/checkSteps';
+import OrderStepShort from '../../service-order/components/OrderStepShort';
+import EmptyState from '../../shared/components/EmptyState';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
 export default function ClientHistory() {
+    const auth = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(true);
+    const [orders, setOrders] = useState([]);
+    const [services, setServices] = useState([]);
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        const getUsers = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/client/${auth.loggedUser.id}`);
+                const responseData = await response.json();
+                setOrders(responseData.orders);
+                const responseS = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services`);
+                const responseDataS = await responseS.json();
+                setServices(responseDataS.services);
+                const responseU = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users`);
+                const responseDataU = await responseU.json();
+                setUsers(responseDataU.users);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error);
+            }
+        };
+        getUsers();
+    }, []);
+
     return (
         <div className='bg-white'>
             <div>
                 <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
                     <div className='max-w-2xl mx-auto px-4 lg:max-w-4xl lg:px-0'>
-                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order History</h1>
-                        <p className='mt-2 text-sm text-gray-500'>Check all the service that you have ordered.</p>
+                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Manage My Order</h1>
+                        <p className='mt-2 text-sm text-gray-500'>manage all the service that you have ordered.</p>
                     </div>
                 </div>
 
                 <div className='mt-16'>
-                    <h2 className='sr-only'>Recent orders</h2>
-                    <h1>{orders.number}</h1>
-                    {orders.length === 0 ? <NoOrders /> : <Orders />}
+                    {isLoading ? (
+                        <div className='text-center p-24'>
+                            <LoadingSpinner />
+                        </div>
+                    ) : (
+                        <>
+                            <h1>{orders.id}</h1>
+                            {orders.length === 0 ? <NoOrders /> : <Orders orders={orders} services={services} users={users} />}
+                        </>
+                    )}
                 </div>
             </div>
         </div>
@@ -58,47 +69,67 @@ export default function ClientHistory() {
 }
 const NoOrders = () => {
     return (
-        <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
-            <div className='max-w-2xl mx-auto space-y-8 sm:px-4 lg:max-w-4xl lg:px-0'>
-                <div className='flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6'>
-                    <h1>No Order</h1>
-                </div>
-            </div>
+        <div className='max-w-2xl mx-auto space-y-8 sm:px-4 lg:max-w-4xl lg:px-0'>
+            <EmptyState title='Your service order is empty, click to browse service' link='/'>
+                <svg
+                    className='mx-auto h-12 w-12 text-gray-400'
+                    xmlns='http://www.w3.org/2000/svg'
+                    stroke='currentColor'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    aria-hidden='true'
+                >
+                    <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        stroke-width='2'
+                        d='M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z'
+                    />
+                </svg>
+            </EmptyState>
         </div>
     );
 };
-const Orders = () => {
+const Orders = (props) => {
+    const getService = (serviceId) => {
+        let service = '';
+        props.services.forEach((s) => {
+            if (serviceId === s.id) {
+                service = s;
+            }
+        });
+        return service;
+    };
+    const getUser = (userId) => {
+        let user = '';
+        props.users.forEach((u) => {
+            if (userId === u.id) {
+                user = u;
+            }
+        });
+        return user;
+    };
     return (
         <div className='max-w-7xl mx-auto sm:px-2 lg:px-8'>
             <div className='max-w-2xl mx-auto space-y-8 sm:px-4 lg:max-w-4xl lg:px-0'>
-                {orders.map((order) => (
-                    <div key={order.number} className='bg-white border-t border-b border-gray-200 shadow-sm sm:rounded-lg sm:border'>
-                        <h3 className='sr-only'>
-                            Order placed on <time dateTime={order.createdDatetime}>{order.createdDate}</time>
-                        </h3>
-
+                {props.orders.map((order) => (
+                    <div key={order.id} className='bg-white border-t border-b border-gray-200 shadow-sm sm:rounded-lg sm:border'>
                         <div className='flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6'>
-                            <dl className='flex-1 grid grid-cols-2 gap-x-6 text-sm sm:col-span-3 sm:grid-cols-3 lg:col-span-2'>
-                                <div>
-                                    <dt className='font-medium text-gray-900'>Order number</dt>
-                                    <dd className='mt-1 text-gray-500'>{order.number}</dd>
-                                </div>
+                            <dl className='flex-1 grid grid-cols-2 gap-x-6 text-sm sm:col-span-2 sm:grid-cols-2 lg:col-span-2'>
                                 <div className='hidden sm:block'>
-                                    <dt className='font-medium text-gray-900'>Date placed</dt>
-                                    <dd className='mt-1 text-gray-500'>
-                                        <time dateTime={order.createdDatetime}>{order.createdDate}</time>
-                                    </dd>
+                                    <dt className='font-medium text-gray-900'>Service Provider</dt>
+                                    <dd className='mt-1 text-gray-500'>{getUser(order.provider).name}</dd>
                                 </div>
                                 <div>
-                                    <dt className='font-medium text-gray-900'>Total amount</dt>
-                                    <dd className='mt-1 font-medium text-gray-900'>{order.total}</dd>
+                                    <dt className='font-medium text-gray-900'>Service Client</dt>
+                                    <dd className='mt-1 text-gray-500'>{getUser(order.client).name}</dd>
                                 </div>
                             </dl>
 
                             <Menu as='div' className='relative flex justify-end lg:hidden'>
                                 <div className='flex items-center'>
                                     <Menu.Button className='-m-2 p-2 flex items-center text-gray-400 hover:text-gray-500'>
-                                        <span className='sr-only'>Options for order {order.number}</span>
+                                        <span className='sr-only'>Options for order {order.id}</span>
                                         <DotsVerticalIcon className='w-6 h-6' aria-hidden='true' />
                                     </Menu.Button>
                                 </div>
@@ -117,7 +148,7 @@ const Orders = () => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href={order.href}
+                                                        href={order.id}
                                                         className={classNames(
                                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                             'block px-4 py-2 text-sm'
@@ -130,7 +161,7 @@ const Orders = () => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href={order.invoiceHref}
+                                                        href={order.id}
                                                         className={classNames(
                                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                             'block px-4 py-2 text-sm'
@@ -146,65 +177,54 @@ const Orders = () => {
                             </Menu>
 
                             <div className='hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4'>
-                                <a
-                                    href={order.href}
-                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                <NavLink
+                                    to={`/order/${order.id}`}
+                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black'
                                 >
-                                    <span>View Order</span>
-                                    <span className='sr-only'>{order.number}</span>
-                                </a>
-                                <a
-                                    href={order.invoiceHref}
-                                    className='flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                >
-                                    <span>View Invoice</span>
-                                    <span className='sr-only'>for order {order.number}</span>
-                                </a>
+                                    <span>View & Manage Order</span>
+                                    <span className='sr-only'>{order.id}</span>
+                                </NavLink>
                             </div>
                         </div>
 
-                        {/* Products */}
-                        <h4 className='sr-only'>Items</h4>
+                        {/* Orders */}
                         <ul role='list' className='divide-y divide-gray-200'>
-                            {order.products.map((product) => (
-                                <li key={product.id} className='p-4 sm:p-6'>
-                                    <div className='flex items-center sm:items-start'>
-                                        <div className='flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40'>
-                                            <img src={product.imageSrc} alt={product.imageAlt} className='w-full h-full object-center object-cover' />
-                                        </div>
-                                        <div className='flex-1 ml-6 text-sm'>
-                                            <div className='font-medium text-gray-900 sm:flex sm:justify-between'>
-                                                <h5>{product.name}</h5>
-                                                <p className='mt-2 sm:mt-0'>{product.price}</p>
-                                            </div>
-                                            <p className='hidden text-gray-500 sm:block sm:mt-2'>{product.description}</p>
-                                        </div>
+                            <li key={order.id} className='p-4 sm:p-6'>
+                                <div className='flex items-center sm:items-start'>
+                                    <div className='flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40'>
+                                        <img
+                                            src={`${process.env.REACT_APP_BACKEND_URL}${getService(order.service).image}`}
+                                            alt={order.id}
+                                            className='w-full h-full object-center object-cover'
+                                        />
                                     </div>
-
-                                    <div className='mt-6 sm:flex sm:justify-between'>
-                                        <div className='flex items-center'>
-                                            <CheckCircleIcon className='w-5 h-5 text-green-500' aria-hidden='true' />
-                                            <p className='ml-2 text-sm font-medium text-gray-500'>
-                                                Delivered on <time dateTime={order.deliveredDatetime}>{order.deliveredDate}</time>
-                                            </p>
-                                        </div>
-
-                                        <div className='mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0'>
-                                            <div className='flex-1 flex justify-center'>
-                                                <a href={product.href} className='text-indigo-600 whitespace-nowrap hover:text-indigo-500'>
-                                                    View product
-                                                </a>
-                                            </div>
-                                            <div className='flex-1 pl-4 flex justify-center'>
-                                                <a href='#' className='text-indigo-600 whitespace-nowrap hover:text-indigo-500'>
-                                                    Buy again
-                                                </a>
-                                            </div>
-                                        </div>
+                                    <div className='flex-1 ml-6 text-sm'>
+                                        <h3 className='text-base font-medium text-gray-900'>
+                                            <a href={order.href}>{getService(order.service).name}</a>
+                                        </h3>
+                                        <p className='mt-2 text-sm font-medium text-gray-500'>
+                                            {getService(order.service).category} {'•'} {getService(order.service).subCategory}
+                                        </p>
+                                        <p className='mt-3 text-sm text-gray-500'>
+                                            <span className='font-medium'>Service Requested: </span> {order.selectedService.join(', ')}
+                                        </p>
+                                        <p className='mt-3 text-sm text-gray-500'>
+                                            <span className='font-medium'>Order Price: </span>
+                                            Rp. {order.totalPrice}
+                                        </p>
+                                        <p className='mt-3 text-sm text-gray-500'>
+                                            <span className='font-medium'>Payment Type: </span>
+                                            {order.paymentType === 'full' ? (
+                                                <span className='text-green-600 font-medium'>Full Payment</span>
+                                            ) : (
+                                                <span className='text-yellow-600 font-medium'>Down Payment</span>
+                                            )}
+                                        </p>
                                     </div>
-                                </li>
-                            ))}
+                                </div>
+                            </li>
                         </ul>
+                        <OrderStepShort steps={checkSteps(order.status)} />
                     </div>
                 ))}
             </div>

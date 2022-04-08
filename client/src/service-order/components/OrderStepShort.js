@@ -5,7 +5,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function OrderStep(props) {
+export default function OrderStepShort(props) {
     const steps = props.steps;
     return (
         <div className='lg:border-t lg:border-b lg:border-gray-200'>
@@ -35,8 +35,7 @@ export default function OrderStep(props) {
                                                 </span>
                                             </span>
                                             <span className='mt-0.5 ml-4 min-w-0 flex flex-col'>
-                                                <span className='text-sm font-semibold tracking-wide'>{step.name}</span>
-                                                <span className='text-xs  text-gray-500'>{step.description}</span>
+                                                <span className='text-xs font-semibold tracking-wide'>{step.name}</span>
                                             </span>
                                         </span>
                                     </>
@@ -55,8 +54,7 @@ export default function OrderStep(props) {
                                                 </span>
                                             </span>
                                             <span className='mt-0.5 ml-4 min-w-0 flex flex-col'>
-                                                <span className='text-sm font-semibold tracking-wide'>{step.name}</span>
-                                                <span className='text-xs  text-gray-500'>{step.description}</span>
+                                                <span className='text-xs font-semibold tracking-wide'>{step.name}</span>
                                             </span>
                                         </span>
                                     </>
@@ -75,8 +73,7 @@ export default function OrderStep(props) {
                                                 </span>
                                             </span>
                                             <span className='mt-0.5 ml-4 min-w-0 flex flex-col'>
-                                                <span className='text-sm font-semibold tracking-wide'>{step.name}</span>
-                                                <span className='text-xs  text-gray-500'>{step.description}</span>
+                                                <span className='text-xs font-semibold tracking-wide'>{step.name}</span>
                                             </span>
                                         </span>
                                     </>

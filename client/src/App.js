@@ -67,7 +67,7 @@ const App = () => {
                     {token && loggedUser !== null && loggedUser.role === 'Client' && (
                         <>
                             <Route path='/profile' element={<ClientDashboard active='My Profile' />}></Route>
-                            <Route path='/order-history' element={<ClientDashboard active='Order History' />}></Route>
+                            <Route path='/manage-order' element={<ClientDashboard active='Manage My Order' />}></Route>
                             <Route path='/my-bookmarks' element={<ClientDashboard active='My Bookmarks' />}></Route>
                             <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
                             {/* Service Order */}

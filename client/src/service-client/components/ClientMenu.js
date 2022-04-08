@@ -11,7 +11,7 @@ const ClientMenu = (props) => {
     const auth = useContext(AuthContext);
     if (props.activeMenu === 'My Profile') {
         return <ClientProfile />;
-    } else if (props.activeMenu === 'Order History') {
+    } else if (props.activeMenu === 'Manage My Order') {
         return <ClientHistory />;
     } else if (props.activeMenu === 'My Reviews') {
         return <ClientReviews />;

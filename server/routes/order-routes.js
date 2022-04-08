@@ -12,6 +12,10 @@ router.get('/', OrderController.getAllOrders);
 
 router.get('/:oid', OrderController.getOrderById);
 
+router.get('/provider/:uid', OrderController.getOrderByProviderId);
+
+router.get('/client/:uid', OrderController.getOrderByClientId);
+
 // router.delete('/:sid', OrderController.deleteService);
 
 // router.get('/user/:uid', OrderController.getServiceByUserId);
