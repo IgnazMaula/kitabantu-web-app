@@ -14,7 +14,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function ClientHistory() {
+export default function ClientOrder() {
     const auth = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [orders, setOrders] = useState([]);

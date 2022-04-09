@@ -3,16 +3,15 @@ import { useContext } from 'react';
 import ClientProfile from './ClientProfile';
 import ClientBookmarks from './ClientBookmarks';
 import ClientReviews from './ClientReviews';
-import ServiceHistory from './ClientHistory';
 import { AuthContext } from '../../shared/context/auth-context';
-import ClientHistory from './ClientHistory';
+import ClientOrder from './ClientOrder';
 
 const ClientMenu = (props) => {
     const auth = useContext(AuthContext);
     if (props.activeMenu === 'My Profile') {
         return <ClientProfile />;
     } else if (props.activeMenu === 'Manage My Order') {
-        return <ClientHistory />;
+        return <ClientOrder />;
     } else if (props.activeMenu === 'My Reviews') {
         return <ClientReviews />;
     } else if (props.activeMenu === 'My Bookmarks') {
