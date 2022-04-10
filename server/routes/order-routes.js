@@ -24,7 +24,9 @@ router.post('/create-order', fileUpload.single('image'), OrderController.createO
 
 // router.patch('/edit-service/:sid', fileUpload.single('image'), OrderController.updateService);
 
-// router.patch('/manage-status/:sid', OrderController.updateServiceStatus);
+router.patch('/manage-status/:oid', OrderController.updateOrderStatus);
+
+router.patch('/:oid/payment', fileUpload.single('image'), OrderController.processPayment);
 
 //router.use(checkAuth);
 

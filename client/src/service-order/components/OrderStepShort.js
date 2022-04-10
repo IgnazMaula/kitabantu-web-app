@@ -6,7 +6,7 @@ function classNames(...classes) {
 }
 
 export default function OrderStepShort(props) {
-    const steps = props.steps;
+    const { steps, color } = props;
     return (
         <div className='lg:border-t lg:border-b lg:border-gray-200'>
             <nav className='mx-auto max-w-7xl' aria-label='Progress'>
@@ -23,14 +23,14 @@ export default function OrderStepShort(props) {
                                 {step.status === 'complete' ? (
                                     <>
                                         <span
-                                            className='absolute top-0 left-0 w-1 h-full bg-green-600 lg:w-full lg:h-1 lg:bottom-0 lg:top-auto'
+                                            className={`absolute top-0 left-0 w-1 h-full bg-${color}-600 lg:w-full lg:h-1 lg:bottom-0 lg:top-auto`}
                                             aria-hidden='true'
                                         />
                                         <span
                                             className={classNames(stepIdx !== 0 ? 'lg:pl-9' : '', 'px-6 py-5 flex items-start text-sm font-medium')}
                                         >
                                             <span className='flex-shrink-0'>
-                                                <span className='w-10 h-10 flex items-center justify-center bg-green-600 rounded-full'>
+                                                <span className={`w-10 h-10 flex items-center justify-center bg-${color}-600 rounded-full`}>
                                                     <CheckIcon className='w-6 h-6 text-white' aria-hidden='true' />
                                                 </span>
                                             </span>
@@ -42,15 +42,17 @@ export default function OrderStepShort(props) {
                                 ) : step.status === 'current' ? (
                                     <>
                                         <span
-                                            className='absolute top-0 left-0 w-1 h-full bg-green-600 lg:w-full lg:h-1 lg:bottom-0 lg:top-auto'
+                                            className={`absolute top-0 left-0 w-1 h-full bg-${color}-600 lg:w-full lg:h-1 lg:bottom-0 lg:top-auto`}
                                             aria-hidden='true'
                                         />
                                         <span
                                             className={classNames(stepIdx !== 0 ? 'lg:pl-9' : '', 'px-6 py-5 flex items-start text-sm font-medium')}
                                         >
                                             <span className='flex-shrink-0'>
-                                                <span className='w-10 h-10 flex items-center justify-center border-2 border-green-600 rounded-full'>
-                                                    <span className='text-green-600'>{step.id}</span>
+                                                <span
+                                                    className={`w-10 h-10 flex items-center justify-center border-2 border-${color}-600 rounded-full`}
+                                                >
+                                                    <span className={`text-${color}-600`}>{step.id}</span>
                                                 </span>
                                             </span>
                                             <span className='mt-0.5 ml-4 min-w-0 flex flex-col'>

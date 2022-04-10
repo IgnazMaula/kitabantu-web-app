@@ -93,7 +93,6 @@ const createOrder = async (req, res, next) => {
     selectedServiceArr = JSON.parse(selectedService);
     let imageUpload;
     if (!req.file) {
-        // imageUpload = 'uploads/images/default-service.png';
         imageUpload = '';
     } else {
         imageUpload = req.file.destination + '/' + req.file.filename;
@@ -144,10 +143,62 @@ const createOrder = async (req, res, next) => {
     res.status(201).json({ order: createdOrder.toObject({ getters: true }) });
 };
 
+const processPayment = async (req, res, next) => {
+    const orderId = req.params.oid;
+    let imageUpload;
+    if (!req.file) {
+        imageUpload = '';
+    } else {
+        imageUpload = req.file.destination + '/' + req.file.filename;
+    }
+    let order;
+    try {
+        order = await Order.findById(orderId);
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    order.receipt = imageUpload;
+    order.isPaid = true;
+    order.status = 'Service Incoming';
+
+    try {
+        await order.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ order: order.toObject({ getters: true }) });
+};
+
+const updateOrderStatus = async (req, res, next) => {
+    const { status } = req.body;
+    const orderId = req.params.oid;
+
+    let order;
+    try {
+        order = await Order.findById(orderId);
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    order.status = status;
+
+    try {
+        await order.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ order: order.toObject({ getters: true }) });
+};
+
 module.exports = {
     getAllOrders,
     getOrderById,
     createOrder,
     getOrderByProviderId,
     getOrderByClientId,
+    updateOrderStatus,
+    processPayment,
 };

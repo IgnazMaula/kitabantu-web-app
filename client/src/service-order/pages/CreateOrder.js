@@ -119,21 +119,6 @@ export default function CreateOrder() {
         }
     };
 
-    const [selectedService, setSelectedService] = useState(null);
-
-    const subCategoriesList = [];
-    const categoriesList = [];
-    let label;
-    let unit;
-    let element;
-
-    const handleSelectedService = (e) => {
-        console.log(selectedService);
-        setSelectedService(e.target.value);
-        setProperties([]);
-        document.querySelectorAll('input[type="checkbox"]').forEach((el) => (el.checked = false));
-    };
-
     const checkBoxHandler = (e) => {
         const {
             target: { name, value },
@@ -155,21 +140,6 @@ export default function CreateOrder() {
 
     const timeHandler = (time, timeString) => {
         setTime(timeString);
-    };
-
-    const uploadProfileHandler = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('image', formState.inputs.image.value);
-        try {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/profile-picture/${auth.loggedUser.id}`, {
-                method: 'PATCH',
-                body: formData,
-            });
-        } catch (error) {
-            console.log(error);
-        }
-        event.target.disabled = true;
     };
 
     return (

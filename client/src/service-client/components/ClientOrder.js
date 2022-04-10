@@ -25,7 +25,7 @@ export default function ClientOrder() {
             try {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/client/${auth.loggedUser.id}`);
                 const responseData = await response.json();
-                setOrders(responseData.orders);
+                setOrders(responseData.orders.reverse());
                 const responseS = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/services`);
                 const responseDataS = await responseS.json();
                 setServices(responseDataS.services);
@@ -224,7 +224,10 @@ const Orders = (props) => {
                                 </div>
                             </li>
                         </ul>
-                        <OrderStepShort steps={checkSteps(order.status)} />
+                        <OrderStepShort
+                            steps={checkSteps(order.status)}
+                            color={order.status === 'Order Canceled' || order.status === 'Order Declined' ? 'red' : 'green'}
+                        />
                     </div>
                 ))}
             </div>
