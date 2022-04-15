@@ -7,6 +7,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import ErrorModal from '../../shared/components/modal/ErrorModal';
+import { banks } from '../../shared/util/banks';
 
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
 const userTypes = ['Individual', 'Group', 'Corporation'];
@@ -72,6 +73,8 @@ export default function Register() {
                     userType: formState.inputs.userType.value,
                     vaccinated: formState.inputs.vaccinated.value,
                     description: formState.inputs.description.value,
+                    bank: formState.inputs.bank.value,
+                    accountNumber: formState.inputs.accountNumber.value,
                 }),
             });
 
@@ -212,6 +215,46 @@ export default function Register() {
                                 />
                             </div>
                         </div>
+                        <div className='col-span-4 sm:col-span-2'>
+                            <Input
+                                element='input'
+                                id='phoneNumber'
+                                type='tel'
+                                label='Phone Number'
+                                placeholder='Telephone number'
+                                validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(20)]}
+                                errorText='Please enter a valid phone number'
+                                onInput={inputHandler}
+                            />
+                        </div>
+
+                        <div className='mt-6 grid grid-cols-4 gap-6'>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='option'
+                                    id='bank'
+                                    label='Bank Account'
+                                    placeholder='Select Bank account'
+                                    validators={[VALIDATOR_REQUIRE()]}
+                                    errorText='Please enter a valid bank.'
+                                    onInput={inputHandler}
+                                    option={banks}
+                                />
+                            </div>
+                            <div className='col-span-4 sm:col-span-2'>
+                                <Input
+                                    element='input'
+                                    id='accountNumber'
+                                    type='number'
+                                    label='Account Number'
+                                    placeholder='Account number'
+                                    validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_MAXLENGTH(16)]}
+                                    errorText='Please enter a valid  number'
+                                    onInput={inputHandler}
+                                />
+                            </div>
+                        </div>
+
                         <Input
                             element='textarea'
                             id='description'

@@ -95,7 +95,8 @@ const signup = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-    const { email, password, name, location, identityNumber, phoneNumber, address, userType, description, vaccinated } = req.body;
+    const { email, password, name, location, identityNumber, phoneNumber, address, userType, description, vaccinated, bank, accountNumber } =
+        req.body;
     let existingUser;
     try {
         existingUser = await User.findOne({ email: email });
@@ -128,6 +129,8 @@ const register = async (req, res, next) => {
         description,
         vaccinated,
         services: [],
+        bank,
+        accountNumber,
     });
 
     try {
@@ -189,7 +192,7 @@ const login = async (req, res, next) => {
 };
 
 const updateProvider = async (req, res, next) => {
-    const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description } = req.body;
+    const { name, location, identityNumber, phoneNumber, address, userType, vaccinated, description, bank, accountNumber } = req.body;
     const userId = req.params.uid;
 
     let user;
@@ -207,6 +210,8 @@ const updateProvider = async (req, res, next) => {
     user.location = location;
     user.address = address;
     user.description = description;
+    user.bank = bank;
+    user.accountNumber = accountNumber;
 
     try {
         await user.save();

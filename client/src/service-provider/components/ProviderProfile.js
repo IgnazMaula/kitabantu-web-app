@@ -21,6 +21,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MAXLENGTH, VALIDATOR_MINLENGTH, VALIDATOR_RE
 import InformModal from '../../shared/components/modal/InformModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 import ImageUpload from '../../shared/components/form/ImageUpload';
+import { banks } from '../../shared/util/banks';
 
 const userTypes = ['Individual', 'Group', 'Corporation'];
 const locations = ['Jakarta', 'Bali', 'Surabaya'];
@@ -63,9 +64,10 @@ export default function ProviderProfile() {
     const editSubmitHandler = async (event) => {
         event.preventDefault();
         setOpen(true);
-        let locationValue, userValue;
+        let locationValue, userValue, bankValue;
         formState.inputs.location.value === '' ? (locationValue = provider.location) : (locationValue = formState.inputs.location.value);
         formState.inputs.userType.value === '' ? (userValue = provider.userType) : (userValue = formState.inputs.userType.value);
+        formState.inputs.bank.value === '' ? (bankValue = provider.bank) : (bankValue = formState.inputs.bank.value);
 
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/users/update/provider/${auth.loggedUser.id}`, {
@@ -82,6 +84,8 @@ export default function ProviderProfile() {
                     location: locationValue,
                     address: formState.inputs.address.value,
                     description: formState.inputs.description.value,
+                    bank: bankValue,
+                    accountNumber: formState.inputs.accountNumber.value,
                 }),
             });
             setEdit(false);
@@ -391,6 +395,58 @@ export default function ProviderProfile() {
                                                                                 </div>
                                                                             ) : (
                                                                                 <span className='flex-grow'>{provider.address}</span>
+                                                                            )}
+                                                                        </span>
+                                                                        <span className='ml-4 flex-shrink-0'></span>
+                                                                    </dd>
+                                                                </div>
+                                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
+                                                                    <dt className='text-sm font-medium text-gray-500'>Bank</dt>
+                                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                                        <span className='flex-grow'>
+                                                                            {edit ? (
+                                                                                <div className='w-80'>
+                                                                                    <Input
+                                                                                        element='option'
+                                                                                        id='bank'
+                                                                                        placeholder={provider.bank}
+                                                                                        intialValue={provider.bank}
+                                                                                        initialValid={true}
+                                                                                        validators={[VALIDATOR_REQUIRE()]}
+                                                                                        errorText='Please enter a bank'
+                                                                                        onInput={inputHandler}
+                                                                                        option={banks}
+                                                                                    />
+                                                                                </div>
+                                                                            ) : (
+                                                                                <span className='flex-grow'>{provider.bank}</span>
+                                                                            )}
+                                                                        </span>
+                                                                        <span className='ml-4 flex-shrink-0'></span>
+                                                                    </dd>
+                                                                </div>
+                                                                <div className='py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5'>
+                                                                    <dt className='text-sm font-medium text-gray-500'>Account Number</dt>
+                                                                    <dd className='mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2'>
+                                                                        <span className='flex-grow'>
+                                                                            {edit ? (
+                                                                                <div className='w-80'>
+                                                                                    <Input
+                                                                                        element='input'
+                                                                                        id='accountNumber'
+                                                                                        type='number'
+                                                                                        initialValue={provider.accountNumber}
+                                                                                        initialValid={true}
+                                                                                        validators={[
+                                                                                            VALIDATOR_MINLENGTH(10),
+                                                                                            VALIDATOR_MAXLENGTH(16),
+                                                                                        ]}
+                                                                                        errorText='Please enter a valid number'
+                                                                                        onInput={inputHandler}
+                                                                                    />
+                                                                                </div>
+                                                                            ) : (
+                                                                                <span className='flex-grow'>{provider.accountNumber}</span>
                                                                             )}
                                                                         </span>
                                                                         <span className='ml-4 flex-shrink-0'></span>

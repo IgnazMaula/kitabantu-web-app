@@ -23,6 +23,7 @@ import OrderStep from '../components/OrderStep';
 import { checkSteps } from '../../shared/util/checkSteps';
 import OrderAction from '../components/OrderAction';
 import ImageUploadService from '../../shared/components/form/ImageUploadService';
+import InformModal from '../../shared/components/modal/InformModal';
 
 export default function PaymentPage(props) {
     const auth = useContext(AuthContext);
@@ -35,6 +36,7 @@ export default function PaymentPage(props) {
     const [client, setClient] = useState([]);
     const [provider, setProvider] = useState([]);
     const [formState, inputHandler, setFormData] = useForm({}, false);
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         const getOrder = async () => {
             try {
@@ -64,7 +66,7 @@ export default function PaymentPage(props) {
         event.preventDefault();
         let imageUpload;
         if (formState.inputs.image === undefined) {
-            console.log('Please upload');
+            setOpen(true);
         } else {
             imageUpload = formState.inputs.image.value;
             const formData = new FormData();
@@ -112,6 +114,9 @@ export default function PaymentPage(props) {
                         </div>
                     ) : (
                         <div className='bg-gray-50'>
+                            <InformModal open={open} setOpen={setOpen} title={'Please upload payment receipt!'} buttonText='Okay' color={'red'}>
+                                <XIcon className='h-6 w-6 text-red-600' aria-hidden='true' />
+                            </InformModal>
                             <div className='max-w-2xl mx-auto pt-16 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8'>
                                 <div className='mt-6'>
                                     <div className='space-y-8'>
@@ -209,7 +214,9 @@ export default function PaymentPage(props) {
                                                     <div className='pl-12'>
                                                         <dt className='font-medium text-gray-900 text-lg'>Transfer Address</dt>
                                                         <dd className='mt-3 text-gray-500 text-xl font-bold'>
-                                                            <span className='block'>BCA XXXX-XXXX-XXXX-XXXX</span>
+                                                            <span className='block'>
+                                                                {provider.bank} {provider.accountNumber}
+                                                            </span>
                                                         </dd>
                                                         <dt className='font-medium text-gray-400 text-lg'>{provider.name}</dt>
                                                         <div className='mt-3'>

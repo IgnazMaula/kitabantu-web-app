@@ -25,6 +25,8 @@ const userSchema = new Schema({
     userType: { type: String, required: false, default: undefined },
     description: { type: String, required: false, default: undefined },
     vaccinated: { type: Boolean, required: false, default: undefined },
+    bank: { type: String, required: false, default: 'BANK' },
+    accountNumber: { type: String, required: false, default: 'XXXXXXXXXXXX' },
     // Collections of Service Client
     orders: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Order' }],
     bookmarks: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Service' }],

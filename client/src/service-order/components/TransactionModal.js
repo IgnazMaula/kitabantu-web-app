@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/outline';
 
 export default function TransactionModal(props) {
-    const { open, setOpen, title, message, children, buttonText, color, order } = props;
+    const { open, setOpen, title, message, children, buttonText, color, order, provider } = props;
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -54,8 +54,16 @@ export default function TransactionModal(props) {
                                                         {order.paymentType === 'full' ? (
                                                             <dd className='font-medium text-green-600'>Full Payment</dd>
                                                         ) : (
-                                                            <dd className='font-medium text-yellow-600'>DownPayment</dd>
+                                                            <dd className='font-medium text-yellow-600'>Down Payment</dd>
                                                         )}
+                                                    </div>
+                                                    <div className='py-4 flex items-center justify-between'>
+                                                        <dt className='text-gray-600'>Bank Destination</dt>
+                                                        <dd className='font-medium text-black'>{provider.bank}</dd>
+                                                    </div>
+                                                    <div className='py-4 flex items-center justify-between'>
+                                                        <dt className='text-gray-600'>Account Number</dt>
+                                                        <dd className='font-medium text-black'>{provider.accountNumber}</dd>
                                                     </div>
                                                     <div className='py-4 flex items-center justify-between'>
                                                         <dt className='font-medium text-gray-600'>Paid total</dt>

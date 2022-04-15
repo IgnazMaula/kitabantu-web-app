@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import { AuthContext } from '../../shared/context/auth-context';
 import {
@@ -26,6 +26,7 @@ import TransactionModal from '../components/TransactionModal';
 
 export default function OrderDetails(props) {
     const auth = useContext(AuthContext);
+    const navigate = useNavigate();
     const orderId = useParams().oid;
     let steps, color;
     const [isLoading, setIsLoading] = useState(true);
@@ -95,6 +96,7 @@ export default function OrderDetails(props) {
                                 buttonText='Close'
                                 color='blue'
                                 order={order}
+                                provider={provider}
                             ></TransactionModal>
                             <div className='max-w-2xl mx-auto pt-16 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8'>
                                 <OrderAction status={order.status} loggedUser={auth.loggedUser} order={order} refetchData={refetchData} />
@@ -260,6 +262,15 @@ export default function OrderDetails(props) {
                                                         <dd className='font-bold text-lg text-green-500'>Rp. {order.totalPrice}</dd>
                                                     </div>
                                                 </dl>
+                                            </div>
+                                            <div className='text-right py-4 pr-4'>
+                                                <button
+                                                    onClick={() => navigate(-1)}
+                                                    type='button'
+                                                    className=' text-center mr-2 relative inline-flex items-center  bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black'
+                                                >
+                                                    Back to Order
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

@@ -208,7 +208,12 @@ export default function Service() {
                                 <div className='flex flex-col-reverse'>
                                     <div className='mt-4'>
                                         <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>{service.name}</h1>
-
+                                        <span
+                                            className={`inline-flex items-center px-3 mt-4 py-0.5 rounded-full text-sm font-medium bg-yellow-300 text-gray-800`}
+                                        >
+                                            <StarIcon width={20} className='text-yellow-600'></StarIcon>
+                                            {''} Signature Service
+                                        </span>
                                         <h2 id='information-heading' className='sr-only'>
                                             Product information
                                         </h2>
