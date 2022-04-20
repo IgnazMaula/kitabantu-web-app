@@ -140,12 +140,36 @@ export default function OrderDetails(props) {
                                                             </span>
                                                             {order.unit}
                                                         </p>
+                                                        {order.label1 !== '' && (
+                                                            <p className='mt-3 text-sm text-gray-500'>
+                                                                <span className='font-medium'>{order.label1}: </span>
+                                                                {order.field1}
+                                                            </p>
+                                                        )}
+                                                        {order.label2 !== '' && (
+                                                            <p className='mt-3 text-sm text-gray-500'>
+                                                                <span className='font-medium'>{order.label2}: </span>
+                                                                {order.field2}
+                                                            </p>
+                                                        )}
+                                                        {order.label3 !== '' && (
+                                                            <p className='mt-3 text-sm text-gray-500'>
+                                                                <span className='font-medium'>{order.label3}: </span>
+                                                                {order.field3}
+                                                            </p>
+                                                        )}
+                                                        {order.label4 !== '' && (
+                                                            <p className='mt-3 text-sm text-gray-500'>
+                                                                <span className='font-medium'>{order.label4}: </span>
+                                                                {order.field4}
+                                                            </p>
+                                                        )}
                                                         <p className='mt-3 text-sm text-gray-500'>
-                                                            <span className='font-medium'>Date: </span>
+                                                            <span className='font-medium'>Requested Date: </span>
                                                             {order.date}
                                                         </p>
                                                         <p className='mt-3 text-sm text-gray-500'>
-                                                            <span className='font-medium'>Time: </span>
+                                                            <span className='font-medium'>Requested Time: </span>
                                                             {order.time}
                                                         </p>
                                                     </div>

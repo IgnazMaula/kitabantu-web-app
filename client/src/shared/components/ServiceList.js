@@ -124,6 +124,7 @@ export default function ServiceList() {
     };
 
     const serviceList = services
+        .filter((ss) => filterStatus(ss.status, 'Active'))
         .filter(
             (ss) =>
                 ss.name.toLowerCase().includes(keyWord.toLowerCase()) ||

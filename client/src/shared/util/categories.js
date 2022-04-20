@@ -373,7 +373,6 @@ export const categories = [
                     'Panasonic',
                     'Gree',
                     'Samsung',
-                    'Changhong',
                     'Haier',
                     'Denpoo',
                     'LG',

@@ -16,7 +16,7 @@ import Navbar from '../../shared/components/Navbar';
 import { services } from '../../services';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
-export default function CreateOrder() {
+export default function CreateOrderAC() {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
     const sid = useParams().sid;
@@ -39,6 +39,40 @@ export default function CreateOrder() {
     const paymentType = [
         { option: 'Full', value: 'full' },
         { option: 'Down Payment', value: 'dp' },
+    ];
+    const brands = [
+        { option: 'Sharp', value: 'Sharp' },
+        { option: 'LG', value: 'LG' },
+        { option: 'Samsung', value: 'Samsung' },
+        { option: 'Daikin', value: 'Daikin' },
+        { option: 'Panasonic', value: 'Panasonic' },
+        { option: 'Other', value: 'Other' },
+    ];
+    const PKs = [
+        { option: '0,5 PK', value: '0,5 PK' },
+        { option: '0,75 PK', value: '0,75 PK' },
+        { option: '1 PK', value: '1 PK' },
+        { option: '1,5 PK', value: '1,5 PK' },
+        { option: '2 PK', value: '2 PK' },
+    ];
+    const times = [
+        { option: 'Very recently', value: 'Very recently' },
+        { option: '1-4 weeks', value: '1-4 weeks' },
+        { option: 'More than a month', value: 'More than a month' },
+    ];
+    const services = [
+        'AC installation',
+        'AC cleaning',
+        'Freon refill',
+        'AC constantly running',
+        'AC not turning on',
+        'No cool air flowing',
+        'Hot air blowing out',
+        'Water leaking',
+        'Weird noise coming out',
+        'Remote control not working',
+        'Unit turning on and off',
+        'Strange smell coming from unit',
     ];
     const locations = ['Jakarta', 'Bali', 'Surabaya'];
 
@@ -101,14 +135,14 @@ export default function CreateOrder() {
         formData.append('clientAddress', formState.inputs.clientAddress.value);
         formData.append('clientNumber', formState.inputs.clientNumber.value);
         formData.append('image', imageUpload);
-        formData.append('label1', '');
-        formData.append('label2', '');
-        formData.append('label3', '');
-        formData.append('label4', '');
-        formData.append('field1', '');
-        formData.append('field2', '');
-        formData.append('field3', '');
-        formData.append('field4', '');
+        formData.append('label1', 'AC Brand');
+        formData.append('label2', 'AC PK');
+        formData.append('label3', 'AC Series name');
+        formData.append('label4', 'Faulty duration');
+        formData.append('field1', formState.inputs.brand.value);
+        formData.append('field2', formState.inputs.PK.value);
+        formData.append('field3', formState.inputs.series.value);
+        formData.append('field4', formState.inputs.time.value);
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/create-order`, {
                 method: 'POST',
@@ -160,7 +194,7 @@ export default function CreateOrder() {
             ) : (
                 <div className='max-w-5xl mx-auto sm:px-2 lg:px-8 p-10'>
                     <div className='px-4 sm:px-6 md:px-0'>
-                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order Service</h1>
+                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order AC Service</h1>
                     </div>
                     <form className='space-y-8 divide-y divide-gray-200' onSubmit={orderSubmitHandler}>
                         <div className='space-y-8 divide-y divide-gray-200 sm:space-y-5'>
@@ -195,14 +229,109 @@ export default function CreateOrder() {
                                             </p>
                                         </div>
                                     </div>
+                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            AC Brand
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
+                                                <Input
+                                                    element='radio'
+                                                    id='brand'
+                                                    name='brand'
+                                                    type='radio'
+                                                    placeholder={'Sharp'}
+                                                    initialValue={'Sharp'}
+                                                    initialValid={true}
+                                                    defaultChecked={true}
+                                                    validators={[VALIDATOR_REQUIRE()]}
+                                                    errorText='Please enter a valid data.'
+                                                    onInput={inputHandler}
+                                                    option={brands}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            AC PK
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
+                                                <Input
+                                                    element='radio'
+                                                    id='PK'
+                                                    name='PK'
+                                                    type='radio'
+                                                    placeholder={'0,5 PK'}
+                                                    initialValue={'0,5 PK'}
+                                                    initialValid={true}
+                                                    defaultChecked={true}
+                                                    validators={[VALIDATOR_REQUIRE()]}
+                                                    errorText='Please enter a valid data.'
+                                                    onInput={inputHandler}
+                                                    option={PKs}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            How long have you been experiencing faulty
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
+                                                <Input
+                                                    element='radio'
+                                                    id='time'
+                                                    name='time'
+                                                    type='radio'
+                                                    placeholder={'Very recently'}
+                                                    initialValue={'Very recently'}
+                                                    initialValid={true}
+                                                    defaultChecked={true}
+                                                    validators={[VALIDATOR_REQUIRE()]}
+                                                    errorText='Please enter a valid data.'
+                                                    onInput={inputHandler}
+                                                    option={times}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
+                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                            AC Series Name
+                                        </label>
+                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                            <Input
+                                                element='input'
+                                                id='series'
+                                                type='text'
+                                                placeholder='series name'
+                                                validators={[]}
+                                                errorText='Please enter valid unit.'
+                                                onInput={inputHandler}
+                                            />
+                                        </div>
+                                        {currentValue !== '' && (
+                                            <>
+                                                <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
+                                                    Cost Estimation
+                                                </label>
+                                                <div className='mt-1 sm:mt-0 sm:col-span-2'>
+                                                    <p className='text-sm text-green-500 sm:mt-px sm:pt-2'>Rp. {currentValue * service.price}</p>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                     <div className='sm:grid sm:grid-cols-4 sm:gap-4 sm:items-end sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label
                                             htmlFor='about'
                                             className='col-span-4 block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 sm:py-4 text-center'
                                         >
-                                            Pick Services
+                                            Type of service/faulty
                                         </label>
-                                        {service.properties.map((o) => (
+                                        {services.map((o) => (
                                             <div className='relative flex items-start'>
                                                 <div className='flex items-center h-5'>
                                                     <input
@@ -242,7 +371,7 @@ export default function CreateOrder() {
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            Enter Unit ( {service.unit} )
+                                            Enter AC unit
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <Input

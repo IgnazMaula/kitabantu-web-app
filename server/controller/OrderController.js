@@ -89,6 +89,14 @@ const createOrder = async (req, res, next) => {
         clientLocation,
         clientAddress,
         clientNumber,
+        label1,
+        label2,
+        label3,
+        label4,
+        field1,
+        field2,
+        field3,
+        field4,
     } = req.body;
     selectedServiceArr = JSON.parse(selectedService);
     let imageUpload;
@@ -112,6 +120,14 @@ const createOrder = async (req, res, next) => {
         clientAddress,
         clientNumber,
         attachment: imageUpload,
+        label1,
+        label2,
+        label3,
+        label4,
+        field1,
+        field2,
+        field3,
+        field4,
     });
     let sp;
     let sc;

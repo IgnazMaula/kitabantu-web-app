@@ -24,6 +24,7 @@ import { AuthContext } from './shared/context/auth-context';
 import CreateOrder from './service-order/pages/CreateOrder';
 import OrderDetails from './service-order/pages/OrderDetails';
 import PaymentPage from './service-order/pages/PaymentPage';
+import CreateOrderAC from './service-order/pages/CreateOrderAC';
 
 const App = () => {
     const navigate = useNavigate();
@@ -73,6 +74,8 @@ const App = () => {
                             <Route path='/my-reviews' element={<ClientDashboard active='My Reviews' />}></Route>
                             {/* Service Order */}
                             <Route path='/service/:sid/order' element={<CreateOrder />}></Route>
+                            {/* Custom Order */}
+                            <Route path='/service/:sid/order/AC' element={<CreateOrderAC />}></Route>
                         </>
                     )}
                     {/* Routes for provider */}
