@@ -39,6 +39,9 @@ const OrderSchema = new Schema({
     field2: { type: String, required: false },
     field3: { type: String, required: false },
     field4: { type: String, required: false },
+
+    rating: { type: Number, required: false },
+    review: { type: String, required: false },
 });
 
 OrderSchema.plugin(uniqueValidator);

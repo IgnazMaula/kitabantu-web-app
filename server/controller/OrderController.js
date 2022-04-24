@@ -64,16 +64,37 @@ const getOrderByClientId = async (req, res, next) => {
     }
 };
 
-const getPendingService = async (req, res, next) => {
-    let services;
+const getReviewByProviderId = async (req, res, next) => {
+    const providerId = req.params.uid;
+    let order;
     try {
-        services = await Service.find({ status: 'Pending' });
+        order = await Order.find({ provider: providerId, isReviewed: true });
     } catch (error) {
-        return next(new HttpError('Fetching services failed', 500));
+        return next(new HttpError('Could not find order with that provider id', 500));
     }
-    res.json({ services: services.map((u) => u.toObject({ getters: true })) });
+
+    if (!order) {
+        return next(new HttpError('Could not find order with that provider id', 404));
+    } else {
+        res.json({ orders: order.map((u) => u.toObject({ getters: true })) });
+    }
 };
 
+const getReviewByClientId = async (req, res, next) => {
+    const clientId = req.params.uid;
+    let order;
+    try {
+        order = await Order.find({ client: clientId, isReviewed: true });
+    } catch (error) {
+        return next(new HttpError('Could not find order with that client id', 500));
+    }
+
+    if (!order) {
+        return next(new HttpError('Could not find order with that client id', 404));
+    } else {
+        res.json({ orders: order.map((u) => u.toObject({ getters: true })) });
+    }
+};
 const createOrder = async (req, res, next) => {
     const {
         service,
@@ -209,12 +230,39 @@ const updateOrderStatus = async (req, res, next) => {
     res.status(200).json({ order: order.toObject({ getters: true }) });
 };
 
+const postReview = async (req, res, next) => {
+    const { rating, review } = req.body;
+    const orderId = req.params.oid;
+
+    let order;
+    try {
+        order = await Order.findById(orderId);
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    order.rating = rating;
+    order.review = review;
+    order.isReviewed = true;
+
+    try {
+        await order.save();
+    } catch (error) {
+        return next('Something went wrong, could not update status', 500);
+    }
+
+    res.status(200).json({ order: order.toObject({ getters: true }) });
+};
+
 module.exports = {
     getAllOrders,
     getOrderById,
     createOrder,
     getOrderByProviderId,
     getOrderByClientId,
+    getReviewByProviderId,
+    getReviewByClientId,
     updateOrderStatus,
     processPayment,
+    postReview,
 };

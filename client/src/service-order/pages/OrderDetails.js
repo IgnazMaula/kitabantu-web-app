@@ -23,6 +23,7 @@ import OrderStep from '../components/OrderStep';
 import { checkSteps } from '../../shared/util/checkSteps';
 import OrderAction from '../components/OrderAction';
 import TransactionModal from '../components/TransactionModal';
+import ReviewModal from '../components/ReviewModal';
 
 export default function OrderDetails(props) {
     const auth = useContext(AuthContext);
@@ -31,6 +32,7 @@ export default function OrderDetails(props) {
     let steps, color;
     const [isLoading, setIsLoading] = useState(true);
     const [open, setOpen] = useState(false);
+    const [openReview, setOpenReview] = useState(false);
     const [order, setOrder] = useState([]);
     const [service, setService] = useState([]);
     const [client, setClient] = useState([]);
@@ -88,6 +90,18 @@ export default function OrderDetails(props) {
                         </div>
                     ) : (
                         <div className='bg-gray-50'>
+                            <ReviewModal
+                                open={openReview}
+                                setOpen={setOpenReview}
+                                title='Write a review'
+                                message='User detail has been edited'
+                                buttonText='Close'
+                                color='blue'
+                                order={order}
+                                provider={provider.name}
+                                service={service}
+                                refetchData={refetchData}
+                            ></ReviewModal>
                             <TransactionModal
                                 open={open}
                                 setOpen={setOpen}
@@ -99,7 +113,13 @@ export default function OrderDetails(props) {
                                 provider={provider}
                             ></TransactionModal>
                             <div className='max-w-2xl mx-auto pt-16 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8'>
-                                <OrderAction status={order.status} loggedUser={auth.loggedUser} order={order} refetchData={refetchData} />
+                                <OrderAction
+                                    status={order.status}
+                                    loggedUser={auth.loggedUser}
+                                    order={order}
+                                    refetchData={refetchData}
+                                    setOpenReview={setOpenReview}
+                                />
                                 <div className='mt-6'>
                                     <div className='space-y-8'>
                                         <div key={order.id} className='bg-white border-t border-b border-gray-200 shadow-sm sm:border sm:rounded-lg'>

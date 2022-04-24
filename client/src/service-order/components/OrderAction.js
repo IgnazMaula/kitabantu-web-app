@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { StarIcon } from '@heroicons/react/outline';
 
 export default function OrderAction(props) {
-    const { status, loggedUser, order, refetchData } = props;
+    const { status, loggedUser, order, refetchData, setOpenReview } = props;
     return (
         <div className='bg-white px-4 py-5 border border-gray-200 sm:px-6 sm:rounded-lg'>
             <div className='-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap'>
@@ -14,7 +14,7 @@ export default function OrderAction(props) {
                     )}
                 </div>
                 <div className='ml-4 mt-2 flex-shrink-0'>
-                    <Action status={status} loggedUser={loggedUser} order={order} refetchData={refetchData} />
+                    <Action status={status} loggedUser={loggedUser} order={order} refetchData={refetchData} setOpenReview={setOpenReview} />
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@ export default function OrderAction(props) {
 }
 
 const Action = (props) => {
-    const { status, loggedUser, order, refetchData } = props;
+    const { status, loggedUser, order, refetchData, setOpenReview } = props;
     const updateOrderStatus = async (newStatus) => {
         // setOpen(true);
         try {
@@ -111,12 +111,24 @@ const Action = (props) => {
         );
     } else if (loggedUser.role === 'Provider' && order.provider === loggedUser.id && status === 'Complete Approval') {
         return <p className='mr-4'>Wait for Client to confirm that the service is completed</p>;
-    } else if (loggedUser.role === 'Client' && order.client === loggedUser.id && status === 'Order Completed') {
+    } else if (loggedUser.role === 'Client' && order.client === loggedUser.id && status === 'Order Completed' && order.isReviewed === false) {
         return (
             <button
                 type='button'
-                onClick=''
+                onClick={() => setOpenReview(true)}
                 className='relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400'
+            >
+                <StarIcon className='w-6 h-6 mr-2' />
+                Write Review
+            </button>
+        );
+    } else if (loggedUser.role === 'Client' && order.client === loggedUser.id && status === 'Order Completed' && order.isReviewed === true) {
+        return (
+            <button
+                type='button'
+                onClick={() => setOpenReview(true)}
+                disabled
+                className='relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 disabled:opacity-50 cursor-not-allowed'
             >
                 <StarIcon className='w-6 h-6 mr-2' />
                 Write Review
