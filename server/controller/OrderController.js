@@ -64,11 +64,11 @@ const getOrderByClientId = async (req, res, next) => {
     }
 };
 
-const getReviewByProviderId = async (req, res, next) => {
-    const providerId = req.params.uid;
+const getReviewByServiceId = async (req, res, next) => {
+    const serviceId = req.params.sid;
     let order;
     try {
-        order = await Order.find({ provider: providerId, isReviewed: true });
+        order = await Order.find({ service: serviceId, isReviewed: true });
     } catch (error) {
         return next(new HttpError('Could not find order with that provider id', 500));
     }
@@ -260,7 +260,7 @@ module.exports = {
     createOrder,
     getOrderByProviderId,
     getOrderByClientId,
-    getReviewByProviderId,
+    getReviewByServiceId,
     getReviewByClientId,
     updateOrderStatus,
     processPayment,

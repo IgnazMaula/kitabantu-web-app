@@ -154,13 +154,13 @@ export default function ServiceList() {
                                     <div className='h-14  '>
                                         <h3 className='font-bold text-base'>{name}</h3>
                                     </div>
-                                    <div className='flex items-center text-yellow-400'>
+                                    {/* <div className='flex items-center text-yellow-400'>
                                         <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
                                         <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
                                         <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
                                         <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
                                         <FontAwesomeIcon icon={faStar} className='mr-2' /> {rating}
-                                    </div>
+                                    </div> */}
                                     <p className='mt-1 text-green-600 font-bold'>{getUserName(serviceProvider)}</p>
                                     <p>
                                         {category} • {subCategory}

@@ -16,7 +16,7 @@ router.get('/provider/:uid', OrderController.getOrderByProviderId);
 
 router.get('/client/:uid', OrderController.getOrderByClientId);
 
-router.get('/provider/:uid/review', OrderController.getReviewByProviderId);
+router.get('/service/:sid/review', OrderController.getReviewByServiceId);
 
 router.get('/client/:uid/review', OrderController.getReviewByClientId);
 

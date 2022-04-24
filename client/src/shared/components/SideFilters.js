@@ -27,7 +27,7 @@ const sortBy = {
         { value: 'Newer Service', label: 'Newer Service', checked: false },
         { value: 'Ascending', label: 'Ascending', checked: false },
         { value: 'Descending', label: 'Descending', checked: false },
-        { value: 'Most Popular', label: 'Most Popular', checked: false },
+        // { value: 'Most Popular', label: 'Most Popular', checked: false },
         // { value: 'Best Rating', label: 'Best Rating', checked: false },
     ],
 };
