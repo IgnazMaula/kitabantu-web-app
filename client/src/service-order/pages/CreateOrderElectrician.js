@@ -16,7 +16,7 @@ import Navbar from '../../shared/components/Navbar';
 import { services } from '../../services';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
-export default function CreateOrderAC() {
+export default function CreateOrderElectrician() {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
     const sid = useParams().sid;
@@ -40,40 +40,29 @@ export default function CreateOrderAC() {
         { option: 'Full', value: 'full' },
         { option: 'Down Payment', value: 'dp' },
     ];
-    const brands = [
-        { option: 'Sharp', value: 'Sharp' },
-        { option: 'LG', value: 'LG' },
-        { option: 'Samsung', value: 'Samsung' },
-        { option: 'Daikin', value: 'Daikin' },
-        { option: 'Panasonic', value: 'Panasonic' },
+    const serviceTypes = [
+        { option: 'Repair', value: 'Repair' },
+        { option: 'Installation', value: 'Installation' },
+        { option: 'Service', value: 'Service' },
+        { option: 'Maintenance', value: 'Maintenance' },
+        { option: 'Inspection', value: 'Inspection' },
+    ];
+    const parts = [
+        { option: 'Lights', value: 'Lights' },
+        { option: 'Cables', value: 'Cables' },
+        { option: 'Socket', value: 'Socket' },
+        { option: 'MCB', value: 'MCB' },
+        { option: 'Bathtub', value: 'Bathtub' },
+        { option: 'Switch', value: 'Switch' },
         { option: 'Other', value: 'Other' },
     ];
-    const PKs = [
-        { option: '0,5 PK', value: '0,5 PK' },
-        { option: '0,75 PK', value: '0,75 PK' },
-        { option: '1 PK', value: '1 PK' },
-        { option: '1,5 PK', value: '1,5 PK' },
-        { option: '2 PK', value: '2 PK' },
+    const propertyTypes = [
+        { option: 'House', value: 'House' },
+        { option: 'Apartment', value: 'Apartment' },
+        { option: 'Shop', value: 'Shop' },
+        { option: 'Office', value: 'Office' },
     ];
-    const times = [
-        { option: 'Very recently', value: 'Very recently' },
-        { option: '1-4 weeks', value: '1-4 weeks' },
-        { option: 'More than a month', value: 'More than a month' },
-    ];
-    const services = [
-        'AC installation',
-        'AC cleaning',
-        'Freon refill',
-        'AC constantly running',
-        'AC not turning on',
-        'No cool air flowing',
-        'Hot air blowing out',
-        'Water leaking',
-        'Weird noise coming out',
-        'Remote control not working',
-        'Unit turning on and off',
-        'Strange smell coming from unit',
-    ];
+    const services = ['Power often goes out', 'Scorched smell', 'Weird sounds', 'Socket not working', 'Other', 'None'];
     const locations = ['Jakarta', 'Bali', 'Surabaya'];
 
     useEffect(() => {
@@ -135,14 +124,15 @@ export default function CreateOrderAC() {
         formData.append('clientAddress', formState.inputs.clientAddress.value);
         formData.append('clientNumber', formState.inputs.clientNumber.value);
         formData.append('image', imageUpload);
-        formData.append('label1', 'AC Brand');
-        formData.append('label2', 'AC PK');
-        formData.append('label3', 'AC Series name');
-        formData.append('label4', 'Faulty duration');
-        formData.append('field1', formState.inputs.brand.value);
-        formData.append('field2', formState.inputs.PK.value);
-        formData.append('field3', formState.inputs.series.value);
-        formData.append('field4', formState.inputs.time.value);
+        formData.append('label1', 'Electrician service');
+        formData.append('label2', 'Electrical problem');
+        formData.append('label3', 'Type of Property');
+        formData.append('label4', '');
+        formData.append('field1', formState.inputs.serviceType.value);
+        formData.append('field2', formState.inputs.part.value);
+        formData.append('field3', formState.inputs.propertyType.value);
+        formData.append('field4', '');
+
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}api/orders/create-order`, {
                 method: 'POST',
@@ -194,7 +184,7 @@ export default function CreateOrderAC() {
             ) : (
                 <div className='max-w-5xl mx-auto sm:px-2 lg:px-8 p-10'>
                     <div className='px-4 sm:px-6 md:px-0'>
-                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order AC Service</h1>
+                        <h1 className='text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl'>Order Electrician Service</h1>
                     </div>
                     <form className='space-y-8 divide-y divide-gray-200' onSubmit={orderSubmitHandler}>
                         <div className='space-y-8 divide-y divide-gray-200 sm:space-y-5'>
@@ -231,87 +221,71 @@ export default function CreateOrderAC() {
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            AC Brand
+                                            Electrical service
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
                                                 <Input
                                                     element='radio'
-                                                    id='brand'
-                                                    name='brand'
+                                                    id='serviceType'
+                                                    name='serviceType'
                                                     type='radio'
-                                                    placeholder={'Sharp'}
-                                                    initialValue={'Sharp'}
+                                                    placeholder={'Repair'}
+                                                    initialValue={'Repair'}
                                                     initialValid={true}
                                                     defaultChecked={true}
                                                     validators={[VALIDATOR_REQUIRE()]}
                                                     errorText='Please enter a valid data.'
                                                     onInput={inputHandler}
-                                                    option={brands}
+                                                    option={serviceTypes}
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            AC PK
+                                            Electric Part
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
                                                 <Input
                                                     element='radio'
-                                                    id='PK'
-                                                    name='PK'
+                                                    id='part'
+                                                    name='part'
                                                     type='radio'
-                                                    placeholder={'0,5 PK'}
-                                                    initialValue={'0,5 PK'}
+                                                    placeholder={'Lights'}
+                                                    initialValue={'Lights'}
                                                     initialValid={true}
                                                     defaultChecked={true}
                                                     validators={[VALIDATOR_REQUIRE()]}
                                                     errorText='Please enter a valid data.'
                                                     onInput={inputHandler}
-                                                    option={PKs}
+                                                    option={parts}
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            How long have you been experiencing faulty
+                                            Type of property
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <div className='mt-1 sm:mt-0 sm:col-span-2 sm:mb-2'>
                                                 <Input
                                                     element='radio'
-                                                    id='time'
-                                                    name='time'
+                                                    id='propertyType'
+                                                    name='propertyType'
                                                     type='radio'
-                                                    placeholder={'Very recently'}
-                                                    initialValue={'Very recently'}
+                                                    placeholder={'House'}
+                                                    initialValue={'House'}
                                                     initialValid={true}
                                                     defaultChecked={true}
                                                     validators={[VALIDATOR_REQUIRE()]}
                                                     errorText='Please enter a valid data.'
                                                     onInput={inputHandler}
-                                                    option={times}
+                                                    option={propertyTypes}
                                                 />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
-                                        <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            AC Series Name
-                                        </label>
-                                        <div className='mt-1 sm:mt-0 sm:col-span-2'>
-                                            <Input
-                                                element='input'
-                                                id='series'
-                                                type='text'
-                                                placeholder='series name'
-                                                validators={[]}
-                                                errorText='Please enter valid series.'
-                                                onInput={inputHandler}
-                                            />
                                         </div>
                                     </div>
                                     <div className='sm:grid sm:grid-cols-4 sm:gap-4 sm:items-end sm:border-t sm:border-gray-200 sm:pt-5'>
@@ -319,7 +293,7 @@ export default function CreateOrderAC() {
                                             htmlFor='about'
                                             className='col-span-4 block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 sm:py-4 text-center'
                                         >
-                                            Type of service/faulty
+                                            Type of electical problem that you have
                                         </label>
                                         {services.map((o) => (
                                             <div className='relative flex items-start'>
@@ -361,7 +335,7 @@ export default function CreateOrderAC() {
                                     </div>
                                     <div className='sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5'>
                                         <label htmlFor='about' className='block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2'>
-                                            Enter AC unit
+                                            Enter amount of day
                                         </label>
                                         <div className='mt-1 sm:mt-0 sm:col-span-2'>
                                             <Input

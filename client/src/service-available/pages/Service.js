@@ -170,6 +170,22 @@ export default function Service() {
                                                 {''} Signature Service
                                             </span>
                                         )}
+                                        {service.subCategory === 'Plumber' && (
+                                            <span
+                                                className={`inline-flex items-center px-3 mt-4 py-0.5 rounded-full text-sm font-medium bg-yellow-300 text-gray-800`}
+                                            >
+                                                <StarIcon width={20} className='text-yellow-600'></StarIcon>
+                                                {''} Signature Service
+                                            </span>
+                                        )}
+                                        {service.subCategory === 'Electrician' && (
+                                            <span
+                                                className={`inline-flex items-center px-3 mt-4 py-0.5 rounded-full text-sm font-medium bg-yellow-300 text-gray-800`}
+                                            >
+                                                <StarIcon width={20} className='text-yellow-600'></StarIcon>
+                                                {''} Signature Service
+                                            </span>
+                                        )}
                                         <h2 id='information-heading' className='sr-only'>
                                             Product information
                                         </h2>
@@ -211,7 +227,9 @@ export default function Service() {
                                 <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2'>
                                     {user !== undefined && auth.loggedUser !== undefined && auth.loggedUser.role === 'Client' ? (
                                         <>
-                                            {service.subCategory === 'AC' ? (
+                                            {service.subCategory === 'AC' ||
+                                            service.subCategory === 'Plumber' ||
+                                            service.subCategory === 'Electrician' ? (
                                                 <NavLink
                                                     to={`/service/${sid}/order/${service.subCategory.replaceAll(' ', '')}`}
                                                     className='w-full bg-green-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-green-500'

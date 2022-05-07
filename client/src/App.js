@@ -25,6 +25,8 @@ import CreateOrder from './service-order/pages/CreateOrder';
 import OrderDetails from './service-order/pages/OrderDetails';
 import PaymentPage from './service-order/pages/PaymentPage';
 import CreateOrderAC from './service-order/pages/CreateOrderAC';
+import CreateOrderPlumber from './service-order/pages/CreateOrderPlumber';
+import CreateOrderElectrician from './service-order/pages/CreateOrderElectrician';
 
 const App = () => {
     const navigate = useNavigate();
@@ -76,6 +78,8 @@ const App = () => {
                             <Route path='/service/:sid/order' element={<CreateOrder />}></Route>
                             {/* Custom Order */}
                             <Route path='/service/:sid/order/AC' element={<CreateOrderAC />}></Route>
+                            <Route path='/service/:sid/order/plumber' element={<CreateOrderPlumber />}></Route>
+                            <Route path='/service/:sid/order/electrician' element={<CreateOrderElectrician />}></Route>
                         </>
                     )}
                     {/* Routes for provider */}
